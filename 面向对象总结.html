@@ -1,0 +1,207 @@
+
+<script type="text/javascript">
+	
+	
+	//构造函数
+	function Car(color){
+		this.color = color;
+	}
+	
+	//实例
+	var c = new Car("blue");
+	
+	// c(实例) ：  构造函数返回的对象;
+	
+	// 构造函数的 prototype： 构造函数的原型  是一个对象{};
+	
+	//每一个对象都有一个__proto__
+	//				__proto__的值指向构造这个实例的构造函数的原型   上面的例子中  c.__proto__   就是：Car.prototype;
+		
+//	console.log( c.__proto__  ===  Car.prototype );  // 结果为 true;
+	
+	
+	
+	//constructor ( 构造器  )
+	
+//		(prototype)原型是一个对象，原型对象上有一个默认的属性，这个属性叫做constructor
+//				
+//		constructor指向是拥有这个原型的构造函数  	 上面例子中 : Car.prototype.constructor => Car;
+	
+//	console.log( Car.prototype.constructor === Car );	//结果为 true;
+	
+	
+	
+//	instanceof 二元运算符
+//
+//		运算检测一个函数的原型是否在要检测的实例的原型链上
+
+//		使用：	(实例) instanceof (函数)
+//			true：在原型链上
+//			false：不在原型链上
+
+	//构造函数
+	function Car(color){
+		this.color = color;
+	}
+	//实例
+	var c = new Car("blue");
+//	例如:
+//	console.log( c instanceof Car ); 	//true 
+//	console.log( c instanceof Object );  // true
+//	console.log( c instanceof Array );  // false
+//	console.log( Object, Array );	//都是函数
+
+
+//	for in  (遍历 ，循环);
+//	作用: 用来遍历对象,对象的每个属性都会被执行一次
+
+//	默认情况，一个对象下的  非用户定义的属性/方法 ，不能通过 forin遍历 ,用户添加的属性/方法是可以被遍历的，即使是添加到了原型链上;
+//	另外: 如果是重写了内置的属性或方法，也遍历不出来;
+
+
+//	hasOwnProperty
+
+//		一个Object的方法
+//		作用   用来判断某个对象是否含有指定的自身属性 
+
+//		语法 	boolean object.hasOwnProperty(prop);
+
+//		参数  prop (要检测的属性名称);
+		
+//		返回值 布尔值  	true ：代表是自身属性;	false：不是自身属性	;
+
+//	静态属性/方法;
+
+//		挂载函数上的属性/方法叫做静态属性/方法;
+//		function fn(){};
+//		fn.a = 1;
+
+
+//	函数的方法call();
+//		使用方法:　函数.call(thisArg,[arg1,arg2,...]);
+
+//		第一个参数可以改变前面函数中的this指向,如果不写参数 或者 第一个参数写null/undefined时，this 指向 window;
+
+//		第二个参数开始是函数的形参;
+
+//		call()方法使用的时候会调用函数;
+
+//		返回值: 就是原函数的返回值,如果没有就是undefined;
+
+//	function fn(){
+//		console.log(this);
+//		return 1;
+//	}
+//	
+//	fn.call(fn); // 执行函数
+//	console.log( fn.call(fn) );	 // 执行函数  打印1;
+
+
+//	函数的方法apply(); 和call方法基本相同
+
+//		使用方法:　函数.apply(thisArg,[arg1,arg2,...]);
+
+//		第一个参数可以改变前面函数中的this指向,如果不写参数 或者 第一个参数写null/undefined时，this 指向 window;
+
+//		第二个参数开始是函数的形参;
+
+//		apply()方法使用的时候会调用函数;
+
+//		返回值: 就是原函数的返回值,如果没有就是undefined;
+
+//		apply和call的不同点:
+//			apply的形参   可以是   数组或者类数组;
+
+//	举例：
+//	var arr = [3,1,3,5,9,6,4];	//找数组中的最大值
+//	
+//	Math.max()  	// 一个找最大值的方法
+//	
+//	Math.max.apply(null,arr); //直接把数组arr 传进去, apply把数字转化为参数,调用Math.max函数 ，就得出了最大值
+//	
+//	console.log( Math.max.apply(null,arr) ); //找到最大值为 9
+
+
+
+//	面向对象之继承;
+
+	//基本属性
+	function Person(userName,sex){
+		this.userName = userName;	
+		this.sex = sex;
+
+	}
+	var p = new Person("小明","男");
+	
+	
+	function Coder(userName,sex){  //不需要自己写基本属性，从类函数中继承
+		
+//		继承方法:修改类函数的this为当前实例，类函数的属性自然就会添加到当前实例 
+		Person.call(this,userName,sex);
+		
+	}
+	Person.prototype.fly = function(){
+		console.log("会飞");
+	}
+//  类函数的原型上的属性和方法继承方法:
+//	Coder.prototype = Person.prototype; //这样写修改了Coder的原型，但是原型的constructor也修改了，要手动改回来
+//	Coder.prototype.constructor = Coder;
+	//上面的方法有一个弊端，如果修改Coder 的原型，会把 Person 的原型也修改了，不可取
+	
+//	所以要换一个方法，复制对象
+//		for(var attr in Person.prototype ){
+//			if( Person.prototype.hasOwnProperty(attr) ){  //只复制Person.prototype 自身的 属性和方法
+////				console.log( attr );
+//				Coder.prototype[attr] = Person.prototype[attr];
+//			}
+//		}
+//		
+//		
+//		console.log( Coder.prototype.constructor === Coder );
+//		Coder.prototype.constructor = Coder;	// 原型的constructor指向构造函数
+//		console.log( Coder.prototype.constructor === Coder );
+//		
+//		
+//	var c = Coder("小王","男");
+	
+	
+//	包装对象
+//	String Number Boolean
+//
+//	什么是包装对象
+//		当使用原始类型的值（string、number、boolean），在调用对应属性和方法的时候，内部会自动转成对应的对象。隐式创建的这个对象，就成为包装对象
+//		内置的对象
+//			String、Number、Boolean
+//		  
+//	包装对象的特点
+//		隐式创建对象后，可以调用对应的属性和方法，使用后，立马销毁，所以不能给原始类型的值添加属性和方法
+
+//var str = "123";
+//console.log( str.length); //字符串本身没有属性，属性都是在调用的时候被包装成对象，然后继承构造函数的属性
+
+
+//	toString() 返回的是某个对象分类的一个字符串值
+
+//js 中的类(class):
+
+//	Object Array Function Date RegExp Math Null Undefined
+
+//	只有调用Object.prototype.toString 才能打印出类型值 	返回 [Object 类型]
+//
+//	内置的对象的原型上都有一个toString方法，在转成字符串的时候，会调用toString方法，根据不同类型的对象打印的值不一样。
+
+var arr = [1,2];
+var obj = {};
+var str = "aaa";
+
+
+//console.log( arr.toString() );	// "1,2"
+//console.log( obj.toString() );	// "[ object,Object ]";
+//console.log( str.toString() );	// "aaa"
+
+
+//打印类型	Object.prototype.toString 或者({}.toString)方式，改变函数内部的this指向,会根据this的类型返回对应的类型
+//console.log( {}.toString.call(arr) );		// "[ object,Array ]"
+//console.log( Object.prototype.toString.call(str) );	// "[ object,String]"
+
+</script>
