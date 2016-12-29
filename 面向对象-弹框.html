@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+		
+		</style>
+		<link rel="stylesheet" type="text/css" href="css/demo.css"/>
+		<script>
+			
+			function Drag(element){ 	//构造函数
+				this.element = element;
+				this.init();
+			};
+			Drag.prototype.init = function(){	//初始化函数
+				var This = this;
+				this.element.onmousedown = function(ev){
+					This.FnDown(ev);									
+					return false;	
+				}
+			}
+			
+			Drag.prototype.FnDown = function(ev){
+				this.dirX = ev.clientX - this.element.offsetLeft;
+				this.dirY = ev.clientY - this.element.offsetTop;
+				var This = this;
+				document.onmousemove = function(ev){
+					This.FnMove(ev);
+					return false;
+				}
+				
+				document.onmouseup = function(ev){
+					This.FnUp(ev);
+				}			
+			}
+			
+			Drag.prototype.FnMove = function(ev){
+	
+				this.element.style.left = ev.clientX - this.dirX + "px";
+				this.element.style.top = ev.clientY - this.dirY + "px";
+								
+			}
+			Drag.prototype.FnUp = function(){
+	
+				document.onmousemove = null;
+				document.onmouseup = null;
+				
+			}
+			
+			function Dialog(options){
+				
+				this.defaults = {
+					title:"标题",
+					content:"我是内容",
+					left:null,
+					top:null
+				}
+				for( var attr in options ){
+					if( options.hasOwnProperty(attr) ){
+						
+						this.defaults[attr] = options[attr];
+					}
+					
+				}
+				
+				this.init();			
+				new Drag( this.diaDiv );	// 增加拖拽功能
+			}
+			Dialog.prototype = {		
+				constructor:Dialog,
+				init(){
+										
+					this.diaDiv = this.creatHtml();
+					document.body.appendChild(this.diaDiv);		//生成弹框
+					document.body.appendChild(this.creatMask());	//生成遮罩层
+					
+					this.positionDialog();	// 弹框定位
+				},
+				creatHtml(){	//生成基本机构
+					var diaDiv = document.createElement("div");
+					diaDiv.className = "full-pop";
+					diaDiv.style.zIndex = 100;
+					var diaHtml = `<h3>
+						<p class="title">${this.defaults.title}</p>
+						<a href="javascript:void(0);" class="close" title="关闭">×</a>
+						</h3>
+						<div class="content">
+							${this.defaults.content}
+						</div>
+						<div class="pop-btns">
+							<span class="error"></span>
+							<a href="javascript:void(0)" class="confirm">确定</a>
+							<a href="javascript:void(0)" class="cancel">取消</a>
+						</div>`;
+
+					diaDiv.innerHTML = diaHtml;
+					
+					return diaDiv;
+					
+				},
+				creatMask(){	//生成遮罩层
+					var mask = document.createElement("div");
+					mask.style.cssText = "width: 100%; height: 100%; position: absolute; left: 0px; top: 0px; background: rgba(0,0,0,.5); z-index: 99;";
+					
+					return mask;
+				},
+				positionDialog(){	//定位函数
+					this.diaDiv.style.left = (document.documentElement.clientWidth - this.diaDiv.offsetWidth) /2 + "px";
+					this.diaDiv.style.top = (document.documentElement.clientHeight - this.diaDiv.offsetHeight) /2 + "px";
+					var isLeft = this.defaults.left;
+					var isTop = this.defaults.left;
+					//判断是否传入了 正确的left值
+					if( isLeft!== null && String(isLeft).trim()!=="" && !isNaN(Number(isLeft)) ){
+						console.log( parseInt(isLeft) );
+						this.diaDiv.style.left = parseInt(isLeft) + "px";
+					}
+					//判断是否传入了 正确的top值
+					if( isTop!== null && String(isTop).trim()!=="" && !isNaN(Number(isTop)) ){
+						console.log( parseInt(isTop) );
+						this.diaDiv.style.left = parseInt(isTop) + "px";
+					}
+				}
+			}
+			window.onload = function(){
+
+				btn.onclick = function(){
+					new Dialog({					
+						title:"我是自定义的标题",
+						content:"内容~~~~~~~~"
+//						left:100,
+//						top:100
+					});						
+				}				
+			}
+			
+		</script>
+	</head>
+
+	<body>
+		
+		<input type="button" id="btn" value="按钮" />	
+		<script type="text/javascript">
+							
+		</script>
+	</body>
+</html>
