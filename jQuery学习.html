@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>		
+		<script src="jquery-3.1.1.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+		/*
+		# jQuery	
+		
+		// jQuery基础
+		html("str"); //会解析字符串中包含的标签解析为Dom元素
+		$("#box").html("str"); //设置$("#box")的innerHTML
+		$("#box").html(); //获取$("#box")的innerHTML
+		
+		text("str") //（写操作）修改元素内容时，不会解析设置的结构，如果字符串包含标签会义字符串的形式呈现在页面
+		text() //（读操作）读取元素的innerHTML时，会过滤标签，只显示文本内容
+		
+		
+		 * jQuery中几乎所有涉及读写操作的方法，写一个参数都是读取，两个参数是写入
+		
+		
+		$("#div").attr("onoff",false);  //  写操作
+		$("#div").attr("onoff");        //读操作
+
+		
+		attr()  添加行间自定义属性
+		
+		remove（）  删除元素（从结构中删除），这个方法不会把匹配的元素从jQuery对象中删除，但除了这个元素本身得以保留之外，其他的比如绑定的事件，附加的数据等都会被移除。
+		
+		detach（）  删除元素（从结构中删除），这个方法不会把匹配的元素从jQuery对象中删除，所有绑定的事件、附加的数据等都会保留下来。
+		
+		```
+		- clone() 克隆匹配的DOM元素并且选中这些克隆的副本
+		```
+		clone() 可以接收两个可选参数 都是布尔值  默认都是 false
+		
+		clone(**[true/false]**)
+		1.一个布尔值（true 或者 false）指示事件处理函数是否会被复制。
+		clone([true/false],**[true/false]**);
+		2:一个布尔值，指示是否对事件处理程序和克隆的元素的所有子元素的数据应该被复制。
+		
+		```
+		*   replaceWith()
+		```
+		    replaceWith()	//指定的一组元素被替换为传入的 dom元素 或者jQuery Dom元素对象;
+			//如果传入的 dom元素，存在于待替换的元素或者元素集合中，那么待替换的元素会被当做一个整体替换掉，只留下传入的元素
+		
+		```
+		*   toArray()   把jQuery Dom集合转换为数组
+		*   
+		```
+		var arr = $("li").toArray;
+		console.log(arr)  // [li,li,li,li];
+		```
+		
+		*   $.isArray()  // 判断传入的对象是否是数组
+		```
+		console.log( $.isArray("abc") );     //    false
+		console.log( $.isArray( [1,2,3] ) );   //   true
+		```
+		*   is(参数)
+		```
+		作用：检测某个元素集合，如果其中至少有一个元素符合**参数中的表达式**就返回true。
+		举例：
+		$("li").is(".active")   //如果$("li")种至少有一个 li的 class为".active"，返回 true， 否则返回false
+		
+		```	
+	
+ 
+		 */
+
+		</script>
+		
+	</body>
+</html>
