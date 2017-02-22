@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>模拟文件夹</title>
+		<style type="text/css">			
+			body{
+				
+				margin: 0;
+				background: url(img/1.png) 0 -25px no-repeat;
+			}
+			a{
+				text-decoration: none;
+				color: #000000;
+
+			}
+			img{
+				border: none;
+				vertical-align: top;
+			}
+			input{
+				margin: 0;
+				padding: 0;
+				border: 1px solid #666;
+				outline: none;
+			}
+			#warp>a:hover{
+				background: #ccc;
+			}
+			#warp{
+				margin: 85px 10px 0 212px;
+				height: 530px;
+				padding: 10px;
+				padding-top: 40px;
+				text-align: left;
+				background: #fcfcfc;
+				position: relative;
+			}
+			#warp>a{
+				width: 60px;
+				height: 30px;
+				line-height: 30px;
+				text-align: center;
+				border-radius: 6px;
+				position: absolute;	
+				top: 10px;
+				border: 1px solid #ccc;			
+			}
+			#pre{
+				left: 30px;
+			}
+			#del{
+				left: 100px;
+			}
+			#warp div{
+				width: 100px;
+				height: 115px;
+				background: #fff url(img/nor.png) no-repeat;
+				margin: 20px 0 0 20px;
+				float: left;
+				position: relative;
+			}
+			#warp div span,#warp div input{
+				font: 12px/16px arial;
+				width: 80px;
+				height: 16px;
+				position: absolute;
+				text-align: center;
+				left: 50%;
+				bottom: 2px;
+				margin-left: -40px;
+				display: none;
+				overflow: hidden;
+			}
+			#warp div span{
+				cursor: pointer;
+			}
+			#warp div .active{
+				display: block;
+			}
+			#warp div:hover{
+				background-color: #c7dffc;
+				background-image: url(img/active.png);
+			}
+			
+		</style>
+	</head>
+	<body>
+		
+		<div id="warp">
+			
+			<a id="pre" href="javascript:;">新建</a>
+			<a id="del" href="javascript:;">删除</a>
+			
+			<!--<div>
+				<span class="active">新建文件夹</span>
+				<input type="text"/>
+				<a class="check" href="javascript:;">□</a>
+			</div>-->
+	
+		</div>
+		
+		
+		<script type="text/javascript">
+			
+			var warp = document.getElementById("warp");
+			var pre = document.getElementById("pre");
+			var del = document.getElementById("del");
+			var divs = warp.getElementsByTagName("div");			
+			var arr = [];
+			arr2 = [];
+			var num = 0;
+			
+			pre.onclick = function(){		
+				var div = document.createElement("div");
+				var span = document.createElement("span");
+				span.className = "active";
+				if( arr2.length==0 ){
+					if(num ==0){
+						span.innerHTML = "新建文件夹";
+					}else{
+						span.innerHTML = "新建文件夹"+num;
+					}
+						
+					num++;
+				}else{
+					var min = Infinity;
+					for (var i = 0; i < arr2.length; i++) {
+						if(Number(arr2[i]) < min){							
+							min = arr2[i];
+						}
+						if( Number(arr2[i]) == min ){
+							arr2.splice(i,1);
+						}
+						
+					}
+//					for (var i = 0; i < arr2.length; i++) {
+//						if( Number(arr2[i]) == min ){
+//							arr2.splice(i,1);
+//						}
+//						
+//					}
+					if(min == 0){
+						span.innerHTML = "新建文件夹";
+					}else{
+						span.innerHTML = "新建文件夹"+ min;
+					}
+				}				
+				var inp = document.createElement("input");
+				inp.type = "text";
+				div.onOff = false;
+				
+				div.onclick = function(){
+					if(!this.onOff){
+						this.style.backgroundImage = "url(img/active.png)";
+					}else{
+						this.style.backgroundImage = "url(img/nor.png)";
+					}
+					this.onOff = !this.onOff;
+				}
+				
+				div.appendChild(span);
+				div.appendChild(inp);
+				warp.appendChild(div);			
+				
+			}
+			
+			del.onclick = function(){
+				
+				for (var i = 0; i < divs.length; i++) {
+					if(divs[i].onOff){
+						
+						var str = divs[i].getElementsByTagName("span")[0].innerHTML;
+						arr2.push(str.substring((str.indexOf("夹")+1)));		
+						warp.removeChild(divs[i]);
+
+						if(divs.length == 0){
+							arr2.length = 0;
+							num = 0;
+						}
+						i--;
+					}
+				}		
+
+			console.log(arr2);
+			}
+			
+		</script>
+	</body>
+</html>

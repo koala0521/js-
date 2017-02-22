@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			ul,
+			li {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			.bg{
+				background:url("bg1.png") no-repeat;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="baidu.css" />
+	</head>
+
+	<body>
+		<div class="wrap">
+			<div class="baidu">
+				<ul id="list">
+					<li>
+						<div></div>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<div></div>
+						<span>说爱你</span>
+						<span>蔡依林</span>
+					</li>
+					<li>
+						<div></div>
+						<span>稻香</span>
+						<span>周杰伦</span>
+					</li>
+					<li>
+						<div></div>
+						<span>我的梦</span>
+						<span>张靓颖</span>
+					</li>
+					<li>
+						<div></div>
+						<span>怎么说我不爱你</span>
+						<span>萧敬腾</span>
+					</li>
+					<li>
+						<div>️</div>
+						<span>无处安放</span>
+						<span>白若溪</span>
+					</li>
+				</ul>
+				<div class="select">
+					<span class="selectAll"><span>全选</span></span>
+					<div class="others">
+						<span><em></em>收藏</span>
+						<span><em></em>添加</span>
+						<span><em></em>删除</span>
+					</div>
+				</div>
+				<div>
+					<p>歌曲：<input type="text" value="你还要我怎样" ></p>
+					<p>歌手：<input type="text" value="大师兄" ></p>
+					<input type="button" value="保存" />
+					<input type="button" value="取消" />
+				</div>
+			</div>
+		</div>
+		<script src='../jquery-3.1.1.js'></script>
+		<script>
+			/*
+				选择器 odd
+				
+				find()
+
+				toggleClass() addClass() removeClass()
+
+				on()  绑定事件
+
+
+
+				$("<li>123</li>").html(123)
+
+				append
+
+				remove
+
+				添加和删除要保持隔行变色效果
+
+			*/
+			
+			var lis = $("li","#list");
+			var arr = ["pink","#ccc"];
+			var selectAll = $(".selectAll").eq(0);
+			//初始化
+			lis.each(function(index,items){
+				
+				$(this).attr("_bgColor",arr[index % arr.length]);
+				
+				$("div",items).eq(0).attr("onoff",false); //给勾选框加自定义属性
+				
+			})			
+			
+			BGColor();	//隔行换色
+			function BGColor(){
+				var lis = $("li","#list");
+				lis.each(function(index,items){
+					var onoff = $("div",this).eq(0).attr("onoff");
+					$(this).attr("_bgColor",arr[index % arr.length]);
+					if( onoff === "false" ){						
+						$(this).css("background",$(this).attr("_bgColor"));						
+					}			
+					
+				})	
+			}
+
+			lis.on("mouseover",function(){
+				var onoff = $("div",this).eq(0).attr("onoff");
+				if( onoff === "false" ){
+					
+					$(this).css("background","#BFE3F1");	//移入的颜色
+				}
+
+			})
+			
+			lis.on("mouseout",function(){
+				
+				var onoff = $("div",this).eq(0).attr("onoff");
+				
+				if( onoff === "false" ){
+					$(this).css("background",$(this).attr("_bgColor"));
+				}
+				
+			})
+			
+			
+			// 点击事件
+			lis.on("click",function(){
+				var onoff = $("div",this).eq(0).attr("onoff");
+				if( onoff ==="false" ){
+					$("div",this).eq(0).html("✔");					
+					$("div",this).eq(0).attr("onoff",true);
+					$("div",this).eq(0).addClass("checked");
+					
+					$(this).addClass("selected");
+					$(this).css("background","rgba(200,0,0,1)"); //选中的颜色
+					$("span",this).addClass("active");
+					
+				}else{
+					
+					$("div",this).eq(0).removeClass("checked");
+					$("div",this).eq(0).html("");
+					$("div",this).eq(0).attr("onoff",false);
+					$(this).css("background","#BFE3F1");
+					
+					$(this).removeClass("selected");
+					$("span",this).removeClass("active");
+					
+				}
+				
+				//判断全选
+				isCheckAll();
+			})
+			
+			function isCheckAll(){
+				var checkBox = $("#list").find(".checked");
+				
+				if( checkBox.length === $("li","#list").length && checkBox.length !== 0 ){
+					 
+					selectAll.html("✔");
+					selectAll.attr("onoff",true);
+				}else{
+					selectAll.html("");
+					selectAll.attr("onoff",false);
+				}
+			}			
+
+			//全选和、全不选功能
+			selectAll.attr("onoff",false);
+			selectAll.on("click",function(){
+				var lis = $("li","#list");
+				if( $(this).attr("onoff") === "false" ){
+					
+					selectAll.html("✔");
+					$(this).attr("onoff",true);
+					
+					lis.each(function(index,items){
+						
+						$("div",this).eq(0).html("✔");					
+						$("div",this).eq(0).attr("onoff",true);
+						$("div",this).eq(0).addClass("checked");
+						
+						$(this).addClass("selected");
+						$(this).css("background","rgba(200,0,0,1)"); //选中的颜色
+						$("span",this).addClass("active");					
+						
+					})	
+				}else{
+					
+					selectAll.html("");					
+					$(this).attr("onoff",false);
+					
+					lis.each(function(index,items){
+						
+						$("div",this).eq(0).removeClass("checked");
+						$("div",this).eq(0).html("");
+						$("div",this).eq(0).attr("onoff",false);
+						$(this).css("background",$(this).attr("_bgColor"));
+						
+						$(this).removeClass("selected");
+						$("span",this).removeClass("active");
+		
+					})	
+				}
+				
+			})
+			
+			// 删除功能
+			$("span",$(".others").eq(0)).eq(2).on("click",function(){
+				$("li","#list").remove(".selected");
+				isCheckAll();
+				BGColor();	//隔行换色
+				
+			})
+			// 添加功能
+			$("span",$(".others").eq(0)).eq(1).on("click",function(){
+				
+				if( $("input").eq(0).val().trim() === ""  || $("input").eq(1).val().trim() === ""  ){
+					alert("请填写内容");
+					return;
+				}
+				
+				$("#list").append("<li><div onoff = 'false'></div><span></span><span></span></li>")	;
+				
+				var li = $("li","#list").eq($("li","#list").length-1);	//添加的li
+				
+				$("span",li).eq(0).html($("input").eq(0).val().trim());	//歌名
+				$("span",li).eq(1).html($("input").eq(1).val().trim());	//歌手
+				
+				// 给li绑定处理函数（json形式）
+				li.on({
+					
+					"mouseover":function(){
+						var onoff = $("div",this).eq(0).attr("onoff");
+						if( onoff === "false" ){
+							$(this).css("background","#BFE3F1");	//移入的颜色
+						}
+						
+					},
+					
+					"mouseout":function(){
+						var onoff = $("div",this).eq(0).attr("onoff");
+						
+						if( onoff === "false" ){
+							$(this).css("background",$(this).attr("_bgColor"));
+						}
+					},
+					"click":function(){
+						
+						var onoff = $("div",this).eq(0).attr("onoff");
+						if( onoff ==="false" ){
+							$("div",this).eq(0).html("✔");					
+							$("div",this).eq(0).attr("onoff",true);
+							$("div",this).eq(0).addClass("checked");
+							
+							$(this).addClass("selected");
+							$(this).css("background","rgba(200,0,0,1)"); //选中的颜色
+							$("span",this).addClass("active");
+							
+						}else{
+							
+							$("div",this).eq(0).removeClass("checked");
+							$("div",this).eq(0).html("");
+							$("div",this).eq(0).attr("onoff",false);
+							$(this).css("background","#BFE3F1");
+							
+							$(this).removeClass("selected");
+							$("span",this).removeClass("active");
+							
+						}
+						
+						//判断全选
+						isCheckAll();					
+						
+					}
+					
+				})
+				
+				isCheckAll();
+				BGColor();	//隔行换色
+				
+			})
+
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>DOM排序小练习</title>
+		<style type="text/css">
+			li{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				overflow: hidden;
+			}
+			a{
+				text-decoration: none;
+				color: #000000;
+			}
+			#list{
+				width: 210px;
+				border: 2px  dashed #C7DFFC;
+				margin: 100px auto;
+				padding: 0 5px;
+				overflow: hidden;
+			}
+
+			#list a{
+				width: 70px;
+				float: left;
+				text-align: center;				
+				height: 40px;
+				line-height: 40px;
+			}
+			
+			#list a:hover{
+				background: #CCCCCC;
+				color: #fff;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<ul id="list">
+			<li>
+				<a href="javascript:;">1.iPhone</a>
+				<a href="javascript:;">上移</a>
+				<a href="javascript:;">下移</a>
+
+			</li>
+			<li>
+				<a href="javascript:;">2.华为</a>
+				<a href="javascript:;">上移</a>
+				<a href="javascript:;">下移</a>
+			</li>
+			<li>
+				<a href="javascript:;">3.三星</a>
+				<a href="javascript:;">上移</a>
+				<a href="javascript:;">下移</a>
+			</li>
+			<li>
+				<a href="javascript:;">4.OPPO</a>
+				<a href="javascript:;">上移</a>
+				<a href="javascript:;">下移</a>
+			</li>
+		</ul>
+		
+		<script type="text/javascript">
+		
+//				parentNode.insertBefore(childNode1,childNode2)
+//				往一个节点的指定子节点前边插入一个节点
+//				如上：childNode1插入到childNode2前边；
+
+			
+			var lis = document.getElementsByTagName("li");
+
+			for (var i = 0; i < lis.length; i++) {
+				var ups = lis[i].getElementsByTagName("a")[1];
+				var downs = lis[i].getElementsByTagName("a")[2];
+				ups.onclick = function(){  //"上移"按钮的点击函数
+					var parent = this.parentNode;
+					var obove = parent.previousElementSibling
+					if(obove){
+						parent.parentNode.insertBefore(parent,obove);					
+					}					
+				}
+				//---------------------------
+				downs.onclick = function(){  //"下移"按钮的点击函数
+					var parent = this.parentNode;
+					var next = parent.nextElementSibling;
+					if(next){
+						parent.parentNode.insertBefore(next,parent);					
+					}
+					
+				}
+			}
+			
+			
+			
+		</script>
+	</body>
+</html>

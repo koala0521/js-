@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			
+			em{
+				background: red;
+			}
+			#box{
+				
+				width: 500px;
+				height: 400px;
+				border: 1px solid #008000;
+				cursor: url("http://api.map.baidu.com/images/openhand.cur") 8 8, default;
+			}
+			.a_fr{
+				
+				width: 300px;
+				height: 400px;
+			}
+			
+		</style>
+		
+		<script src="jquery-3.1.1.js"></script>
+	</head>
+	<body>
+		
+			<div class="a_fr a_cb">
+				<embed width="300" height="400" src="http://www.doooor.com/img/common/cf/001030cns43u2k9giu0i33.swf" type="application/x-shockwave-flash" wmode="transparent" >
+				
+			</div>		
+		<div id="box">
+			
+
+			
+			<span class="aaa">123123</span>
+			<span>234234
+				
+				<em> 我是em </em>
+				
+			</span>
+			<span>qweq</span>
+			<span>dfasf</span>
+			
+		</div>
+		
+		<script type="text/javascript">
+		
+			var s = document.getElementsByTagName("span");
+			
+			
+			
+			var spans = $("span","#box");
+			
+			
+			
+			box.onclick = function(){
+				var span = document.createElement("span");
+				
+				this.appendChild(span);
+				
+				console.log( s );
+				console.log( $(s) );
+			}
+			
+			var bl = $(s).is(function(){
+				return $(this).index() === 5;
+			});
+			console.log( bl );
+//			replaceWith()	指定的一组元素被替换为传入的 dom元素 或者jQuery Dom元素对象;
+			//如果传入的 dom元素，存在于待替换的元素或者元素集合中，那么待替换的元素会被当做一个整体替换掉，只留下传入的元素
+			
+			
+//			//新元素替换选中的元素,会一一替换掉选中的元素			
+//			spans.replaceWith("<div class='box'> 我是box  </div>"); //替换成4个div( <div class='box'> 我是box  </div> )
+//			
+//			
+//
+////			传入的元素,存在于选中的元素中时,选中的元素会当做一个整体,被替换
+//			spans.replaceWith($(".aaa"));	// 替换成一个元素( <span class="aaa">123123</span> )
+//			
+//			
+		</script>
+		
+	</body>
+</html>

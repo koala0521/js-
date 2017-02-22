@@ -1,0 +1,193 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>图片排序方法二</title>
+<style type="text/css">
+	body{
+		background-color: #F1F1F1;
+		background: url(img/22.jpg) 0 -20px;
+		height: 2000px;
+	}
+	ul{
+		margin:0 auto;
+		padding: 0;
+		width: 1208px;
+		height: 470px;
+		overflow: hidden;
+		padding-bottom: 10px;
+		position: fixed;
+		left: 76px;
+		top: 50px;
+	}
+	li{
+		list-style-type: none;
+		float: left;
+		padding: 10px;
+		padding-bottom: 0;
+		margin: 0 1px;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		margin-left: -149px;
+		margin-top: -115px;
+		transition: 600ms;
+	}
+	p{
+		margin: 0;
+		text-align: center;
+		background-color: #F1F1F1;
+		line-height: 40px;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	img{
+		vertical-align: top;
+		border: none;
+	}
+	li img{
+		width: 280px;
+		height: 180px;
+	}
+	div{
+		
+		width: 100%;
+		position: fixed;
+		text-align: center;
+		left: 0;
+		top: 10px;		
+	}
+	div:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+	a{
+		text-decoration: none;
+		width: 98px;
+		line-height: 40px;
+		display: inline-block;
+		color: white;
+		background-color: #000;
+		text-align: center;
+		border: 1px solid #AAAAAA;
+		border-radius: 6px;
+	}
+	a:nth-child(1){
+		margin-right: 10px;
+	}
+	
+</style>
+</head>
+
+<body>
+	<div>
+		<a href="javascript:;">从小到大</a><a href="javascript:;">打乱顺序</a>
+	</div>
+	<ul>
+		<li><img src="img/22.jpg" alt=""><p>1-对象</p></li>
+		<li><img src="img/24.jpg" alt=""><p>2-阿狸</p></li>
+		<li><img src="img/33.jpg" alt=""><p>3-文艺</p></li>
+		<li><img src="img/29.jpg" alt=""><p>4-风景</p></li>
+		<li><img src="img/32.jpg" alt=""><p>5-美女</p></li>
+		<li><img src="img/23.jpg" alt=""><p>6-水母</p></li>
+		<li><img src="img/13.jpg" alt=""><p>7-游戏</p></li>
+		<li><img src="img/34.jpg" alt=""><p>8-姑娘</p></li>
+	</ul>
+</body>
+<script type="text/javascript">
+	var oUl=document.getElementsByTagName('ul')[0];
+	var aBtn=document.getElementsByTagName('a');
+	var aLi=document.getElementsByTagName('li');
+	var aP=document.getElementsByTagName('p');
+	var aImg=document.getElementsByTagName('img');
+	var onOff = true;
+	
+	var arrInfo1 = [
+		["1-对象","img/22.jpg"],
+		["2-阿狸","img/24.jpg"],
+		["3-文艺","img/33.jpg"],
+		["4-风景","img/29.jpg"],
+		["5-美女","img/32.jpg"],
+		["6-水母","img/23.jpg"],
+		["7-游戏","img/13.jpg"],
+		["8-姑娘","img/34.jpg"]
+	];
+
+	//初始化
+	function tab(){//根据传入的数组的参数，改变图片的src 和 p的innerHTML
+		arrInfo1.forEach(function(a,b){
+			aImg[b].src = a[1];
+			aP[b].innerHTML = a[0];
+		});
+	}
+	
+	function chenge(n){
+		aLi[n].style.left = "50%";
+		aLi[n].style.top = "50%";
+		aLi[n].style.marginLeft = "-149px";
+		aLi[n].style.marginTop = "-115px";
+		setTimeout(function(){
+			tab();
+			aLi[n].style.left = n%4*300+"px";
+			aLi[n].style.top =  Math.floor(n/4)*230+"px";
+			aLi[n].style.margin = 0;
+		},800)			
+	}	
+	
+	
+	move();
+	
+	function move(){
+		arrInfo1.forEach(function(a,b){
+			chenge(b);
+		});
+	}
+	
+	aBtn[0].onclick = function(){
+
+		if( onOff ){			
+			arrInfo1.sort(
+				function(a,b){
+					if( a > b ){
+						return -1;
+					}else{
+						return 1;
+					}
+				}
+			)
+
+			move();
+			this.innerHTML = "从大到小";
+		}else{			
+			arrInfo1.sort(
+				function(a,b){
+					if( a > b ){
+						return 1;
+					}else{
+						return -1;
+					}
+				}
+			)
+
+			move();
+			
+			this.innerHTML = "从小到大";
+		}			
+		onOff = !onOff;	
+	}
+	aBtn[1].onclick = function(){
+		
+		arrInfo1.sort(
+			function(a,b){
+				return Math.random()-0.5;
+			}
+		)
+
+		move();
+	}
+
+	
+	
+</script>
+</html>

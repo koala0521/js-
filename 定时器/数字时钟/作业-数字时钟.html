@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>数字时钟</title>
+		
+		<style type="text/css">
+			img{
+				border: none;
+				vertical-align: top;
+			}
+			ul{
+				width: 600px;
+				height: 70px;			
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				position: relative;
+				margin: 200px auto;
+				overflow: hidden;
+			}
+			li{
+				width: 50px;
+				height: 140px;
+				padding: 0 10px;
+				position: absolute;
+				top: 0;
+				/*transition: 1s;*/	
+	
+			}
+		</style>
+		<script src="js/doMove.js" type="text/javascript">
+			
+		</script>
+	</head>
+	<body>
+		<ul id="list">
+			<li>
+				<img src="img/0.jpg" alt="" />
+				<img src="img/0.jpg" alt="" />
+			</li>
+			<li>
+				<img src="img/0.jpg" alt="" />
+				<img src="img/0.jpg" alt="" />
+			</li>
+			<li>
+				<img src="img/c.jpg" alt="" />
+				<img src="img/c.jpg" alt="" />
+			</li>
+			<li>
+				<img src="img/0.jpg" alt="" />
+				<img src="img/0.jpg" alt="" />
+			</li>
+			<li>
+				<img src="img/0.jpg" alt="" />
+				<img src="img/0.jpg" alt="" />
+			</li>
+			<li>
+				<img src="img/c.jpg" alt="" />
+				<img src="img/c.jpg" alt="" />
+			</li>
+			<li>
+				<img src="img/0.jpg" alt="" />
+				<img src="img/0.jpg" alt="" />
+			</li>
+			<li>
+				<img src="img/0.jpg" alt="" />
+				<img src="img/0.jpg" alt="" />
+			</li>
+		</ul>
+		
+		<script>
+			var oList = document.getElementById("list");
+			var aLi = oList.getElementsByTagName("li");
+			var onoff = true;
+			
+//--------------------------------------------------------
+			// 结构初始化
+			for (var i = 0; i < aLi.length; i++) {
+				aLi[i].style.left = i*70+"px";
+			}
+			function add0(n){
+				if(n<10){
+					return "0" + n;
+				}else{
+					return "" + n;
+				}
+			}
+//--------------------------------------------------------------------
+			//封装函数
+			function setTime(){
+				//获取当前时间
+				var t = new Date();
+				var h = add0( t.getHours() );
+				var m = add0( t.getMinutes() );
+				var s = add0( t.getSeconds() );//0
+				var str2 = h + ":" + m + ":" + s; // 当前时间
+
+				//获取上一秒时间
+				t.setSeconds(parseInt(s)-1);
+				var h2 = add0( t.getHours() );
+				var m2 = add0( t.getMinutes() );
+				var s2 = add0( t.getSeconds() );//0
+				var str = h2 + ":" + m2 + ":" + s2;	 //上一秒时间
+				//把对应的时间数字，放进img的 src 显示对应的数字图片
+				for (var i = 0; i < aLi.length; i++) {
+					aLi[i].index = i;
+					var aImg2 = aLi[i].getElementsByTagName("img");
+					if(i==2||i==5){//第二位和第五位是“：”
+						aImg2[0].src = "img/c.jpg";
+						aImg2[1].src = "img/c.jpg";
+
+					}else{
+						aImg2[0].src = "img/"+ str.charAt(i) +".jpg";//上一秒
+						aImg2[1].src = "img/"+ str2.charAt(i)+".jpg";//当前
+					}
+					
+					if( str.charAt(i) != str2.charAt(i)){ //根据上一秒和当前相等来判断 图片的 src 是否需要切换，不相等则要把下面的img移动到上面
+						
+						move(aLi[i],"top",-70,500,function(){// 调用位移函数
+							for (var i = 0; i < aLi.length; i++) {
+//									//位移完成执行回调函数，函数内部需要重新获取img   
+								aImg2 = aLi[i].getElementsByTagName("img");
+								if(i!=2&&i!=5){
+									// 把 位移过的li的位置复位，同时把上面的img的时间调整为当前时间，第二个和第五个li内部的图片为“ ：”不需要移动
+									aLi[i].style.top = "0";
+									aImg2[0].src = "img/"+ str2.charAt(i) +".jpg";
+									
+								}
+
+							}	
+						});
+					}
+				}
+			}
+			setTime();
+			//控制 ” ：“的跳动
+			setInterval(function(){
+				var img1 = aLi[2].getElementsByTagName("img")[0];
+				var img2 = aLi[5].getElementsByTagName("img")[0];
+				if( onoff ){
+					
+					img1.src = img2.src = "img/b.jpg";
+				}else{
+					img1.src = img2.src = "img/c.jpg";
+				}
+				onoff =!onoff;
+			
+			},500)			
+			
+			//实时获取时间
+			setInterval(function(){
+				setTime();
+			},1000)
+		</script>
+	</body>
+</html>

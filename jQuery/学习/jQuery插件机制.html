@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>		
+		<script src="jquery-3.1.1.js"></script>
+		<script src="jQuery.Dialog.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			
+			
+			$().Dialog(document,{
+				title:"我是jQuery弹框"
+			});
+			
+			
+			//可定制项目
+//			{
+//				title:"我是标题",
+//				content:"我是内容",
+//				width:400,
+//				height:200,
+//				okFn:function(){
+//					alert("ok")
+//					$(diaDiv).hide();
+//					mask.hide();
+//			}
+			
+			
+//			var obj = {
+//				a:1,
+//				b:2,
+//				c:[1,2,3]
+//			}
+//			
+//			var obj2={};
+//			for ( attr in obj ) {	//浅复制，如果要深度复制需要 递归复制
+//				
+//				obj2[attr] = obj[attr];
+//			}		
+//			
+//			obj2.c.push(8);	//修改obj里面的数组或者对象，会影响到 obj2 里面的对象和数组;
+//			obj2.x = 10;			
+//			console.log( obj2.c === obj.c );  //打印 true
+//			
+			//			var obj2 = $.extend(true,{},obj);				
+			
+			//			extend: 复制或者合并对象
+			//			$.extend(true, target object, object1);	
+			//第一个参数 是否深度复制？	// target 主动复制的对象 	// object，object1 被合并/复制的对象
+			//			返回值: target
+					
+		
+
+			
+		</script>
+		
+		
+<script>
+	//	jQuery的方法扩展
+//	(function($){
+//		// 给jQuery原型扩展方法		
+//		$.fn.extend({
+//			drag:function(){
+//				console.log(0)
+//			}
+//		});
+//		
+//		// 给jQuery函数身上扩展方法
+//		$.extend({
+//			drag1:function(){
+//				console.log(1)
+//			}
+//		})
+//		
+//	})(jQuery)
+	
+//			调用方法:
+//			jQuery原型扩展的方法	的调用 : $().drag();
+//			
+//			Query函数身上扩展的方法	的调用 : $.drag();
+	
+</script>
+
+
+<script>
+	
+//	$().drag();
+//	$.drag1();
+	
+</script>
+		
+	</body>
+</html>

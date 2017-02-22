@@ -1,0 +1,201 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>招贤纳士-社会招聘</title>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<!--<base target="_blank" />-->
+		<script src="js/data.js"></script>
+	</head>
+
+	<body>
+		<div id="wrap">
+			<div class="left">
+				<h2>招贤纳士</h2>
+				<ul>
+					<!--<li class="focus"><a href="javascript:;">社会招聘</a></li>
+      				<li><a href="javascript:;">校园招聘</a></li> -->
+				</ul>
+			</div>
+			<div class="right">
+				<div class="title">
+					<img src="img/shzp.gif" />
+				</div>
+				<div class="info" id="info1">
+
+				</div>
+				<div class="pages">
+					<span class="prev" id="prev1">
+			        	<a href="javascript:;">
+			            <img src="img/pre.gif">
+			        	</a>
+        			</span>
+					<span class="next" id="next1">
+	          			<a href="javascript:;">
+	            		<img src="img/next.gif">
+	          			</a>
+       				</span>
+					<p id="page1">
+
+					</p>
+
+				</div>
+
+			</div>
+			<div class="clear"></div>
+		</div>
+		<script type="text/javascript">
+			
+			(function(){
+				
+				var oLeft = document.getElementsByClassName("left")[0];
+				var oUl = oLeft.getElementsByTagName("ul")[0];
+				var lis = oUl.getElementsByTagName("li");				
+				var sea = window.location.search.substring(1);	
+				if(!sea)sea = aData.list[0].lx;
+				var num = 1;
+				window.location.hash = num;
+				var har = Number(window.location.hash.substring(1));
+				var tlitleImg = document.getElementsByClassName("title")[0].children[0];
+				var info1 = document.getElementById("info1");
+				var page1 = document.getElementById("page1");
+				var prev1 = document.getElementById("prev1");
+				var next1 = document.getElementById("next1");
+				var spans = page1.getElementsByTagName("span");
+				
+				var info1_ps = info1.getElementsByClassName("yq");
+				
+				function creatLeft(obj){
+					var li = document.createElement("li");
+					li.onclick = function(){
+						window.location.search = obj.lx; 						
+					}
+					
+					var a = document.createElement("a");
+					a.href = "javascript:;"
+					a.innerHTML = obj.text;
+					li.appendChild(a);
+					oUl.appendChild(li);
+				}
+				for (var i = 0; i < aData.list.length; i++) {
+					creatLeft(aData.list[i]);
+					if(sea&&sea==aData.list[i].lx){
+						lis[i].className = "focus";
+						tlitleImg.src = aData[sea].img;
+					}
+					if(!sea){
+						lis[0].className = "focus";
+						tlitleImg.src = aData.sh.img;
+					}
+				}				
+				
+				rightCreat(sea,har);
+				function rightCreat(s,h){ //生成两条招聘信息函数
+					var l = h*2;
+					for (var i = (l-2); i < l; i++) {
+						if(i == aData[s].text.length){
+							return
+						}
+						var p1 = document.createElement("p"); //生成 P1 以及内容
+						p1.className = "zp";
+						var span01 = document.createElement("span");
+						
+						var span02 = document.createElement("span");
+						span02.innerHTML = "需求人数："+ aData[s].text[i].rs + "名";
+						
+						var span03 = document.createElement("span"); // 日期
+						span03.innerHTML = aData.date(aData[s].text[i].sj);
+						
+						var a = document.createElement("a");
+						a.target = "_blank";
+						a.href = "content01.html?" +sea+"#"+i;
+						a.innerHTML = "★职位需求：" + aData[s].text[i].zw;
+						
+						span01.appendChild(a);
+						p1.appendChild(span01);	
+						p1.appendChild(span02);	
+						p1.appendChild(span03);						
+						p1.className = "zp";
+						
+						var p2 = document.createElement("p");  //生成 p2 以及内容
+						p2.className = "yq";
+						var str = "";
+						for (var j = 0; j < (aData[s].text[0].info[0].l.length-1); j++) {
+							str +=  aData[s].text[0].info[0].l[j];
+						}
+						str += "6.具备2年以上金...[ " + "<a href='javascript:;' > 查看详情</a> " + "]";
+						p2.innerHTML = str;
+						
+						
+						info1.appendChild(p1);
+						info1.appendChild(p2);
+					}
+				}	
+					//-----------------------页码------------------------------
+					for (var i = 0; i < ((aData[sea].text.length)/2); i++) {
+						var page = document.createElement("span");
+						if(i==0)page.className = "focus";
+						
+						var a = document.createElement("a");						
+						a.innerHTML = i+1;
+						a.href = "javascript:;";
+						a.onclick = function(){							
+//							spans[num-1].className = "";
+							num = this.innerHTML;
+							window.location.hash = num;
+//							this.parentNode.className = "focus";						
+						}
+						
+						page.appendChild(a);
+						page1.appendChild(page);
+					}
+				window.onhashchange = function(){
+					info1.innerHTML = "";
+					har = Number(window.location.hash.substring(1));
+					for (var i = 0; i < spans.length; i++) {
+						spans[i].className = "";
+					}
+					spans[har-1].className = "focus";
+					rightCreat(sea,har);
+					more();
+				}
+				// 上一页，下一页
+				prev1.onclick = function(){
+//					spans[num-1].className = "";
+					num--;
+					if(num<1) num = 1;
+					window.location.hash = num;
+//					spans[num-1].className = "focus";
+					
+				}
+				next1.onclick = function(){
+//					spans[num-1].className = "";
+					num++;
+					if(num > spans.length) num = spans.length;					
+					window.location.hash = num;
+//					spans[num-1].className = "focus";
+					
+				}
+				more();
+				function more(){ //查看详情
+					for (var i = 0; i < info1_ps.length; i++) {
+						var mores = info1_ps[i].getElementsByTagName("a")[0];
+						mores.onclick = function(){						
+							var str = "";
+							for (var i = 0; i < (aData[sea].text[0].info[0].l.length); i++) {
+								str +=  aData[sea].text[0].info[0].l[i];
+							}
+							this.parentNode.innerHTML = str;
+						}
+					}
+				}
+					
+				
+			})()
+			
+		</script>
+		
+	</body>
+
+</html>

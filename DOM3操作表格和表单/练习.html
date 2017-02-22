@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        form {
+            margin: 10px 0;
+        }
+        table{
+        	border-collapse: collapse;
+        }
+        table tbody tr.active{
+        	background: #EFBD00;
+        }
+        td,th {
+        	height: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<form id="form">
+    姓名：<input type="text" name="username" />
+    <select name="sex">
+        <option value="">请选择一个性别</option>
+        <option value="男">男</option>
+        <option value="女">女</option>
+    </select>
+    年龄：<input type="text" name="age" />
+    <input id="btn" type="button" value="提交">
+</form>
+<!--选做-->
+<p>
+    <select name="orderName">
+        <option value="">选择一个排序字段</option>
+        <option value="id">编号</option>
+        <option value="age">年龄</option>
+    </select>
+    <select name="orderBy">
+        <option value="">选择一个排序方式</option>
+        <option value="asc">升序</option>
+        <option value="desc">降序</option>
+    </select>
+    <input type="button" value="排序">
+</p>
+<table border="1" width="100%" id="tab1">
+    <thead>
+    <tr>
+        <th>全选 <input type="checkbox" name="checkAll"></th>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script type="text/javascript">
+
+
+    /*
+    * 1.通过表单，可以添加数据到表格中显示
+    * 2.id自动根据已有的最大id值进行累加，删除一条记录的时候
+    * 3.隔行变色，新增加的行应该也需要隔行变色的
+    * 4.鼠标移入高亮
+    * 5.全选/全不选（checkAll和下面的每一个checkbox是有关联的）
+    * 6.选中变色
+    * 7.上移/下移
+    * 8.删除
+    *
+    * 9.选做：排序
+    * */
+	
+    var data = [
+        {
+            id: 1,
+            name : '刘伟',
+            sex : '男',
+            age : 32
+        },
+        {
+            id: 2,
+            name : '莫涛',
+            sex : '男',
+            age : 28
+        },
+        {
+            id: 3,
+            name : '小美',
+            sex : '女',
+            age : 18
+        }
+    ];
+    var arrColor = ["pink","#FFE4C4","#EFBD00","#ccc"];
+
+	var table = document.getElementById("tab1");
+	var form = document.getElementById("form");
+	var btn = document.getElementById("btn");
+	var checkAll = table.tHead.getElementsByTagName("input")[0];
+	var myObject = {};
+	var arrId = [];
+	var a = 0;
+
+	btn.onclick = function(){
+		
+		if(form.username.value.length == 0){
+			alert("请输入姓名！");
+			return;
+		}
+		if(form.sex.value.length == 0){
+			alert("请选择性别！");
+			return;
+		}
+		if(form.age.value.length == 0){
+			alert("请输入年龄！");
+			return;
+		}
+		if(form.age.value.charAt(0)==" " || form.username.value.charAt(0) == " "){
+			alert("首位不能有空格!");
+			return;
+		}
+		
+		if(isNaN(form.age.value)){
+			alert("请输入正确的年龄");
+			return;
+		}	
+		table.tBodies[0].innerHTML = "";
+		addData();
+		getContent();		
+		getId();
+		console.log(arrId);			
+		checkAll.checked = "";
+		a=0;
+		//清空
+//		form.username.value = "";
+//		form.sex.value = "";
+//		form.age.value = "";
+		
+	}
+	//给数组添加数据
+	function addData(){
+		var myObject = {};
+		myObject.id = arrId[0]? Number(arrId[0]) + 1:1;	 //根据id数组生成元素id
+		myObject.name = form.username.value;
+		myObject.sex = form.sex.value;
+		myObject.age = form.age.value;
+		data.push(myObject);		
+	}		
+	getContent();
+	getId();
+	//获取数据的ID
+	function getId(){
+		arrId = [];
+		for (var i = 0; i < table.tBodies[0].rows.length; i++) {
+			arrId.push(table.tBodies[0].rows[i].cells[1].innerHTML);
+		}
+		arrId.sort(function(a,b){
+			return parseInt(b)-parseInt(a);
+		})
+	}
+
+	//从数组中取数据生成内容
+	function getContent(){				
+		for (var i = 0; i < data.length; i++) {
+			var tr = document.createElement("tr");
+			var tdH= document.createElement("td");
+			var tdF= document.createElement("td");
+			var checkBox = document.createElement("input");
+			var up = document.createElement("input");
+			var down = document.createElement("input");
+			var dele = document.createElement("input");
+			//滑过高亮
+//-------------------------------------------------------------------------------------			
+			tr.onmouseover = function(){ 
+				if( this.children[0].children[0].checked ==false){
+					this.style.background = arrColor[arrColor.length - 1];
+				}
+			}
+			tr.onmouseout = function(){
+				if( this.children[0].children[0].checked == false){
+					color();
+				}
+					
+			}
+//-------------------------------------------------------------------------------------			
+			checkBox.type = "checkbox";
+			checkBox.name = "checkRows";
+			//选中或者取消选中一行
+			checkBox.onclick = function(){
+				var p = this.parentNode.parentNode;
+				if(this.checked){
+					p.style.background = arrColor[2];
+					a++;
+					if(a == p.parentNode.children.length){
+						checkAll.checked = "checked";
+					}
+				}else{
+					p.style.background = arrColor[arrColor.length-1]; 
+					checkAll.checked = "";
+					a--;
+				}
+			}
+			
+			tdH.appendChild(checkBox);
+			tr.appendChild(tdH);
+			
+			for (Attr in data[i]) {
+				var td = document.createElement("td");
+				td.innerHTML = data[i][Attr];
+				tr.appendChild(td);
+			}
+			up.type = "button";
+			up.value = "上移";
+			//上移功能
+			up.onclick = function(){
+				var a = this.parentNode.parentNode;
+				if(a.previousElementSibling){
+					a.parentNode.insertBefore(a,a.previousElementSibling);
+					color();
+				}
+					
+			}
+			down.type = "button";
+			down.value = "下移";
+			//下移功能
+			down.onclick = function(){
+				var a = this.parentNode.parentNode;
+				if(a.nextElementSibling){
+					a.parentNode.insertBefore(a.nextElementSibling,a);
+					color();
+				}					
+			}
+			
+			dele.type = "button";
+			dele.value = "删除";
+			//删除功能
+			dele.onclick = function(){			
+				var a = this.parentNode.parentNode;
+				//删除数据
+				for (var i = 0; i < data.length; i++) {
+					if(a.cells[1].innerHTML == data[i].id){
+						data.splice(i,1);
+						break;
+					}					
+				}
+				//删除元素
+				table.tBodies[0].innerHTML = "";
+				getContent();
+				getId();				
+				console.log(arrId);	
+				checkAll.checked = "";
+				a=0;
+			}
+			tdF.appendChild(up);
+			tdF.appendChild(down);
+			tdF.appendChild(dele);
+			tr.appendChild(tdF);
+			
+			table.tBodies[0].appendChild(tr);
+			color();
+		}
+	}		
+	//颜色函数
+	function color(){
+		var trs = table.tBodies[0].rows;
+		for (var i = 0; i < trs.length; i++) {
+			var checks = table.tBodies[0].rows[i].cells[0].children[0];
+			if(!checks.checked){
+				trs[i].style.background = arrColor[i%2];
+			}
+			
+		}
+		
+	}	
+	//全选函数
+	function checkedAll(){
+
+		for (var i = 0; i < table.tBodies[0].rows.length; i++) {
+			var checkrows = table.tBodies[0].rows[i].getElementsByTagName("input")[0];
+			if(checkAll.checked){
+				checkrows.checked = "checked";
+				table.tBodies[0].rows[i].style.background = arrColor[2];
+				a =  table.tBodies[0].rows.length;
+			}else{
+				checkrows.checked = "";
+				table.tBodies[0].rows[i].style.background = arrColor[i%2];
+				a= 0;
+			}
+		}
+		
+	}
+	checkAll.onclick = function(){ //全选按钮
+		checkedAll();
+	}
+	//             -------排序函数-------------??????????????????????????? 写了一半
+	function upsort(id){
+		
+		arr = [];
+		for (var i = 0; i < table.tBodies[0].rows.length; i++) {
+			arrId.push(table.tBodies[0].rows[i].cells[1].innerHTML);
+		}
+		
+	}
+	
+	
+</script>
+</body>
+</html>

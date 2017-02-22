@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>招贤纳士-详细页面</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script src="js/data.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+<div class="left">
+	<h2>招贤纳士</h2>
+	<ul>
+
+	</ul>
+</div>
+<div class="right">
+	<div class="title">
+		<img src="img/shzp.gif" />
+	</div>
+	<div class="info content" id="content">
+		<h2></h2>
+	</div>
+</div>
+<div class="clear"></div>
+</div>
+</body>
+
+<script type="text/javascript">
+	
+	var oLeft = document.getElementsByClassName("left")[0];
+	var oUl = oLeft.getElementsByTagName("ul")[0];
+	var lis = oUl.getElementsByTagName("li");				
+	var sea = window.location.search.substring(1);	
+	var har = Number(window.location.hash.substring(1));
+	var tlitleImg = document.getElementsByClassName("title")[0].children[0];
+	var content =document.getElementById("content");
+	var oH2 = content.getElementsByTagName("h2")[0];
+		
+		function creatLeft(obj){
+			var li = document.createElement("li");
+//			li.onclick = function(){
+//				window.location.search = obj.lx; 						
+//			}
+			
+			var a = document.createElement("a");
+			a.href = "javascript:;"
+			a.innerHTML = obj.text;
+			li.appendChild(a);
+			oUl.appendChild(li);
+		}
+
+		for (var i = 0; i < aData.list.length; i++) {
+			creatLeft(aData.list[i]);
+			if(sea&&sea==aData.list[i].lx){
+				lis[i].className = "focus";
+				tlitleImg.src = aData[sea].img;
+			}
+		}
+		rightInfo(sea);
+		function rightInfo(sea){
+			var str = "";
+			str = aData[sea].text[har].zw;
+			oH2.innerHTML = aData[sea].text[har].zw;
+			
+			var div = document.createElement("div");
+			
+			var span1  = document.createElement("span");//招聘公司
+			span1.className = "l";			
+			span1.innerHTML = "招聘公司 : "+ aData[sea].text[har].gs;
+			div.appendChild(span1);
+//			
+			var span2  = document.createElement("span");//公司性质		
+			span2.innerHTML = "公司性质 : "+ aData[sea].text[har].xz;
+			div.appendChild(span2);
+//			
+			var span3  = document.createElement("span");//职位性质
+			span3.className = "l";			
+			span3.innerHTML = "职位性质 : "+ aData[sea].text[har].gz;
+			div.appendChild(span3);
+//			
+			var span4  = document.createElement("span");//工作地点		
+			span4.innerHTML = "工作地点 : "+ aData[sea].text[har].dd;
+			div.appendChild(span4);
+//
+			var span5  = document.createElement("span");//工作经验
+			span5.className = "l";			
+			span5.innerHTML = "工作经验 : "+ aData[sea].text[har].jy;
+			div.appendChild(span5);
+//			
+			var span6  = document.createElement("span");//学历		
+			span6.innerHTML = "学历要求 : "+ aData[sea].text[har].xl;
+			div.appendChild(span6);
+//
+			var span7  = document.createElement("span");//人数
+			span7.className = "l";			
+			span7.innerHTML = "招聘人数 : "+ aData[sea].text[har].rs;
+			div.appendChild(span7);
+//			
+			var span8  = document.createElement("span");//待遇		
+			span8.innerHTML = "薪资待遇 : "+ aData[sea].text[har].dy;
+			div.appendChild(span8);
+//	
+			var span9  = document.createElement("span");//日期
+			span9.className = "l";			
+			span9.innerHTML = "发布日期 : "+ aData.date(aData[sea].text[har].sj,1);
+			div.appendChild(span9);
+//			
+			var spanA  = document.createElement("span");//类型		
+			spanA.innerHTML = "招聘类型 : "+ aData[sea].text[har].lx;
+			div.appendChild(spanA);
+//	
+			var clear = document.createElement("div");
+			clear.className = "clear";
+
+			var dl1 = document.createElement("dl");
+			
+			var dt1 = document.createElement("dt");
+			dt1.innerHTML = "工作职责：";
+			
+			var dd1 = document.createElement("dd");
+			dd1.innerHTML = "从事计算机软件的测试工作。";
+			
+			dl1.appendChild(dt1);
+			dl1.appendChild(dd1);
+			
+//			
+			var dl2 = document.createElement("dl");
+			var dt2 = document.createElement("dt");
+			dl2.appendChild(dt2);
+			dt2.innerHTML = aData[sea].text[har].info[0].t;
+			for (var i = 0; i < aData[sea].text[har].info[0].l.length; i++) {
+				var dd2 = document.createElement("dd");
+				dd2.innerHTML = aData[sea].text[har].info[0].l[i];
+				dl2.appendChild(dd2);
+			}
+//
+			var mail = document.createElement("p");
+			mail.innerHTML = "有意者请投递简历至: " + aData.email;
+			
+			
+			content.appendChild(div);			
+			content.appendChild(clear);
+			content.appendChild(dl1);
+			content.appendChild(dl2);
+			content.appendChild(mail);
+		}
+	
+</script>
+
+</html>

@@ -1,0 +1,4 @@
+https://github.com/aui/artTemplate
+
+template.js 简洁语法文件
+template-native.js 原生语法文件

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			var data = {
+				bigTitle:"今",
+				list:[
+					{
+						title:"123"
+					},
+					{
+						title:"123"
+					},
+					{
+						title:"123"
+					}
+				]
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="demo">
+			<!-- <h1>123</h1>
+			<ul>
+				<li>123</li>
+				<li>123</li>
+				<li>123</li>
+			</ul> -->
+		</div>
+		<script>
+			var html = '';
+			html += '<h1>'+data.bigTitle+'</h1>';
+			html += "<ul>"
+			for( var i = 0; i < data.list.length; i++ ){
+				html += '<li>'+data.list[i].title+'</li>'
+			}
+
+			html += "</ul>";
+			html += '<h1>'+data.bigTitle+'</h1>';
+			html += "<ul>"
+			for( var i = 0; i < data.list.length; i++ ){
+				html += '<li>'+data.list[i].title+'</li>'
+			}
+
+			html += "</ul>";
+			html += '<h1>'+data.bigTitle+'</h1>';
+			html += "<ul>"
+			for( var i = 0; i < data.list.length; i++ ){
+				html += '<li>'+data.list[i].title+'</li>'
+			}
+
+			html += "</ul>";
+			html += '<h1>'+data.bigTitle+'</h1>';
+			html += "<ul>"
+			for( var i = 0; i < data.list.length; i++ ){
+				html += '<li>'+data.list[i].title+'</li>'
+			}
+
+			html += "</ul>";
+			html += '<h1>'+data.bigTitle+'</h1>';
+			html += "<ul>"
+			for( var i = 0; i < data.list.length; i++ ){
+				html += '<li>'+data.list[i].title+'</li>'
+			}
+
+			html += "</ul>";
+			html += '<h1>'+data.bigTitle+'</h1>';
+			html += "<ul>"
+			for( var i = 0; i < data.list.length; i++ ){
+				html += '<li>'+data.list[i].title+'</li>'
+			}
+
+			html += "</ul>";
+
+			demo.innerHTML = html;
+
+
+			/*
+				<h1>data.bigTitle</h1>
+				<ul>
+					for( var i = 0; i < data.list.length; i++ ){
+						<li>data.list[i].title</li>
+					}
+				</ul>
+			*/
+
+		</script>
+	</body>
+</html>

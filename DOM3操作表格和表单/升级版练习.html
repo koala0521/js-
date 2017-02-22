@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        form {
+            margin: 10px 0;
+        }
+        table{
+        	border-collapse: collapse;
+        }
+        table tbody tr.active{
+        	background: #EFBD00;
+        }
+        td,th {
+        	height: 30px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<form id="form">
+    姓名：<input type="text" name="username" value="大师" />
+    <select name="sex">
+        <option value="">请选择一个性别</option>
+        <option value="男">男</option>
+        <option value="女">女</option>
+    </select>
+    年龄：<input type="text" name="age" value="18" />
+    <input id="btn" type="button" value="提交">
+
+<!--选做-->
+<p>
+    <select name="orderName">
+        <option value="">选择一个排序字段</option>
+        <option value="id">编号</option>
+        <option value="age">年龄</option>
+    </select>
+    <select name="orderBy">
+        <option value="">选择一个排序方式</option>
+        <option value="asc">升序</option>
+        <option value="desc">降序</option>
+    </select>
+    <input id="sort" type="button" value="排序">
+</p>
+</form>
+
+<table border="1" width="100%" id="tab1">
+    <thead>
+    <tr>
+        <th>全选 <input type="checkbox" name="checkAll"></th>
+        <th>编号</th>
+        <th>姓名</th>
+        <th>性别</th>
+        <th>年龄</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+<script type="text/javascript">
+
+
+    /*
+    * 1.通过表单，可以添加数据到表格中显示
+    * 2.id自动根据已有的最大id值进行累加，删除一条记录的时候
+    * 3.隔行变色，新增加的行应该也需要隔行变色的
+    * 4.鼠标移入高亮
+    * 5.全选/全不选（checkAll和下面的每一个checkbox是有关联的）
+    * 6.选中变色
+    * 7.上移/下移
+    * 8.删除
+    *
+    * 9.选做：排序
+    * */
+	
+    var data = [
+        {
+            id: 1,
+            name : '刘伟',
+            sex : '男',
+            age : 32
+        },
+        {
+            id: 2,
+            name : '莫涛',
+            sex : '男',
+            age : 28
+        },
+        {
+            id: 3,
+            name : '小美',
+            sex : '女',
+            age : 18
+        }
+    ];
+    var arrColor = ["pink","#FFE4C4","#EFBD00","#ccc"];
+
+	var table = document.getElementById("tab1");
+	var form = document.getElementById("form");
+	var btn = document.getElementById("btn");
+	var checkAll = table.tHead.getElementsByTagName("input")[0];
+	var oSort = document.getElementById("sort");
+	
+	var num = data.length;
+	
+	for (var i = 0; i < data.length; i++) {
+		createEle(data[i]); //初始化
+	}
+	
+	btn.onclick = function(){
+		num++;
+		var myObject = {
+            id: num,
+            name : form.username.value,
+            sex : form.sex.value,
+            age : form.age.value			
+		};
+		
+		createEle(myObject);
+		changeColor();
+		checkAll.checked = false;
+	}
+	
+	function createEle(obj){  // 根据传入的对象生成一行tr
+		var tr = document.createElement("tr");
+		tr.onmouseover = function(){
+			if(!checkBox.checked){
+				tr.style.background = arrColor[2];
+			}
+		}
+		tr.onmouseout = function(){
+			if(!checkBox.checked){
+				tr.style.background = this.oldColor;
+			}
+		}
+		
+		var tdCheck = document.createElement("td");	//选择按钮td
+		var checkBox = document.createElement("input");
+		checkBox.type = "checkbox";		
+		checkBox.onclick = function(){
+			changeColor();
+			if(this.checked){
+				var trs = table.tBodies[0].rows;
+				for (var i = 0; i < trs.length; i++) {
+					
+					if(!trs[i].children[0].children[0].checked){
+						checkAll.checked = false;
+						return;						
+					}
+				}
+				checkAll.checked = true;
+			}else{
+				tr.style.background = arrColor[2];
+				checkAll.checked = false;
+			}
+		}
+		
+		tdCheck.appendChild(checkBox);		
+		tr.appendChild(tdCheck);
+		
+		var tdId = document.createElement("td");// id的td
+		tdId.innerHTML = obj.id;
+		tr.appendChild(tdId);
+
+		
+		var tdName = document.createElement("td");// 姓名框td
+		tdName.innerHTML = obj.name;
+		tr.appendChild(tdName);
+		
+		var tdSex = document.createElement("td"); // 性别框td
+		tdSex.innerHTML = obj.sex;
+		tr.appendChild(tdSex);
+		
+		var tdAge = document.createElement("td"); // 年龄框td
+		tdAge.innerHTML = obj.age;
+		tr.appendChild(tdAge);
+		
+		var tdInp = document.createElement("td"); // int框td
+		var up = document.createElement("input"); 
+		var down = document.createElement("input"); 
+		var dele = document.createElement("input");
+		
+		up.type = "button"; //上移按钮
+		up.value = "上移";
+		up.onclick =function(){
+			if(tr.previousElementSibling){
+				table.tBodies[0].insertBefore(tr,tr.previousElementSibling);
+				changeColor();
+			}
+				
+		}
+		tdInp.appendChild(up);		
+		
+		down.type = "button";//下移按钮
+		down.value = "下移";
+		down.onclick = function(){
+			if(tr.nextElementSibling){
+				table.tBodies[0].insertBefore(tr.nextElementSibling,tr);
+				changeColor();
+			}
+		}
+		tdInp.appendChild(down);
+		
+		dele.type = "button"; //删除按钮
+		dele.value = "删除";
+		dele.onclick = function(){
+			table.tBodies[0].removeChild(tr);
+			changeColor();
+			var trs = table.tBodies[0].rows;
+			if(trs.length != 0){
+				for (var i = 0; i < trs.length; i++) {
+					if(!trs[i].children[0].children[0].checked){
+						checkAll.checked = false;
+						return;						
+					}
+				}
+				checkAll.checked = true;
+			}else{
+				checkAll.checked = false;
+			}
+
+		}
+		tdInp.appendChild(dele);
+		
+		tr.appendChild(tdInp);
+		
+		table.tBodies[0].appendChild(tr);
+		
+	}
+	changeColor();
+	function changeColor(){
+		
+		var trs = table.tBodies[0].getElementsByTagName("tr");
+		
+		for (var i = 0; i < trs.length; i++) {
+			trs[i].oldColor = arrColor[i%2];
+			if( !trs[i].children[0].children[0].checked ){
+				trs[i].style.background = trs[i].oldColor;
+			}else{
+				trs[i].style.background = arrColor[3];
+			}
+		}
+	}
+	
+	checkAll.onclick = function(){
+		if(this.checked){
+			var trs = table.tBodies[0].rows;
+			for (var i = 0; i < trs.length; i++) {
+				trs[i].children[0].children[0].checked = true;
+			}
+		}else{
+			var trs = table.tBodies[0].rows;
+			for (var i = 0; i < trs.length; i++) {
+				trs[i].children[0].children[0].checked = false;
+			}
+		}
+		changeColor();
+	}
+	
+	oSort.onclick = function(){  //排序按钮
+		if(form.orderName.value==""||form.orderBy.value==""){
+			return;
+		}
+		setsort(form.orderName.value,form.orderBy.value);
+		
+	}
+	
+	function setsort(a,b){ //排序函数
+		var trs = table.tBodies[0].rows;
+		for (var i = 0; i < trs.length-1; i++) {
+			for (var j = 0; j < trs.length-1-i; j++) {
+				if(a=="id"){
+					var v1 = Number(trs[j].children[1].innerHTML);
+					var v2 = Number(trs[j+1].children[1].innerHTML);
+				}
+				if(a=="age"){
+					var v1 = Number(trs[j].children[4].innerHTML);
+					var v2 = Number(trs[j+1].children[4].innerHTML);
+				}
+				if(b == "asc"){
+					if(v1 > v2){
+						table.tBodies[0].insertBefore(trs[j+1],trs[j]);
+					}
+					
+				}				
+				if(b == "desc"){
+					if(v1 < v2){
+						table.tBodies[0].insertBefore(trs[j+1],trs[j]);
+					}
+					
+				}
+			}
+		}
+		changeColor();
+	}
+	
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<script src="../jquery-3.1.1.js">
+			
+		</script>
+		<script>
+			
+			var xhr = new XMLHttpRequest();	//获取ajax对象
+			
+//			console.log( xhr.readyState );	// xhr.readyState ajax请求执行到哪一步了，返回一个数字
+			
+//			xhr.onreadystatechange; 一个函数,ajax请求执行每一步都会触发;
+			
+			xhr.open("GET","http://127.0.0.1:8088/files/get.php?user=leo",true);	// 链接后端地址， 准备传输信息给后端
+			
+			xhr.onload = function(){ //	responseText 	ajax返回的数据
+				
+				console.log(xhr.responseText);
+				
+			}
+			
+			xhr.send(); //确认发送
+			
+//-------------------------------------------------------------------------------------
+
+			function ajax(obj){
+				
+				if( obj.url.trim() === "" ){
+					throw new Error("请求地址不能为空");
+				}
+				
+				var info = {
+					
+					url:null,
+					method:"get",
+					data:null,
+					success:function(){
+						
+						console.log(1);
+					},
+					error:function(){
+						
+						console.log(0);
+					},
+					async:true
+					
+				}
+				
+				$.extend(true,info,obj);
+
+
+				var xhr = new XMLHttpRequest();	//获取ajax对象
+				
+				if( info.methcd.toLowerCase() === "get" ){	 //准备提交
+					
+					xhr.open(info.methcd,info.url+"?"+info.data,info.async);
+				}else{
+					
+					xhr.open(info.methcd,info.url,info.async);
+				}
+								
+				xhr.onload = function(){ //	responseText 	ajax返回的数据
+					
+					if( xhr.status === 200 ){  //成功
+					info.success();
+					
+					}else{
+						
+						info.Error();
+						
+					}
+				}
+				
+				if( info.methcd.toLowerCase() === "get" ){
+					
+					xhr.send(); //确认发送
+					
+				}else{
+					
+					xhr.setRequestHeader("Content-Type",'application/x-www-form-urlencoded'); //设置头信息
+					xhr.send(info.data); //确认发送	
+				}
+			
+			
+			
+			}
+			
+		</script>
+		
+	</body>
+</html>

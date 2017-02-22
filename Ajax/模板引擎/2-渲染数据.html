@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			var data = {
+				bigTitle:"今",
+				list:[
+					{
+						title:"123"
+					},
+					{
+						title:"123"
+					},
+					{
+						title:"123"
+					}
+				]
+			}
+		</script>
+	</head>
+
+	<body>
+		<div id="demo">
+			<!-- <h1>123</h1>
+			<ul>
+				<li>123</li>
+				<li>123</li>
+				<li>123</li>
+			</ul> -->
+		</div>
+		<script>
+			//字符串模板
+			var html = '<h1>data.bigTitle</h1>\
+				<ul>\
+					for( var i = 0; i < data.list.length; i++ ){\
+						<li>data.list[i].title</li>\
+					}\
+				</ul>';
+
+			//数据 + 模板 = DOM结构
+
+			// 模板引擎
+
+
+
+
+			demo.innerHTML = html;
+
+
+			
+
+		</script>
+	</body>
+</html>

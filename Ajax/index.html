@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<script src="jquery-3.1.1.js" ></script>
+	<body>
+		
+		<div id="demo">
+			
+		</div>
+		
+	</body>
+	
+	
+	<script>
+		
+		$.ajax({
+			url:"http://127.0.0.1:8088/files/list.php",
+			success:function(data){
+				
+				data = JSON.parse(data);
+				console.log( data );
+				renderList(data);
+				
+			},
+			error:function(){
+				alert(1);
+			}
+		});
+		
+		
+		
+		function renderList(data){
+				
+			//展示在页面
+			var str = '<h1>'+data.bigTitle+'</h1>';
+			str += "<ul>"
+			for( var i = 0; i < data.list.length; i++ ){
+				str += '<li>'+data.list[i].newTitle+'</li>'
+			}
+			str += "</ul>";
+
+			demo.innerHTML = str;
+			
+		}
+
+
+		
+	</script>
+	
+</html>

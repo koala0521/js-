@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			ul{list-style: none;}
+			#list ul{display: none;}
+			
+			li{
+				cursor: pointer;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<ul id="list">
+			<li>
+				<h2>▶第一级</h2>
+				<ul>
+					<li>
+						<h2>▶第二级</h2>
+						<ul>
+							<li>
+								<h2>▶第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>▶第二级</h2>
+						<ul>
+							<li>
+								<h2>▶第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>▶第一级</h2>
+				<ul>
+					<li>
+						<h2>▶第二级</h2>
+						<ul>
+							<li>
+								<h2>▶第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>▶第一级</h2>
+				<ul>
+					<li>
+						<h2>▶第二级</h2>
+						<ul>
+							<li>
+								<h2>▶第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>▶第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+			<li>
+				<h2>▶第一级</h2>
+				<ul>
+					<li>
+						<h2>▶第二级</h2>
+						<ul>
+							<li>
+								<h2>▶第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>▶第三级</h2>
+								<ul>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+									<li>
+										<h2>第四级</h2>
+									</li>
+								</ul>
+							</li>
+							<li>
+								<h2>第三级</h2>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+					<li>
+						<h2>第二级</h2>
+					</li>
+				</ul>
+			</li>
+		</ul>
+		
+		
+		<script type="text/javascript">
+			
+			var list = document.getElementById("list");
+			var h2s = list.getElementsByTagName("h2");
+
+
+			for (var i = 0; i < h2s.length; i++) {
+				h2s[i].onOff = false;
+				h2s[i].onclick = function(){																				
+					if(!this.onOff){
+						var par = this.parentNode.parentNode;
+						var ah2 = par.getElementsByTagName("h2");
+						for (var i = 0; i < ah2.length; i++) {							
+							if( ah2[i].nextElementSibling){
+								ah2[i].nextElementSibling.style.display = "none";
+								ah2[i].onOff = false;
+								ah2[i].innerHTML = "▶"+ah2[i].innerHTML.slice(1);
+							}
+						}																	
+						if(this.nextElementSibling){
+								this.innerHTML = "▼"+this.innerHTML.slice(1);
+								this.nextElementSibling.style.display = "block";						
+						}			
+					}else{						
+						if(this.nextElementSibling){
+								this.innerHTML = "▶"+this.innerHTML.slice(1);
+								this.nextElementSibling.style.display = "none";
+						}							
+					}											
+					this.onOff = !this.onOff;	
+				}
+			}
+
+			
+		</script>
+		
+		
+	</body>
+</html>

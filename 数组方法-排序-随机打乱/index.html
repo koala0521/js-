@@ -1,0 +1,156 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>图片排序方法一</title>
+<style type="text/css">
+	body{
+		background-color: #F1F1F1;
+		background: url(img/22.jpg);
+	}
+	ul{
+		margin:0 auto;
+		padding: 0;
+		width: 1208px;
+		height: 470px;
+		overflow: hidden;
+		padding-bottom: 10px;
+		position: relative;
+	}
+	li{
+		list-style-type: none;
+		float: left;
+		padding: 10px;
+		padding-bottom: 0;
+		margin: 0 1px;
+		position: absolute;
+		transition: 500ms;
+	}
+	p{
+		margin: 0;
+		text-align: center;
+		background-color: #F1F1F1;
+		line-height: 40px;
+		font-size: 20px;
+		font-weight: bold;
+	}
+	img{
+		vertical-align: top;
+		border: none;
+	}
+	li img{
+		width: 280px;
+		height: 180px;
+	}
+	div{
+		margin:0 auto;
+		width: 210px;
+	}
+	div:after{
+		content: '';
+		display: block;
+		clear: both;
+	}
+	a{
+		text-decoration: none;
+		width: 98px;
+		line-height: 40px;
+		display: block;
+		color: white;
+		background-color: #000;
+		text-align: center;
+		float: left;
+		border: 1px solid #AAAAAA;
+		border-radius: 6px;
+	}
+	a:nth-child(1){
+		margin-right: 10px;
+	}
+	
+</style>
+</head>
+
+<body>
+	<div>
+		<a href="javascript:;">正序</a><a href="javascript:;">打乱顺序</a>
+	</div>
+	<ul>
+		<li><img src="img/22.jpg" alt=""><p>1-对象</p></li>
+		<li><img src="img/24.jpg" alt=""><p>2-阿狸</p></li>
+		<li><img src="img/33.jpg" alt=""><p>3-文艺</p></li>
+		<li><img src="img/29.jpg" alt=""><p>4-风景</p></li>
+		<li><img src="img/32.jpg" alt=""><p>5-美女</p></li>
+		<li><img src="img/23.jpg" alt=""><p>6-水母</p></li>
+		<li><img src="img/13.jpg" alt=""><p>7-游戏</p></li>
+		<li><img src="img/34.jpg" alt=""><p>8-姑娘</p></li>
+	</ul>
+</body>
+<script type="text/javascript">
+	var oUl=document.getElementsByTagName('ul')[0];
+	var aBtn=document.getElementsByTagName('a');
+	var aLi=document.getElementsByTagName('li');
+	var aP=document.getElementsByTagName('p');
+	var aImg=document.getElementsByTagName('img');
+	var onOff = true;
+	
+	var arrInfo1 = [
+		["img/22.jpg","1-对象"],
+		["img/24.jpg","2-阿狸"],
+		["img/33.jpg","3-文艺"],
+		["img/29.jpg","4-风景"],
+		["img/32.jpg","5-美女"],
+		["img/23.jpg","6-水母"],
+		["img/13.jpg","7-游戏"],
+		["img/34.jpg","8-姑娘"]
+	];
+	var arrInfo2 = [
+		["img/22.jpg","1-对象"],
+		["img/24.jpg","2-阿狸"],
+		["img/33.jpg","3-文艺"],
+		["img/29.jpg","4-风景"],
+		["img/32.jpg","5-美女"],
+		["img/23.jpg","6-水母"],
+		["img/13.jpg","7-游戏"],
+		["img/34.jpg","8-姑娘"]
+	];
+	//var a = 1;值
+	//var arr3 = arrInfo1; // 相当于赋给一个地址
+	//初始化
+	function tab(info){//根据传入的数组的参数，改变图片的src 和 p的innerHTML		
+		info.forEach(function(a,b){
+			
+			aLi[b].style.left = "50%";			
+			aLi[b].style.top = "50%";
+			aLi[b].style.marginLeft = "-150px";
+			aLi[b].style.marginTop = "-115px";
+			
+			setTimeout( function(){
+
+				aLi[b].style.marginLeft = "0";
+				aLi[b].style.marginTop = "0";
+				aLi[b].style.left = (parseInt(a[1].charAt(0))-1)%4*300 + "px";			
+				aLi[b].style.top = Math.floor((parseInt(a[1].charAt(0))-1)/4)*230 + "px";
+			},500 )
+
+		});
+	}
+	tab(arrInfo1);
+	aBtn[0].onclick = function(){
+		arrInfo1.reverse();
+		tab(arrInfo1);
+		onOff?this.innerHTML = "倒序":this.innerHTML = "正序";		
+		onOff = !onOff;
+	}
+	aBtn[1].onclick = function(){				
+		arrInfo2.sort(
+			function(){
+				return Math.random()-0.5;
+			}
+		)
+		tab(arrInfo2);
+	}
+	
+	
+	
+</script>
+</html>

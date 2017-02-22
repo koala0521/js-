@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="./template.js"></script>
+	</head>
+
+	<body>
+		<div id="demo">
+			<!-- <h1>123</h1>
+			<ul>
+				<li>123</li>
+				<li>123</li>
+				<li>123</li>
+			</ul> -->
+		</div>
+		<script type="text/html" id="test">
+			<h1>{{ title }}</h1>
+			<ul>
+			    {{each list as value i}}
+			    	{{ if i < 3}}
+			    		<li>索引 {{i + 1}} ：{{value}}</li>
+			    	{{/if}}
+			    {{/each}}
+			</ul>
+		</script>
+		<script>
+
+		//简洁语法
+
+			var data = {
+			    title: '标签',
+			    list: ['文艺', '博客', '摄影', '电影', '民谣', '旅行', '吉他']
+			};
+
+			var html = template('test', data);
+
+			console.log( html );
+
+			document.getElementById('demo').innerHTML = html;
+
+			
+
+		</script>
+	</body>
+</html>

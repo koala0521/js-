@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>		
+		<script src="jquery-3.1.1.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+		
+// jQuery事件
+
+on(events,[selector],[data],fn);	//绑定事件
+
+//		events:	事件类型;
+//		[selector]: 过滤事件源（可选参数）
+//		[data] : 可选参数
+//		fn : 绑定的事件函数
+
+//		自定义事件
+$("input[type:button]").on("click",function(){	//click事件
+	alert(1);
+})
+//		click.[] 命名空间可自定义
+$("input[type:button]").on("click.abc",function(){	//click自定义事件		
+	alert(2);
+})
+
+$("input[type:button]").on("click.aaa",function(){	//click自定义事件
+	alert(3);
+})
+
+$("input[type:button]").on("list",function(){	//自定义事件
+	alert(3);
+})
+
+"click" ,"click.abc","click.aaa"		//点击都会触发
+
+$("input[type:button]").trigger(""click.aaa"");   // 单独调用 "click.aaa" 事件
+$("input[type:button]").trigger(""click.abc"");   // 单独调用 "click.abc" 事件
+
+$("input[type:button]").trigger("list");   // 调用 "list" 自定义事件
+
+
+off() 	//解绑事件
+
+toggle()	//	显示/隐藏  	显示<==>隐藏 
+
+//		参数（可选）:	([过渡时间],[fn])	fn: 过渡完成执行函数
+
+focusin //可以检测到子元素获取了焦点
+focusout //可以检测到子元素失去了焦点
+
+ready	//DOM元素加载完成之后触发
+$(document).ready(function (){
+	console.log("ready");	
+});
+
+js的 onload	//资源全部加载完成后触发的事件
+window.onload = function (){
+	console.log("load");	
+};
+
+hover //js中的移入事件 和 移出事件的结合
+
+
+beforeunload	//关闭窗口之前的询问
+$(window).on("beforeunload",function (){
+
+	return false;	//必须加return 
+})
+
+		
+		</script>
+		
+	</body>
+</html>

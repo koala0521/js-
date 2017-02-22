@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+		<img src="img/0.jpg" alt="" />
+		<img src="img/0.jpg" alt="" />
+		<img src="img/c.jpg" alt="" />
+		<img src="img/0.jpg" alt="" />
+		<img src="img/0.jpg" alt="" />
+		<img src="img/c.jpg" alt="" />
+		<img src="img/0.jpg" alt="" />
+		<img src="img/0.jpg" alt="" />
+		
+		<script>
+			var imgs = document.getElementsByTagName("img");
+			function add0(n){
+				if(n<10){
+					return "0" + n;
+				}else{
+					return "" + n;
+				}
+			}
+//			console.log( add0( 18 ) );
+			function setTime(){
+				var t = new Date();
+				var h = add0( t.getHours() );
+				var m = add0( t.getMinutes() );
+				var s = add0( t.getSeconds() );//0
+				var str = h + ":" + m + ":" + s;
+//				console.log( str );
+	//			console.log( str.charAt(2) );
+				for (var i = 0; i < imgs.length; i++) {
+					if(i==2||i==5){//第二位和第五位是“：”
+						imgs[i].src = "img/c.jpg";
+					}else{
+						imgs[i].src = "img/"+ str.charAt(i) +".jpg";
+					}	
+				}
+			}
+			setTime();
+			setInterval(function(){
+				setTime();
+			},1000)
+		</script>
+	</body>
+</html>

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	
+	<style type="text/css">
+		body{
+			background: #000 no-repeat;
+		}
+		img{
+			border: none;
+			vertical-align: top;
+			display: none;
+		}
+		
+		#warp{
+			width: 600px;
+			border: 2px solid #000000;
+			margin:  100px auto;
+			overflow: hidden;
+		}
+		#left{
+			float: left;
+			width: 100px;
+		}
+		#right{	
+			float: right;
+			height: 300px;
+			width: 500px;
+			background: #E5E5E5;
+			position: relative;
+		}
+		#right .imgInfo{
+			width: 500px;
+		}
+		#right div{
+			text-align: center;
+			height: 100%;
+			display: none;
+		}
+		#right div img {
+			width: 100%;
+			height: 100%;
+		}
+		
+		.imgInfo span{
+			background: #000;
+			color: #fff;
+			height: 40px;
+			font: 20px/40px arial;
+			border-left: 1px solid #fff;
+			box-sizing: border-box;
+		}
+		#right span.active{
+			background: #D8D7DB;
+		}
+		.imgInfo span:nth-of-type(1){
+			border: none;
+		}
+		#left div{
+			height: 100px;
+			text-align: center;
+			background: #000;
+			color: #fff;
+			border-bottom: 1px solid #fff;
+			box-sizing: border-box;
+			font: bold 25px/100px arial;
+		}
+		#left div:nth-last-of-type(1){
+			border: none;
+		}
+		
+		#left div.active{
+			background: #aaa;
+		}
+		
+		
+	</style>
+	<body>
+		
+		<div id="warp">
+			<div id="left">
+				<!--<div>选项卡1</div>
+				<div>选项卡2</div>
+				<div>选项卡3</div>-->
+			</div>
+			<div id="right">
+				
+			</div>
+		</div>
+		
+		<script type="text/javascript">
+//-------------------------------------------------------------			
+		(function (){
+
+			//准备变量
+			var oLeft = document.getElementById("left");
+			var oRight = document.getElementById("right");
+			var strL = ""; 
+			var strR = "";
+			var num= 0;
+			var objAdd = {
+				"sky":{
+					"星空": "img/06.jpg",
+					"星云": "img/07.jpg",
+					"太空": "img/15.jpg"
+				},
+				"girls":{
+					"文艺": "img/01.jpg",
+					"长腿": "img/14.jpg",
+					"背影": "img/18.jpg",
+					"沙滩mm": "img/19.jpg"
+					
+				},
+				"beauty":{
+					"唯美": "img/11.jpg",
+					"金字塔": "img/12.jpg",
+					"诗句": "img/09.jpg"
+				}
+			}
+//-------------------------------------------------------------			
+		//生成结构
+			//console.log(objAdd);
+			//生成左边的内容
+			for(a in objAdd ){
+				strL += "<div>";
+				strL += a;
+				strL += "</div>";
+			}
+			oLeft.innerHTML = strL;
+			//生成右边的内容
+			for(a in objAdd){
+				strR += "<div class = 'imgInfo'>";
+				
+				for ( b in objAdd[a]){
+					
+					//strR +=  "<div style=' position:absolute;'>";
+					
+					strR += "<img src='"+ objAdd[a][b]+"' />";
+					
+					//strR += "</div>";
+					
+					strR+= "<span style=' position:absolute; bottom: 0;' >";
+					strR+= b;
+					strR+= "</span>";
+					left++;
+					
+				}
+				
+				strR += "</div>";
+			}
+			oRight.innerHTML = strR;
+//-------------------------------------------------------------		
+				//初始化
+				
+				var divLs = oLeft.getElementsByTagName("div");
+				var divRs = oRight.getElementsByClassName("imgInfo");				
+				//getComputedStyle(box).left
+				function tab(){
+					divLs[0].className = "active";
+					divRs[0].style.display = "block";
+	
+					for (var i = 0; i < divRs.length; i++) {
+						//初始化左边选项栏的高度
+						var h = parseFloat(getComputedStyle(oLeft).height)/divLs.length;
+						divLs[i].height = h + "px";						
+						//给每一个 divLs 添加索引
+						divLs[i].index = i;
+						var spans = divRs[i].getElementsByTagName("span");
+						var imgs = divRs[i].getElementsByTagName("img");
+						spans[0].className = "active";
+						imgs[0].style.display = "inline-block";
+
+
+						for (var j = 0; j < spans.length; j++) {
+							//初始化右选项栏的宽度和位置
+							var Wid = parseInt(getComputedStyle(oRight).width)/spans.length;
+							spans[j].style.width = Wid +"px";
+							spans[j].style.left = Wid*j+"px";
+							//给每一个span 添加索引
+//							spans[j].index = j;						
+						}
+	
+					}
+					
+				}	
+				tab();
+//-----------------------------------------------------------------
+			//实现交互功能区
+//--------------------------------------------------------------				
+				//图片自动切换
+				var num1 = 0;
+				var num2 = 0;
+				var timer = null;
+
+				//图片自动切换函数封装	
+				function autoChange(){
+					var span = divRs[num1].getElementsByTagName("span");
+					var img = divRs[num1].getElementsByTagName("img");						
+						
+					//清空上一个span的classname，隐藏上一张图片
+					span[num2].className = "";
+					img[num2].style.display = "none";
+					//清空左边选项卡的上一个的classname，隐藏对应的右边的div
+					divLs[num1].className = "";
+					divRs[num1].style.display = "none";					
+					num2++;	
+					if( num2==span.length ){
+						num2 = 0;
+						num1++;
+						if( num1==divLs.length  ){
+							num1=0;
+						}	
+					}
+					// 重新获取span 和 img  切记！！！ 
+					var span = divRs[num1].getElementsByTagName("span");
+					var img = divRs[num1].getElementsByTagName("img");	
+					//给当前添加
+					divLs[num1].className = "active";
+					divRs[num1].style.display = "block";
+					
+					span[num2].className = "active";
+					img[num2].style.display = "inline-block";
+					
+				}
+				
+				//启动定时器
+				timer = setInterval( function(){
+					autoChange();
+				} , 1000);
+				
+//---------------------------------------------------------------
+				//选项卡的鼠标移入事件
+				
+				for (var i = 0; i < divLs.length; i++) {
+					// 左边 选项卡的 移入事件
+					divLs[i].onmouseover = function (){
+						
+						//先停止定时器
+						clearInterval(timer);
+						//清空上一个span的classname，隐藏上一张图片
+//						var span = divRs[num1].getElementsByTagName("span");	
+//						var img = divRs[num1].getElementsByTagName("img");						
+						
+						var lastSpan = divRs[num1].getElementsByTagName("span");	
+						var lastImg = divRs[num1].getElementsByTagName("img");
+
+						//清空上一个divLs的 classname 
+						divLs[num1].className = "";
+						divRs[num1].style.display = "none";
+						
+						//清空上一个span的classname，隐藏上一张图片
+						lastSpan[num2].className = "";
+						lastImg[num2].style.display = "none";
+						
+						
+						//改变 num1 和 num2 的值
+	
+						num1 = this.index;
+						
+						num2 = 0;
+						
+						var span = divRs[num1].getElementsByTagName("span");	
+						var img = divRs[num1].getElementsByTagName("img");
+						
+						//给当前的divLs 添加classname ，同时显示对应的divRs
+						this.className = "active";
+						divRs[num1].style.display = "block";
+						//给对应的 span 添加classname , 显示对应的图片
+						span[num2].className = "active";
+						img[num2].style.display = "inline-block";
+	
+					}
+					// 左边 选项卡的 移出事件
+					divLs[i].onmouseout= function (){
+					
+						timer = setInterval( function(){
+							autoChange();
+						}, 1000);
+					
+					}
+	
+				}	
+				//右边选项卡的事件
+					
+					for (var i = 0; i < divRs.length; i++) {
+						var span = divRs[i].getElementsByTagName("span");	
+						var img = divRs[i].getElementsByTagName("img");
+						for (var j = 0; j < span.length; j++) {
+							span[j].index = j;
+							span[j].onmouseover = function (){
+								//清除定时器
+								clearInterval(timer);
+								var lastSpan = divRs[num1].getElementsByTagName("span");
+								var lastImg = divRs[num1].getElementsByTagName("img");
+								
+								//清除上一个span的 classname
+								lastSpan[num2].className = "";
+								lastImg[num2].style.display = "none";
+								this.className = "active";
+								lastImg[this.index].style.display = "inline-block";
+								
+								num2 = this.index;
+								
+							}
+							
+							span[j].onmouseout = function (){
+								
+								timer = setInterval( function(){
+									autoChange();
+								}, 1000);
+							}
+						}
+					}			
+				
+		})()	
+		</script>
+	</body>
+</html>
