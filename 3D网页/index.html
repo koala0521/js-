@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	
+		<meta charset="UTF-8">
+		<title>Document</title>
+		<style type="text/css">
+			body{
+				margin: 0;
+				width: 100%;
+				height: 640px;
+				background: beige;	
+				perspective: 600px;	
+			}
+			
+			.warp{
+				width: 1020px;
+				/*height: 300px;*/
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				margin-left: -500px;
+				margin-top: -310px;
+				overflow: hidden;
+				transform-style:preserve-3d;
+				transform-origin: center center;	
+				
+			}
+			.warp div{
+				width: 500px;
+				height: 300px;
+				float: left;
+				transform-style:preserve-3d;
+				margin: 10px 10px 0 0;
+				position: relative;
+				overflow: hidden;
+				/*transition: 2s ease-in;
+				transform-origin: center;
+				transform: translateX(100px);*/
+				
+			}
+			.warp div img{
+				width: 100%;
+				height: 100%;
+				border: none;
+				vertical-align: top;
+			}
+			
+			.warp div span{
+				width: 100%;
+				height: 100%;
+				background: rgba(255,255,200,.6);
+				position: absolute;
+				left: 0;
+				top: 0;
+				text-align: center;
+				line-height: 30px;
+				font-size: 20px;
+				font-family: "微软雅黑";
+				display: none;
+			}
+			
+		</style>
+		<script src="jquery-3.1.1.js" ></script>
+		
+	</head>
+	<body>
+		<div class="warp">
+			<div id="box1">
+				<span> 要想征服天空，你需要的不是一双翅膀，而是一个想飞的梦。——门帅 《秦时明月之君临天下》 </span>
+				<img src="img/13.jpg"/>
+			</div>
+			<div id="box2">
+				<span> 我们的征途，是星辰大海哟~</span>
+				<img src="img/16.jpg"/>
+			</div>
+			<div id="box3">
+				<span> 谁能告诉我，我的贵族气质，从何而来？</span>
+				<img src="img/24.jpg"/>
+			</div>
+			<div id="box4">
+				<span> Is life always this hard,or is it just when you are a kid? <br/>
+					
+						Always like this. <br/>
+
+						___________________《这个杀手不太冷》
+				</span>
+				<img src="img/11.jpg"/>
+			</div>
+		</div>
+	</body>
+	
+	
+	<script type="text/javascript">
+		
+		
+	function TestDir(ev,Element,status){
+
+		var info = Element.getBoundingClientRect();
+		//元素中心点X轴的位置
+		var X = info.left+(info.width)/2;
+		//元素中心点Y轴的位置
+		var Y = info.top+(info.height)/2;	
+		var obj = {
+			l:info.left,	//[element到可视区left的距离
+			r:info.right,	//[element到可视区right的距离
+			t:info.top,		//element到可视区top的距离
+			b:info.bottom	//element到可视区bottom的距离，
+		}
+			
+		var lt = Math.atan2(obj.t-Y,obj.l -X);       
+		var rt = Math.atan2(obj.t-Y,obj.r -X);
+		var rb = Math.atan2(obj.b-Y,obj.r -X);
+		var lb = Math.atan2(obj.b-Y,obj.l -X);
+		
+		var mp =  Math.atan2(ev.clientY - Y, ev.clientX - X);
+		var dir = null;
+	
+		if( mp > lt && mp < rt ){
+			dir = "top";
+		}else if( mp > rt && mp < rb  ){
+			dir = "right";
+		}else if( mp > rb && mp < lb ){
+			dir = "bottom";
+		}else{
+			dir = "left";
+		}		
+		
+		var result = {	//判断结果
+			s:status,	//状态，对应移入和移出
+			dir:dir		// 方向 ，对应鼠标移入或者移出的方向
+		}				
+		return result;	
+	}
+		
+	</script>
+	
+	
+	<script type="text/javascript">
+		
+		var centerX = $(window).width()/2;
+		var centerY = $(window).height()/2;		
+		var spans = $(".warp span");
+
+		$(document).on("mousemove",function(ev){
+			
+			var x = ev.clientX - centerX;
+			var y = ev.clientY - centerY;
+			
+			$(".warp").css("transform","translateX("+ (x/40) +"px) translateY("+ -y/40 +"px) rotateX("+ -(y/180) +"deg) rotateY("+ x/180 +"deg)" );
+		})
+		
+		
+		$(".warp div").on("mouseenter",function(event){
+			
+			var ev = event.originalEvent;
+			var span = $(this).find("span");			
+			var result =  TestDir(ev,this,"mouseenter");			
+			span.stop(false,true);	// 停止动画 清空队列			
+			span.show();
+			span.css("left",0);
+			span.css("top",0);
+			
+
+			
+			if( result.dir === "left" ){
+
+				span.css("left","-100%");				
+				span.animate({"left":0});
+				
+			}else if( result.dir === "right" ){
+
+				span.css("left","100%");				
+				span.animate({"left":0});
+				
+			}else if( result.dir === "top" ){
+
+				span.css("top","-100%");				
+				span.animate({"top":0});
+				
+			} else{
+				
+				span.css("top","100%");				
+				span.animate({"top":0});
+				
+			}
+			
+		})
+
+		$(".warp div").on("mouseleave",function(event){
+			
+			var ev = event.originalEvent;
+			var result =  TestDir(ev,this,"mouseleave");
+			var span = $(this).find("span");
+			
+			span.stop(false,true);	// 停止动画 清空队列
+			
+			if( result.dir === "left" ){
+
+				span.animate({"left":"-100%"},function(){
+					
+					span.hide();
+				
+				})
+			} else if( result.dir === "top" ){
+
+				span.animate({"top":"-100%"},function(){
+					
+					span.hide();
+				
+				})
+			} else if( result.dir === "right" ){
+				
+				span.animate({"left":"100%"},function(){
+					
+					span.hide();
+				
+				})
+				
+			} else {
+				
+				span.animate({"top":"100%"},function(){
+					
+					span.hide();
+				
+				})
+				
+			}
+			
+		})
+		
+	</script>
+	
+	
+	<script type="text/javascript">
+		
+		
+	//atan2()
+	//定义和用法
+	//atan2() 方法可返回从 x 轴到点 (x,y) 之间的角度。
+	//语法
+	//Math.atan2(y,x)
+	//参数	描述
+	//x	必需。指定点的 X 坐标。
+	//y	必需。指定点的 Y 坐标。
+	//返回值
+	//-PI 到 PI 之间的值，是从 X 轴正向逆时针旋转到点 (x,y) 时经过的角度。
+	//提示和注释
+	//注释：请注意这个函数的参数顺序，Y 坐标在 X 坐标之前传递。	
+		
+	</script>
+	
+	
+</html>
