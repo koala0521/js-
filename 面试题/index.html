@@ -1,0 +1,319 @@
+<html>
+	
+	<!-- 
+
+	1、JavaScript 的 typeof 返回哪些数据类型？
+
+		typeof返回的数据类型，6种：string、number，boolean，undefined，object，function，Symbol（ES2015新增,表示独一无二的值）
+		
+		js的数据类型：
+			基本数据类型：String Number Boolean Undefined Null；
+			复杂数据类型：Object
+
+	2.，写出以下运算结果：
+
+		alert(typeof null);    // "object"
+		alert(typeof undefined);	// "undefined"
+		alert(typeof NaN);		// "number"
+		alert(NaN == undefined);	// false
+		alert(NaN == NaN);		// false
+		var str = "123abc";		
+		alert(typeof str++);  //  "number"
+		alert(str);		// NaN
+
+		3举例强制类型转换和隐式类型转换：
+
+		强制类型转换：Number()、Boolean()、String()、parseInt()
+
+		隐式类型转换：+ - -= +=;
+
+	3.JavaScript 的事件流模型都有什么？
+
+	事件发生时的三个阶段：
+		1.捕获阶段 ，一个元素的事件触发时，事件会从dom属性结构的顶层，依次往下寻找事件目标
+		2.处于目标阶段，找到绑定该事件的目标阶段；
+		3.事件冒泡阶段：目标元素事件触发时，会从目标元素开始向外传播，直到不具体的元素
+
+
+	4.Bom对象有哪些？
+
+
+		1.window 	浏览器的顶层对象 ，其他的BOM对象都是window下的属性
+
+		2.location 	浏览器当前的url信息
+
+		3.navigator 	浏览器的基本信息 厂商、版本等等
+
+		4.screen 	屏幕信息
+
+		5.history 	浏览器访问的历史信息 
+
+	5.请简述 AJAX 及基本步骤？
+	
+		1.创建ajax对象；
+
+		2.准备发送ajax请求，设置请求地址，请求方式 ，是否异步请求
+		
+		3.发送请求
+
+		4.响应数据（正在接收，尚未完成）
+
+		5.响应数据接收完成
+
+		var ajax = XMLHttpRequest();
+
+		ajax.open("get","1.php",true)；
+
+		ajax.onload = function(){};	
+
+		ajax.send(); 
+
+	
+	6.HTTP 状态消息 200 302 304 403 404 500 分别表示什么？
+		
+		200 ：表示请求成功。
+
+		302：请求的资源临时从不同的 URI 响应请求。
+		
+		304：如果客户端发送了一个带条件的 GET 请求且该请求已被允许，而文档的内容（自上次访问以来或者根据请求的条件）并没有改变，则服务器应当返回这个状态码
+		
+		403：服务器已经理解请求，但是拒绝执行它。
+
+		404：请求失败，资源在服务器未找到。
+		
+		500：服务器遇到了一个未曾预料的状况，导致了它无法完成对请求的处理。
+
+
+
+	7 GET和POST的区别，何时使用POST？
+	
+
+		get : 一般用于数据查询，使用URL传递参数，传递信息数量有限制 ，浏览器历史记录会缓存数据
+
+		post：一般用于向服务器发送数据，理论上对数据数量没有限制，浏览器不会缓存发送的数据
+
+		使用post的情况：
+			向服务器发送数据，
+			数据比较大时，
+			发送私密数据时，
+			发送图片时	
+	
+	8 ajax的局限性：
+
+		1.不支持返回；
+
+		2，无法执行js脚本
+
+		3，安全问题，ajax暴露了交互细节
+
+		4，跨域有一定的局限性 ，可以用jsonP来解决；
+
+
+
+	9 new 操作符具体干了什么呢?
+
+		1.在函数内部创建了一个新对象
+
+		2.把函数上下文的this指向这个对象	
+
+		3.执行函数
+
+		4.返回这个新对象	
+
+
+	
+	10 JavaScript 原型，原型链 ? 有什么特点？
+
+			
+			原型：每个函数都有一个prototype原型对象，该函数创建的实例，都共享原型上的方法和属性
+			
+			原型链：每个对象都有一个指向自己的原型对象的隐式属性proto,知道某个对象的原型对象为null为止，这样就形成了一个链式结构，就是原型链，当js在查找一个属性时，会沿着原型链向上查找，直到原型链的顶层object.prototype仍然没有找到，就会返回undefined
+
+	11.判断一个对象和数组？
+	
+
+		a. instanceof 运算检测一个对象是否是某个类的实例 
+			var arr = [];
+
+			var obj = {};
+
+
+			console.log( arr instanceof Array , obj instanceof Array );
+		
+
+		b. toString 
+
+			console.log(Object.prototype.toString.call( arr ));  // [Object Array]
+			
+			console.log(Object.prototype.toString.call( obj ));  // [Object Object]
+
+	
+
+	12.请列举一些浏览器兼容性问题？以及提高性能方面的方案（JS/CSS）
+
+
+			-- JS 兼容性问题 --
+
+		1. JSON 解析问题：
+		   ecmascript5 通过 JSON 对象进行处理，ecmascript5 之前通过 eval 进行解析；
+
+		2. 自定义属性问题：
+		   IE 下，可以使用获取常规属性的方法来获取自定义属性，也可以使用 getAttribute() 获取自定义属性；
+		   Firefox下，只能使用 getAttribute( )获取自定义属性。
+		   
+		   解决方法：
+		   统一通过 getAttribute() 获取自定义属性，不过更推荐直接通过 “点” 运算符访问元素属性。
+
+		3. 事件对象兼容性问题：
+		   非标准 IE 和 chrome 下可以通过全局 event 对象来获取，标准（包括标准 IE，chrome 等）浏览器通过事件函数的第一个参数传入。
+
+		4. 事件源对象
+		   IE 下使用 event.srcElement，标准下使用 event.target 来获取。
+
+		5. 阻止事件冒泡
+		   通常可以通过 event.cancelBubble = false 来阻止，但是标准推荐使用 event.stopPropagation() 方法来阻止；
+
+		6. 事件默认行为的阻止
+		   DOM1 事件绑定中(属性 on... 的方式)可以通过 return false 来阻止，但是在 DOM2 的事件绑定中(addEventListener)中，只能通过 event.preventDefault() 方法来阻止
+
+
+		-- JS 优化问题 --
+
+		1. 最小化 DOM 访问次数，尽可能在 JS 端执行；
+		2. 如果需要多次访问某个 DOM 节点，请使用局部变量存储对它的引用；
+		3. 小心处理 HTML 集合，因为它实时连系着底层的文档，把集合的长度缓存到一个变量中，并在迭代中使用它，如果需要经常操作集合，建议把它拷贝到一个数组中；
+		4. 如果可能的话，使用速度更快的 API，比如 querySelectorAll 和 firstElementChild；
+		5. 要留意重绘和重排，批量修改样式时，“离线”操作 DOM 树。使用缓存，并减少访问布局的次数；
+		6. 使用事件委托来减少事件处理器的数量；
+		7. 避免多次访问对象成员或函数中的全局变量，尽量将它们赋值给局部变量以缓存；
+		8. 能用 CSS 解决的问题，尽量不用 JS 去解决；
+
+		其实还有很多……懒得写了~~   
+
+
+		-- CSS性能优化问题 --
+
+		1. 加载方面
+		   1）慎用 @import：import 会使我们的 link 样式由原本的并发加载，变成异步加载；
+		   2）压缩代码体积：
+		      a. 压缩代码，删除换行，多余的空格和注释；
+		      b. 合并重复代码，提高代码的通用性；
+		      c. 精简包含选择符，在使用包含选择的时候，尽量精简层级；
+		      d. 能使用复合样式时，尽量使用复合样式；
+		      e. 多利用继承，来精简样式；
+
+		2. 优化请求
+		   1）使用 css 精灵，减少图片个数和体积；
+		   2）合理合并文件，精简外部文件个数；
+		   3）对于不需要重复使用的图片，可适当使用 data Uri；
+		   4）在设计统一的情况下，可使用 FontIcon 的方法，来统一整合页面上的图片；
+
+		3. 渲染方面
+		   1）涉及动画方面，尽量可以使用位移来解决，努力减少回流；
+		   2）涉及动画方面，可以利用 3D，来进行 GPU 加速；
+		   3）避免使用 table，为了减少回流；
+		   4）避免 text-shadow 和 box-shadow 层级过多；
+		   5）减少浮动和绝对定位的滥用；
+		   6）不滥用 WEB 字体，在部分浏览器下会造成渲染阻塞；
+		   
+
+		-- CSS兼容性问题 --
+
+		1. 不加文档声明IE下会陷入怪异合模型解析；
+		2. IE6 下高度小于 19px 的元素，高度会被当作 19px 处理（可利用 overflow 解决）；
+		3. chrome 下字体大小小于 12px 时会被当作 12px 来处理 （目前只能截图处理）；
+		4. 在 IE8 以前的 IE 中不识别 HTML5 新增的标签； （可利用 document.createElement 来创建该标签）；
+		5. 在 IE6 下，块元素有浮动 ，左右的 margin 值会被放大成两倍（display:inline）；
+		6. 在 IE6,7 下 li 本身没有浮动，但是内容浮动了，li 下边就会多出间隙( li 加浮动或 vertical-align:top )；	
+
+		
+
+		2.如何实现浏览器内多个标签页之间的通信? (阿里)
+
+			WebSocket、SharedWorker；
+
+			也可以调用localstorge、cookies等本地存储方式；
+
+			localstorge另一个浏览上下文里被添加、修改或删除时，它都会触发一个事件，
+			我们通过监听事件，控制它的值来进行页面信息通信；
+			
+			注意quirks：Safari 在无痕模式下设置localstorge值时会抛出 QuotaExceededError 的异常；
+
+
+	
+	# 怎么理解前端模块化？
+
+		一个大型的项目有时候需要用到很多的js文件，而且很多js文件之间存在依赖关系，所以引入的顺序非常重要，稍不注意很容易出错，尤其多人开发的时候简直是灾难，而且多个js文件的加载会拖慢浏览器的加载时间。
+		模块化可以在你自己的js文件头部中引入你需要的文件，很好的解决依赖问题，而且能减少js文件数量，优化加载时间;	
+		
+		总结下来，模块化的作用就两点：
+			1、实现js文件的异步加载，避免浏览器假死；
+			2、管理模块之间的依赖，便于模块的维护。
+
+		
+		模块化的规范：
+
+			1.common.js 用来规范服务端的，同步加载模块规范 ；
+
+			2 AMD / CMD 用在浏览器 ，异步加载模块规范 ；
+
+			服务器端同步的原因是，服务器读取的是本地的文件，没有限制，速度快;而浏览器加载模块需要网络，所以需要异步加载；
+
+	 -->
+
+</html>
+
+<script>
+// var a = "1";
+// // console.log( ++a );
+
+
+// var arr = [];
+
+// var obj = {};
+
+
+// // console.log( arr instanceof Array , obj instanceof Array ); // true false
+
+// // console.log(Object.prototype.toString.call( arr ));  // [Object Array]
+// // 
+
+// var test = 2;
+
+// console.log("test is a Number--" + (test.constructor == Number)); //true
+
+
+// function test1() {};
+// var t1 = new test1();
+// var test2 = "37degree";
+
+// console.info("typeof test--" + typeof test);  //number
+// console.info("typeof test1--" + typeof test1);	//function
+// console.info("typeof t1--" + typeof t1);	// object
+// console.info("t1 instanceof test1--" + (t1 instanceof Object)); 	//true
+// console.info("test instanceof Array--" + (test instanceof Array));	//false
+	
+
+	// var fn = (function(m){
+
+	// 	this.m = m;
+
+	// 	return function(m){
+
+	// 		m += this.m;
+
+	// 		return m;	
+	// 	}
+
+	// })(function(m,n){
+
+	// 	n += m;
+
+	// 	return m
+
+
+	// }(1,3));
+
+	// console.log(fn(5));
+
+</script>
