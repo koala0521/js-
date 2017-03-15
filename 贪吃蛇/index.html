@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>贪吃蛇</title>
+	</head>
+	<style type="text/css">
+		body{
+			margin: 0;
+		}
+		ul,li{
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		#warp{
+			margin: 0 auto;
+			padding: 5px;
+			width: 605px;
+			height: 602px;
+			background: #333;
+			border:5px solid darksalmon;
+			position: relative;
+			
+		}
+		#warp div{
+			width: 40px;
+			height: 40px;
+			border: 1px solid #999;
+			border-radius: 6px;
+			background: #ccc;
+			position: absolute;
+			top: 5px;
+			z-index: 1;			
+		}
+		#warp div:nth-of-type(4){
+			left: 0px;
+		}
+		#warp div:nth-of-type(3){
+			left: 40px;
+		}
+		#warp div:nth-of-type(2){
+			left: 80px;
+		}
+		#warp div.head{
+			left: 122px;
+			box-shadow: 0px 0px 10px 5px #fff;
+			background: url(img/lico.png) no-repeat #E9967A;
+			border: 1px solid #E9967A;
+			z-index: 2;
+		}
+		#warp .food{
+			width: 40px;
+			height: 40px;
+			border-radius: 20px;
+			background: url(img/03.gif) no-repeat;
+			background-size: 100%;
+			border: 1px solid #FFFFFF;
+			position: absolute;
+		}
+		
+	</style>
+	<script src="js/doMove.js" type="text/javascript">
+		
+	</script>
+	<body>
+		<div id="warp">
+			<div class="head"></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			
+		</div>
+	</body>
+	
+	<script type="text/javascript">
+		var warp = document.getElementById("warp");		
+		var divs = warp.getElementsByTagName("div");
+		var timer = null;
+		var timer2 = null;
+		var n = 0;
+		var onoff = true;
+		var sl = 0; //存食物的left值
+		var st = 0; //存食物的top值
+		
+		var num = 0; //生成的第几个食物
+		//-------------------------------------------------------------------------
+		//初始化蛇身位置
+		for (var i = 0; i < divs.length; i++) {
+			divs[i].style.left = ((divs.length-i-1)*40+2) + "px";
+			divs[i].style.top = "5px";	
+		}			
+
+		function tab(a,b){ //移动函数
+			
+			var arr = [];
+			var arr1 = [];		
+			n = parseFloat(getComputedStyle(divs[0])[a]);		
+			//判断是否撞墙
+			var s = n+b;
+			if( s < 2 ){
+				clearInterval(timer);
+				onoff = false;
+				alert("GameOver!!!");
+				return 
+			}			
+			if( s > 600 ){
+				clearInterval(timer);
+				onoff = false;
+				alert("GameOver!!!");
+				return 
+			}													
+			for (var i = 0; i < divs.length; i++) {
+				var l = parseFloat(getComputedStyle(divs[i]).left);
+				var t = parseFloat(getComputedStyle(divs[i]).top);				
+				arr1=[l,t];	
+				arr.push(arr1);
+			}					
+			divs[0].style[a] = (n + b) + "px"; //蛇头移动
+			
+			var hl = parseFloat(getComputedStyle(divs[0]).left);//获取蛇头的left值
+			var ht = parseFloat(getComputedStyle(divs[0]).top);//获取蛇头的top值			
+			var spans = warp.getElementsByTagName("span");
+			//如果蛇头位置和食物位置重合 ，吃掉食物 ，重新生成食物
+			if( hl == sl && ht == st ){
+					
+					spans[num].style.display = "none";//吃掉食物
+					warp.innerHTML += '<div></div>';//身体变长
+					
+					num++; //用来隐藏对应的下次被吃掉的食物
+					
+					setfood();//生成新的食物
+			}
+			//控制蛇身的移动
+			for (var i = 1; i < divs.length; i++) {
+				divs[i].style.left = arr[i-1][0]+ "px";
+				divs[i].style.top = arr[i-1][1]+ "px";	
+			}			
+		}
+		
+		function setfood(){ //生成食物
+			
+			var divs = warp.getElementsByTagName("div");
+			var arr1 = [];
+			var arr2 = [];
+			//获取蛇身所在的位置，塞进数组 arr2；
+			for (var i = 0; i < divs.length; i++) {
+				var l = parseInt(getComputedStyle(divs[i]).left);
+				var t = parseInt(getComputedStyle(divs[i]).top);				
+				arr1=[l,t];	
+				arr2.push(arr1);
+			}
+//------------------------------------------------------------------
+			timer2 = setInterval(function(){ 
+				//随机数字
+				sl = parseInt(Math.random()*14)*40 + 2;
+				st = parseInt(Math.random()*14)*40 + 5;	
+				
+				//判断随机数字是否和蛇身的位置重叠
+				for (var i = 0; i < arr2.length; i++) {
+					if(sl == arr2[i][0] && st == arr2[i][1] ){
+						break; //如果数字和蛇的位置重合，跳出循环，重新生成
+					}else{						
+//						if( i < arr2.length-1){ 
+//							continue;   //跳出本次循环，进行下一次循环
+//						}
+						if( i == arr2.length-1 ){ //直到最后一次都没有重叠，就可以生成食物 停止定时器
+							warp.innerHTML += '<span class="food"> </span>';
+							var spans = warp.getElementsByTagName("span");	
+							spans[num].style.left = sl+"px";
+							spans[num].style.top = st+"px";
+							clearInterval(timer2);
+//							console.log(sl,st)
+//							console.log(arr2);
+							return														
+						}
+
+					}
+				}
+				
+			},10)
+		}
+		setfood();
+
+		document.onkeydown = function(ev) {			
+			clearInterval(timer);
+			var ev = ev || event;
+			
+			if(onoff){
+				timer = setInterval(function(){	
+	
+					if(ev.keyCode==37){
+	
+							a = "left";
+							b = -40;
+					}else if(ev.keyCode==38){
+	
+							a = "top";
+							b = -40;
+					}else if(ev.keyCode==39){
+							a = "left";
+							b = 40;
+					}else if(ev.keyCode==40){
+	
+							a = "top";
+							b = 40;
+					}
+					tab(a,b);
+				},300)
+			}	
+		}	
+
+	</script>
+</html>
