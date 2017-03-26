@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>中国医师协会住院医师规范化培训平台</title>
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            font-family:"Microsoft Yahei"
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .divBg {
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            background-color: #f1f1f1;
+        }
+        .divCover {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 100%;
+            background-color: black;
+            /*background-color: white;*/
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+        .divPromt {
+            background-color: white;
+            opacity: 1;
+            filter: alpha(opacity=100);
+            position: absolute;
+            top: 0;
+            left: 100%;
+            /*padding:30px 20px 0px 20px;*/
+            /*padding-left: 20px;*/
+            /*padding-right: 20px;*/
+        }
+
+        /*.absoluteCenter {*/
+            /*position: absolute;*/
+            /*margin: auto;*/
+            /*top: 0;*/
+            /*left: 0;*/
+            /*bottom: 0;*/
+            /*right: 0;*/
+        /*}*/
+
+        .boxbd { width:1100px; height:550px; position:absolute; left:200%; top:50%; margin-left:-570px; margin-top:-225px;padding:30px 20px 0px 20px;}
+        /*.boxbd { width:1200px; height:100%; position:absolute; left:200%; top:50%; margin-left:-600px; margin-top:-420px;}*/
+        li { list-style:none;}
+        .boxbd h2 { font-size:22px; color:#333; text-align:center; font-weight:normal;text-align: left;line-height: 34px;padding-bottom: 10px;}
+        .browser4 { width:1040px; height:auto; margin:70px auto 0px; overflow:hidden;}
+        .browser4 li { width:260px; text-align:center; float:left;}
+        .browser4 li img { width:130px; height:130px; border: 0;}
+        .browser4 li p { font-size:24px; text-align:center;}
+        a{
+            text-decoration:none;
+        }
+        a:hover{
+            opacity: 0.5;
+            filter: alpha(opacity=50);
+        }
+
+    </style>
+    <script type="text/javascript">
+        function onPageLoad(){
+            setTimeout(function(){
+                var divCover=document.getElementById("cover");
+                divCover.style.cssText="left:0;";
+
+                setTimeout(function(){
+                    var promt=document.getElementById("promt");
+                    promt.style.cssText="left:50%;";
+
+                },500);
+
+            },300);
+        }
+    </script>
+</head>
+
+<body onload="onPageLoad()">
+<div class="divBg">
+    <img src="images/rcpUnsupport2.jpg" alt=""/>
+</div>
+
+<div id="cover" class="divCover"></div>
+<div id="promt" class="divPromt boxbd">
+    <h2>尊敬的用户，您好：</h2>
+    <h2 style="text-indent: 2em;">欢迎访问“中国医师协会住院医师规范化培训管理平台”！</h2>
+    <h2 style="text-indent: 2em;">住培平台选用了行业内领先的技术进行研制，为了保证网站有更好的呈现效果、更棒的操作体验及更高的数据安全，请升级您的浏览器版本。</h2>
+    <h2 style="text-indent: 2em;">友情提示：点击下方任意图标，下载并安装升级您的浏览器后，重新访问该网站。</h2>
+    <div class="browser4">
+        <ul>
+            <li><a href="http://shuzizhupei.oss-cn-beijing.aliyuncs.com/liulanqi/IE11-Setup-Full64.1422605207.EXE"><img src="images/iepic.png"  /><p>IE 11及以上</p></a></li>
+            <li><a href="http://shuzizhupei.oss-cn-beijing.aliyuncs.com/liulanqi/ChromeStandalone_47.0.2526.106_Setup.1450323126.exe"><img src="images/chromepic.png" /><p>谷歌36.0及以上</p></a></li>
+            <li><a href="http://shuzizhupei.oss-cn-beijing.aliyuncs.com/liulanqi/Firefox_43.0.3.5835_setup.1451465170.exe"><img src="images/firefoxpic.png" /><p>火狐36.0及以上</p></a></li>
+            <li><a href="http://shuzizhupei.oss-cn-beijing.aliyuncs.com/liulanqi/360se_8.1.1.120_setup.1451457256.exe"><img src="images/360aq.png" /><p>360 8.0及以上</p></a></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

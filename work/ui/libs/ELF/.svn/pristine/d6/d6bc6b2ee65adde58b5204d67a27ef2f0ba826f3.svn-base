@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>ajax DEMO</title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_dialog.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_base.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_dialog.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_components_ajax.js"></script>
+
+	<script type="text/javascript">
+		page={};
+		function ajaxGet(){
+			Elf.components.ajax({
+				url:"ui.html",
+				dataType:"html",
+				data:{id:1,ccc:"ccc"},
+				success:function(data){
+					console.info(data);
+				},
+				error:function(xhr){
+					console.info(xhr);
+				}
+			});
+		}
+		function ajaxPost(){
+			Elf.components.ajax({
+				type:"POST",
+				url:"ui.html",
+				dataType:"html",
+				data:{id:1,ccc:"ccc"},
+				success:function(data){
+					console.info(data);
+				},
+				error:function(xhr){
+					console.info(xhr);
+				}
+			});
+		}
+		function onload(){
+
+		}
+	</script>
+</head>
+
+<body onload="onload();">
+	<div style="position: absolute;top:0;left: 0;width: 100%;z-index: 100000;">
+		<button onclick="ajaxGet();">ajax get</button>
+		<button onclick="ajaxPost();">ajax post</button>
+	</div>
+</body>
+</html>

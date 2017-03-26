@@ -1,0 +1,99 @@
+@charset "utf-8";
+html,body {font-family:"Microsoft Yahei","Helvetica Neue", Helvetica, Arial, sans-serif;line-height: 1.428571429;color: #444444;background-color: #ffffff;}
+a {color: #3493d1;background: transparent;text-decoration: none;}
+a:focus {outline: thin dotted;outline: 5px auto -webkit-focus-ring-color;outline-offset: -2px;}
+a:active,a:hover {outline: 0;}
+a:hover,a:focus {color: #3493d1;text-decoration: none;}
+.viewport{
+	position: relative;
+	overflow: auto;
+	z-index: 1;
+	min-height: 100%;
+	min-width: 640px;
+}
+.view_body{
+	position: relative;
+}
+.container{
+	min-width: 640px;
+	max-width: 1000px;
+}
+.view_bg{
+	background: url(../images/view_bg.png);
+}
+.logo_cnt{
+	margin-top: 170px;
+}
+.logo_big{display: inline-block;width: 320px;height: 95px;background: url(../images/logo_320_95.png);}
+header{
+	background-color: #f8f8f8;
+	position: absolute;
+	top:0;width: 100%;
+	left: 0;
+	z-index: 2;
+	border-bottom: 1px solid #efefef;
+}
+header .col-1{width: 315px;}
+footer{
+	background-color: #195aa8;
+	color: #fff;
+	position: absolute;
+	bottom:0;left: 0;
+	width: 100%;
+	z-index: 2;
+}
+footer ~ .viewport{
+	padding-bottom: 120px;
+}
+header ~ .viewport{
+	padding-top: 120px;
+}
+footer ~ .view_body{
+	padding-bottom: 120px;
+}
+.viewport header{position: relative;}
+.searchbox{}
+.searchbox input[type=text],.searchbox select{
+	line-height: 40px;
+	border: solid 1px #ccc;
+	height: 40px;
+	outline: 0;
+	border-radius: 0;
+}
+.searchbox input[type=text]{	
+	width: 100%;
+	padding: 0 10px;
+	border-left: 0;
+	-webkit-appearance: none;
+}
+.searchbox .btn.search_btn{
+	height: 40px;line-height: 40px;
+}
+.tab .tab_label{display: inline-block;margin-right: 24px;color: #444;}
+.tab .actived{color: #0e76dd;}
+.tag-cloud a{color: #444;}
+
+.searchbox_x{
+
+}
+.searchbox.searchbox_x input[type=text],.searchbox_x select{
+	line-height: 32px;height: 32px;
+}
+.searchbox.searchbox_x .btn.search_btn{
+	height: 32px;line-height: 32px;
+}
+.quick_ls{
+	font-size: .875rem;
+}
+.quick_ls a{color: #444;}
+.searchLs .imgbox-addon{
+	border: 1px solid #d2d2d2;
+}
+.searchLs .imgbox-addon{
+
+}
+.control{padding: 10px 15px;}
+.paging-bar{
+	padding: 32px 15px;
+	text-align: center;
+}

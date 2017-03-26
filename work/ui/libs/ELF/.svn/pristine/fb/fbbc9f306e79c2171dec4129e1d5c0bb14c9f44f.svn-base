@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+.elf_loading{position: absolute;top:0;left: 0;width: 100%;height: 100%;text-align: center;vertical-align:middle;z-index:10000;}
+.elf_loading_mask{position: fixed;background-color: #000;left:0;top:0;right:0;bottom:0;opacity: .1;z-index: 1;}
+.elf_loading_position{position: fixed;left:50%;top:50%;width: 1px;height: 1px;z-index: 2;}
+.elf_loading_frames{width: 64px;height: 64px;position: absolute;top: -32px;left: -32px;overflow: hidden;border-radius: 50%;}
+.elf_loading_frames li{position: absolute;left: 0;top: 0;right: 0;bottom: 0;border-radius: 50%;clip: rect(0,32px,32px,0);list-style: inside none none;}
+.elf_loading_frames li:after{content: ' ';position: absolute;left: 0;top: 0;right: 0;bottom: 0;box-shadow: inset 0 0 0 3px #03b4fa;border-radius: 50%;clip: rect(0,32px,32px,0);transform-origin: 50% 50%;transform: rotate(-60deg);}
+.elf_loading_frames li.elf_loading_frames_1{transform: rotate(0deg);opacity: .95;}
+.elf_loading_frames li.elf_loading_frames_2{transform: rotate(-30deg);opacity: .85;}
+.elf_loading_frames li.elf_loading_frames_3{transform: rotate(-60deg);opacity: .75;}
+.elf_loading_frames li.elf_loading_frames_4{transform: rotate(-90deg);opacity: .65;}
+.elf_loading_frames li.elf_loading_frames_5{transform: rotate(-120deg);opacity: .55;}
+.elf_loading_frames li.elf_loading_frames_6{transform: rotate(-150deg);opacity: .45;}
+.elf_loading_frames li.elf_loading_frames_7{transform: rotate(-180deg);opacity: .32;}
+.elf_loading_frames li.elf_loading_frames_8{transform: rotate(-210deg);opacity: .16;}
+.elf_loading_frames li.elf_loading_frames_9{transform: rotate(-240deg);opacity: .08;}
+.elf_loading_frames li.elf_loading_frames_10{transform: rotate(-270deg);opacity: .04;}
+.elf_loading_frames li.elf_loading_frames_11{transform: rotate(-300deg);opacity: .02;}
+.elf_loading_frames li.elf_loading_frames_12{transform: rotate(-330deg);opacity: .01;}

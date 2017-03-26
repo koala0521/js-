@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>帮助中心</title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_tree.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_fixed.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_flow.css" rel="stylesheet"/>
+	<link type="text/css" href="css/css.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_tree.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_nav.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_ajax.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<script type="text/javascript" src="data/tree-data.js"></script>
+	<script type="text/javascript" src="js/demos.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0;right: 0;z-index: 999999;}
+	</style>
+	<script type="text/javascript">
+		var page={};
+		function onload(){
+			page.leftMenus=document.getElementById("leftMenus");
+			page.navbar=document.getElementById("navbar");
+			Elf.components.tree({
+				store:treeData,
+				vie:false,
+				autoOpen:false,
+				key:"id",
+				nameKey:"title",
+                parentKey:"pid",
+                pathKey:"path",
+				target:page.leftMenus,
+				onClick:function(e){
+					console.info(e);
+					var treeNode=this.nodeList[e.key].ownData;
+					console.info(treeNode);
+					window.location.href="#"+this.nodeList[e.key].ownData.cname
+				}
+			});
+			page.headNav=Elf.components.nav({
+				store:[
+					{
+						title:"ELF",url:"#ELF",type:"",target:"",name:"ELF",id:"1"
+					},{
+						title:"CSS",url:"#CSS",type:"",name:"CSS",id:"2"
+					},{
+						title:"组件",url:"#components",type:"",name:"组件",id:"3"
+					},{
+						title:"插件",url:"#plugins",type:"",name:"插件",id:"4"
+					}
+				],
+				jumpType:"link",
+				target:page.navbar,
+				onClick:function(data){
+					console.info(data);
+				}
+			});
+			Elf.components.ajax({
+				url:"parts/plugins/loading.html",
+				dataType:"html",
+				success:function(data){
+					var context=Elf.controls.createElement("div");
+					context.innerHTML=data;
+					console.info(data);
+				},
+				error:function(xhr){console.info(xhr);}
+			});
+		}
+	</script>
+</head>
+<body onload="onload();" class="elf-body">
+	<div class="elf-viewport elf-fixed" id="elf-viewport">
+		<div class="elf-viewport-body" id="">
+			<header class="elf-header shadow flex-box">
+				<div class="logo flex-none prl24">
+					<h1>ELF 帮助中心</h1>
+				</div>
+				<div class="navbar flex-auto" id="navbar"></div>
+			</header>
+			<div class="elf-view">
+				<div class="flex-box full">
+					<div class="flex-none relative leftside elf-scrollcontent shadow-r">
+						<div class="elf-tbar prl10">
+							标题
+						</div>
+						<div class="elf-scrollcontent" id="leftMenus">
+							
+						</div>
+					</div>
+					<div class="flex-auto elf-scrollcontent pl24">
+<!-- 文档内容开始 -->
+<h1 class="tbar"><a name="ELF">ELF</a></h1>
+<div class="pl16">
+	<h2 class="subtitle1"><a name="">核心</a></h2>
+	<h2 class="subtitle1"><a name="">工具</a></h2>
+	<div class="pl16">
+	<h2 class="subtitle1"><a name="loading">加载提示插件</a></h2>
+	<div>
+		<p><strong>Elf.components.loading</strong></p>
+		<p><strong>options</strong></p>
+		<div class="table">
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						width <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>64
+					</div>
+					<p class="">动画图标的宽度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						width <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>64
+					</div>
+					<p class="">动画图标的高度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						color <a href="#color" class="type">color</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>颜色值
+					</div>
+					<p class="">loading 动画颜色</p>
+				</div>
+			</div>
+			
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						target <a href="#color" class="Element">Element</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>Element Object default document.body
+					</div>
+					<p class="">loading 动画颜色</p>
+				</div>
+			</div>
+		</div>
+		<h4 class="mt16"><strong>举例:</strong></h4>
+		<pre>
+		<code>
+		//创建显示loading
+		Elf.components.loading();
+		//关闭并销毁loading
+		Elf.components.loading("close");
+		</code>
+		</pre>
+		<h4 class="mt16"><strong>Demo:</strong></h4>
+		<div class="demo">
+			<button onClick="showLoading();">显示Loading</button>
+		</div>
+	</div>
+</div>
+	<h2 class="subtitle1"><a name="">控制</a></h2>
+	<h2 class="subtitle1"><a name="">样式</a></h2>
+	<h2 class="subtitle1"><a name="">效果</a></h2>
+	<h2 class="subtitle1"><a name="">计算</a></h2>
+	<h2 class="subtitle1"><a name="">Websocket</a></h2>
+	<h2 class="subtitle1"><a name="">事件</a></h2>
+</div>
+<pre>
+	<code>
+	Elf.components.confirm({
+		title:"温馨提示",
+		text:"这是提示信息",
+		modle:false,
+		buttons:{
+			"确定":function(){
+				console.info("确定 clicked 1");
+			},
+			"取消":function(){
+				console.info("取消 clicked");
+			}
+		}
+	});
+	</code>
+</pre>
+<h1 class="tbar"><a name="CSS">CSS</a></h1>
+<div class="pl16">
+	<h2 class="subtitle1"><a name="">重置</a></h2>
+	<h2 class="subtitle1"><a name="">常用</a></h2>
+	<h2 class="subtitle1"><a name="">快捷补丁</a></h2>
+	<h2 class="subtitle1"><a name="">按钮</a></h2>
+	<h2 class="subtitle1"><a name="">图标</a></h2>
+</div>
+<h1 class="tbar"><a name="components">CSS组件</a></h1>
+<div class="pl16">
+	<h2 class="subtitle1"><a name="">重置</a></h2>
+	<h2 class="subtitle1"><a name="">快捷补丁</a></h2>
+	<h2 class="subtitle1"><a name="">布局</a></h2>
+	<h2 class="subtitle1"><a name="">栅格系统</a></h2>
+	<h2 class="subtitle1"><a name="">弹性盒子</a></h2>
+	<h2 class="subtitle1"><a name="">限定的图片盒子模型</a></h2>
+	<h2 class="subtitle1"><a name="">按钮</a></h2>
+	<h2 class="subtitle1"><a name="">列表</a></h2>
+</div>
+<h1 class="tbar"><a name="plugins">插件</a></h1>
+<div class="pl16">
+	<h2 class="subtitle1"><a name="loading">加载提示插件</a></h2>
+	<div>
+		<p><strong>Elf.components.loading</strong></p>
+		<p><strong>options</strong></p>
+		<div class="table">
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						width <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>64
+					</div>
+					<p class="">动画图标的宽度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						width <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>64
+					</div>
+					<p class="">动画图标的高度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						color <a href="#color" class="type">color</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>颜色值
+					</div>
+					<p class="">loading 动画颜色</p>
+				</div>
+			</div>
+			
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						target <a href="#color" class="Element">Element</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>Element Object default document.body
+					</div>
+					<p class="">loading 动画颜色</p>
+				</div>
+			</div>
+		</div>
+		<h4 class="mt16"><strong>举例:</strong></h4>
+		<pre>
+		<code>
+		//创建显示loading
+		Elf.components.loading();
+		//关闭并销毁loading
+		Elf.components.loading("close");
+		</code>
+		</pre>
+		<h4 class="mt16"><strong>Demo:</strong></h4>
+		<div class="demo">
+			<button onClick="showLoading();">显示Loading</button>
+		</div>
+	</div>
+	<h2 class="subtitle1"><a name="confirm">确认提示框</a></h2>
+	<div>
+		<p><strong>Elf.components.confirm</strong></p>
+		<p><strong>options</strong></p>
+		<div class="table">
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						width <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span> null
+					</div>
+					<p class="">宽度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						height <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>null
+					</div>
+					<p class=""></p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						minWidth <a href="#color" class="type">String</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>200px
+					</div>
+					<p class="">最小宽度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						maxWidth <a href="#color" class="type">String</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>300px
+					</div>
+					<p class="">最大宽度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						modle <a href="#color" class="type">Boolean</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span> true
+					</div>
+					<p class="">是否显示遮罩</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						title <a href="#color" class="type">String</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span> null
+					</div>
+					<p>显示标题 可以为空</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						text <a href="#color" class="type">String</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span> 
+					</div>
+					<p class="">提示消息，必须</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						buttons <a href="#color" class="Element">Object</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span> {"确定":function(){}}
+					</div>
+					<p class="">按钮的个数，按钮文字，和点击执行的方法</p>
+				</div>
+			</div>
+		</div>
+		<h4 class="mt16"><strong>举例:</strong></h4>
+		<pre>
+		<code>
+		Elf.components.confirm({
+			title:"温馨提示",
+			text:"这是提示信息",
+			modle:false,
+			buttons:{
+				"确定":function(){
+					console.info("确定 clicked 1");
+				},
+				"取消":function(){
+					console.info("取消 clicked");
+				}
+			}
+		});
+		</code>
+		</pre>
+		<h4 class="mt16"><strong>Demo:</strong></h4>
+		<div class="demo">
+			<button onClick="showConfirm();">显示Loading</button>
+		</div>
+	</div>
+	<h2 class="subtitle1"><a name="">自动消失提示</a></h2>
+	<h2 class="subtitle1"><a name="">树形插件</a></h2>
+	<h2 class="subtitle1"><a name="">布局插件</a></h2>
+	<h2 class="subtitle1"><a name="">标签页插件</a></h2>
+	<h2 class="subtitle1"><a name="">导航</a></h2>
+	<h2 class="subtitle1"><a name="">图片播放器插件</a></h2>
+</div>
+<!-- 文档内容结束 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

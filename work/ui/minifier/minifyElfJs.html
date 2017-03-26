@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="minifier.js" charset="UTF-8"></script>
+    <script>
+
+        function onPageLoad(){
+            var fileList=[
+            '../js/assessIndexManage.js',
+            '../js/assessIndexManage_T1.js',
+            '../js/assessIndexManage_T2.js',
+            '../js/assessIndexManage_T3.js',
+            '../js/assessIndexManage_T4.js',
+
+            '../js/assessReport.js',
+            '../js/assessmentReport_T1.js',
+            '../js/assessmentReport_T2.js',
+            '../js/doctor_grid_header.js',
+            '../js/evaluationFailedToRemind.js',
+
+            ];
+            doMinify(fileList);
+        }
+    </script>
+</head>
+<body onload="onPageLoad()">
+</body>
+</html>

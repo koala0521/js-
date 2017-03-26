@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="../../elf.js"></script>
+    <script type="text/javascript" src="../../elf_terminalInfo.js"></script>
+    <script>
+        function onPageLoad(){
+
+            var testBrowser=window.Elf && Elf.isBrowserSupported;
+            if(!testBrowser){
+                window.location.href="unsupported.html";
+            }
+            else{
+                alert("支持！");
+            }
+        }
+    </script>
+</head>
+<body onload="onPageLoad()">
+
+</body>
+</html>

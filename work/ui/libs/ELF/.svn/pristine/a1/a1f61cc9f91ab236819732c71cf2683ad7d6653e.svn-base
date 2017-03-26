@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Grid UI DEMO</title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../css/elf_ui.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_grid.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_paging.css" rel="stylesheet"/>
+	<link type="text/css" href="css/css.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_grid.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_paging.js"></script>
+	<script type="text/javascript" src="_data/students-info.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0px;left: 0;z-index: 999999;}
+	</style>
+	<script type="text/javascript">
+		var page={};
+
+		//cols 
+		//title 列标题 
+		//width 列宽 
+		//name 属性名称（支持多个属性，需要配置对应的rander处理）
+		var currentPage=1,pageSize=20;
+		/*var cols2 = [
+	        {title:'行情', name:'', width: 30, align: 'center', renderer: function(name,row,data){
+	            return '<div class="btnPrice"></div>';
+	        }},
+	        { title:'股票代码', name:'SECUCODE' ,width:100, align:'center' },
+	        { title:'股票名称', name:'SECUABBR' ,width:100, align:'left'},
+	        { title:'今收盘', name:'CLOSINGPRICE' ,width:60, align:'right'},
+	        { title:'涨跌幅', name:'DAYCHANGERATE' ,width:60, align:'right'},
+	        { title:'涨跌额', name:'DAYCHANGE' ,width:60, align:'right'},
+	        { title:'振幅', name:'AMPLITUDE' ,width:60, align:'right'},
+	        { title:'成交量(手)', name:'TURNOVERVOL' ,width:100, align:'right', renderer: function(name,row,data){
+
+	            return "";
+	        }},
+	        { title:'成交额(万)', name:'TURNOVERVAL' ,width:100, align:'right', renderer: function(name,row,data){
+	            return "";
+	        }},
+	        { title:'昨收盘', name:'PREVCLOSINGPRICE' ,width:60, align:'right'},
+	        { title:'今开盘', name:'OPENINGPRICE',width:60, align:'right'},
+	        { title:'最高价', name:'HIGHESTPRICE' ,width:60, align:'right'},
+	        { title:'最低价', name:'LOWESTPRICE' ,width:60, align:'right'},
+	        { title:'平均成交金額', name:'TURNOVERVAL TURNOVERVOL' ,width:60, align:'right',renderer:function(name,rowIndex,rowData){
+	        	var names=name.split(" ");
+	        	return rowData[names[0]]/rowData[names[1]];
+	        }}
+	    ];*/
+	    var module=[
+	    	{
+	    		title:"省份（地区）",
+	    		name:"",
+	    		width:100,
+	    		align:"center",
+	    		valign:"middle"
+	    	},{
+	    		title:"2016年下达计划数（人）"
+	    		,deep:2
+	    		,cols:[
+	    			{
+	    				title:"临床医学"
+			    		,name:""
+			    		,width:60
+			    		,renderer:function(name,rowIndex,rowData){
+			    			return '<div class="fixedCell">'+(rowIndex+1+(currentPage-1)*pageSize)+'</div>';
+			    		}
+	    			},{
+	    				title:"中医学"
+	    				,cols:[
+	    					{
+		    					title:""
+					    		,name:"zhongyixue"
+					    		,width:60
+					    		,renderer:function(name,rowIndex,rowData){
+					    			return '';
+					    		}
+					    	},{
+		    					title:""
+					    		,name:"zhongyixue-minzu"
+					    		,width:60
+					    		,renderer:function(name,rowIndex,rowData){
+					    			return '';
+					    		}
+					    	}
+	    				]
+	    			},{
+    					title:"合计"
+			    		,name:"zhongyixue-minzu"
+			    		,width:60
+			    		,renderer:function(name,rowIndex,rowData){
+			    			return '';
+			    		}
+			    	}
+	    		]
+	    	},{
+	    		title:"2016年实际招收数（人）"
+	    		,rowspan:2
+	    		,colspan:4
+	    		,cols:[
+	    			{
+	    				title:"临床医学"
+			    		,name:""
+			    		,width:60
+			    		,rowspan:2
+			    		,renderer:function(name,rowIndex,rowData){
+			    			return '<div class="fixedCell">'+(rowIndex+1+(currentPage-1)*pageSize)+'</div>';
+			    		}
+	    			},{
+	    				title:"中医学"
+	    				,colspan:2
+	    				,cols:[
+	    					{
+		    					title:" "
+					    		,name:"zhongyixue"
+					    		,width:60
+					    		,renderer:function(name,rowIndex,rowData){
+					    			return '';
+					    		}
+					    	},{
+		    					title:"其中，民族医学"
+					    		,name:"zhongyixue-minzu"
+					    		,width:60
+					    		,renderer:function(name,rowIndex,rowData){
+					    			return '';
+					    		}
+					    	}
+	    				]
+	    			},{
+    					title:"合计"
+			    		,name:"zhongyixue-minzu"
+			    		,width:60
+			    		,rowspan:2
+			    		,renderer:function(name,rowIndex,rowData){
+			    			return '';
+			    		}
+			    	}
+	    		]
+	    	},{
+	    		title:"是否制定培训基地认证标准"
+	    		,colspan:3
+	    		,cols:[
+	    			{
+	    				title:"是"
+	    				,colspan:2
+	    				,cols:[
+	    					{
+	    						title:""
+	    						,rowspan:2
+	    						,name:""
+	    						,width:100
+	    					}
+	    				]
+	    			},{
+	    				title:"否"
+
+	    			}
+	    		]
+	    	}
+	    ];
+	    var studentCols=[
+	    	{
+	    		title:"编号",
+	    		name:"",
+	    		width:48,
+	    		align:"center",
+	    		fixedColumn:false,
+	    		checkCol:true,
+	    		valign:"middle",
+	    		renderer:function(name,rowIndex,rowData){
+	    			return '<div class="fixedCell">'+(rowIndex+1+(currentPage-1)*pageSize)+'</div>';
+	    		}
+	    	},
+	    	{
+	    		title:"编号"
+	    		,name:""
+	    		,width:100
+	    		,align:"center"
+	    		//,fixedColumn:true
+	    		,valign:"middle"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return '<div class="fixedCell">'+(rowIndex+1+(currentPage-1)*pageSize)+'</div>';
+	    		}
+	    	},{
+	    		title:"ID"
+	    		,name:"id"
+	    		,width:48
+	    		,align:"center"
+	    		,valign:"middle"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"审核状态"
+	    		,name:"flagOfSh"
+	    		,width:100
+	    		,align:"center"
+	    		,valign:"middle"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			if(rowData[name]=="1"){
+	    				return "审核通过";
+	    			}else if(rowData[name]=="2"){
+	    				return "审核未通过";
+	    			}else{
+						return "未审核";
+	    			}	    			
+	    		}
+	    	},{
+	    		title:"审核未通过原因"
+	    		,name:"reason"
+	    		,width:200
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"姓名"
+	    		,name:"name"
+	    		,width:72
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"性别"
+	    		,name:"gender"
+	    		,width:48
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"年龄"
+	    		,name:"age"
+	    		,width:60
+	    		,align:"center"
+	    	},{
+	    		title:"证件类型"
+	    		,name:"cardType"
+	    		,width:100
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"证件号码"
+	    		,name:"cardNum"
+	    		,width:100
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"民族"
+	    		,name:"nation"
+	    		,width:72
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"手机号"
+	    		,name:"mobileNum"
+	    		,width:100
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"邮箱"
+	    		,name:"email"
+	    		,width:120
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"QQ"
+	    		,name:"qq"
+	    		,width:80
+	    		,align:"center"
+	    		,valign:"middle"
+	    	},{
+	    		title:"往届/应届"
+	    		,name:"wjyj"
+	    		,width:100
+	    		,align:"center"
+	    	},{
+	    		title:"培训专业"
+	    		,name:"subjectOfTrain"
+	    		,width:100
+	    		,align:"center"
+	    		,valign:"middle"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"是否执业医师"
+	    		,name:"isOrNot"
+	    		,width:100
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"执业医师资格证号"
+	    		,name:"zhiyeNum"
+	    		,width:120
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"参培年份"
+	    		,name:"yearOfTrain"
+	    		,width:100
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"实际培训开始时间"
+	    		,name:"startTime"
+	    		,width:150
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"培训年限"
+	    		,name:"limitOfYear"
+	    		,width:100
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"培训状态"
+	    		,name:""
+	    		,width:100
+	    		,align:"center"
+	    	},{
+	    		title:"退培/延期原因"
+	    		,name:""
+	    		,width:200
+	    		,align:"center"
+	    	},{
+	    		title:"学员类型"
+	    		,name:"studentType"
+	    		,width:100
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"毕业院校（本科）"
+	    		,name:"school"
+	    		,width:150
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+	    			return rowData[name];
+	    		}
+	    	},{
+	    		title:"操作"
+	    		,name:""
+	    		,width:150
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+
+	    			return '<a data-tooltip="删除第'+(rowIndex+1)+'行"'+' class="btn delete elf-tooltip-left">删除</a> <button class="edit">编辑</button>'
+	    		}
+	    	}
+	    ];
+	    
+		//options 
+		// width: 
+		function onload(){
+			Elf.xEvents.bind(window,"resize",function(evt){
+				console.info("window body ....");
+			});
+			page.demo1=document.getElementById("demo1");
+			page.pagingBar=document.getElementById("paging-bar");
+			/*page.tableHead=document.getElementById("table-head");
+			page.tableBody=document.getElementById("table-body");
+			page.demo=$("#demo");
+			page.demo.data("abc","def");*/
+
+			/*Elf.xEvents.bind(page.tableBody,"scroll",function(evt){
+				page.tableHead.scrollLeft=page.tableBody.scrollLeft;
+			});*/
+			/*page.demo1.onresize=function(evt){
+				console.info("demo1 resize");<th class="tac vam"
+			}*/
+			var c2=[
+	{
+		title:"年度",name:"",width:60 ,align:"center",valign:"middle",fixedColumn:true ,
+		renderer:function(name,rowIndex,rowData){
+			return '<button class="delete">删除</button> <button class="edit">编辑</button>'
+		}
+	},
+	//计划招生人数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//实际招生人数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//延期毕业人数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//退学等流失率（人）
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//当届毕业生数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//上一年级留级毕业生数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//实际毕业生总数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//违约人数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中 民族医学",name:"FBornDate",width:100 ,align:"center",valign:"middle"},
+	{title:"合计",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	{title:"完成违约手续-临床医学",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	{title:"完成违约手续-中医学类",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	{title:"违约率",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	{title:"读研违约人数",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	{title:"读研违约人数占比",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	{title:"到其他医疗机构就业",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	{title:"其他原因",name:"FBornDate",width:64 ,align:"center",valign:"middle"},
+	//实际报到人数
+	{title:"临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"中医学类",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	//岗位编制落实情况（人）
+	{title:"已落实-临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"已落实-中医学类",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"其中，有编",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"未落实",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"岗位落实率",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"编制落实率",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	//规范化培训落实情况（人）
+	{title:"已落实-临床医学",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"已落实-中医学类",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"未落实",name:"FBornDate",width:80 ,align:"center",valign:"middle"},
+	{title:"落实规培率",name:"FBornDate",width:80 ,align:"center",valign:"middle"}
+];
+			var theadHtml='<tr><th rowspan="3" class="tac vam">年度</th><th class="tac vam" colspan="4">计划招生人数(人)</th><th class="tac vam" colspan="4">实际招生人数(人)</th><th class="tac vam" colspan="4">延期毕业人数(人)</th><th class="tac vam" colspan="4">退学等流失率（人）</th><th class="tac vam" colspan="4">当届毕业生数</th><th class="tac vam" colspan="4">上一年级留级毕业生数</th><th class="tac vam" colspan="4">实际毕业生总数</th><th class="tac vam" colspan="11">违约人数</th><th class="tac vam" colspan="2">实际报到人数</th><th class="tac vam" colspan="6">岗位编制落实情况（人）</th><th class="tac vam" colspan="4">规范化培训落实情况（人）</th></tr><tr><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" colspan="2">中医学</th><th class="tac vam" rowspan="2">合计</th><th class="tac vam" colspan="2">已完成违约手续</th><th class="tac vam" rowspan="2">违约率</th><th class="tac vam" rowspan="2">读研违约人数</th><th class="tac vam" rowspan="2">读研违约人数占比</th><th class="tac vam" rowspan="2">到其他医疗机构就业</th><th class="tac vam" rowspan="2">其他原因</th><th class="tac vam" rowspan="2">临床医学</th><th class="tac vam" rowspan="2">中医学类</th><th class="tac vam" colspan="2">已落实</th><th class="tac vam" rowspan="2">其中，有编</th><th class="tac vam" rowspan="2">未落实</th><th class="tac vam" rowspan="2">岗位落实率</th><th class="tac vam" rowspan="2">编制落实率</th><th class="tac vam" colspan="2">已落实</th><th class="tac vam" rowspan="2">未落实</th><th class="tac vam" rowspan="2">落实规培率</th></tr><tr><th class="tac vam">&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">实际&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">&nbsp;</th><th class="tac vam">其中，民族医学</th><th class="tac vam">违约-临床医学</th><th class="tac vam">违约-中医学类</th><th class="tac vam">岗位-临床医学</th><th class="tac vam">岗位-中医学类</th><th class="tac vam">临床医学</th><th class="tac vam">中医学类</th></tr>';
+			page.grid1=Elf.components.grid({
+				//width:1000,
+				cols:studentCols,
+				//headHTML:theadHtml,
+				//deep:4,
+				data:studentList.slice(0,pageSize),
+				//nowrap:"clip",
+				onCellSelected:function(evt,item,rowIndex,colIndex){
+					/*console.info(this);
+		    		console.info(evt);
+		    		console.info(item);
+		    		console.info(rowIndex);
+		    		console.info(colIndex);*/
+		    		var tt=evt.target;
+		    		if(Elf.utils.hasClass(tt,"delete")){
+		    			console.info("删除行");
+		    		}
+		    		if(Elf.utils.hasClass(tt,"edit")){
+		    			console.info("编辑行");
+		    		}
+				},
+				target:page.demo1
+			});
+
+			page.paging=Elf.components.paging({
+				total:studentList.length,
+				pageSize:pageSize,
+				currentPage:currentPage,
+				statusFormat:"共 <b>{{total}}</b> 条记录 <b>{{totalPage}}</b> 页 当前第 <b>{{currentPage}}</b> 页",
+				onPagerChange:function(p){
+					currentPage=p;
+					console.info(currentPage);
+					Elf.components.grid.methods.update(page.grid1,studentList.slice((p-1)*pageSize,pageSize*p));
+				},
+				target:page.pagingBar
+			});
+		}
+	</script>
+</head>
+<body onload="onload();">
+	<div class="demo" id="demo1" style="width: 100%;height: 800px;"></div>
+	<div class="prl24" id="paging-bar"></div>
+	<!-- <table border="1" style="width: inherit;">
+		<colgroup>
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+		</colgroup>
+		<thead>
+			<tr>
+				<th rowspan="4">省份(地区)<input type="checkbox" name="checkAll"></th>
+				<th rowspan="2" colspan="4">2016年下达计划人数</th>
+				<th rowspan="2" colspan="4">2016年实际招收人数</th>
+				<th colspan="3">是否制定培训基地认证标准</th>
+				<th colspan="13">培训基地情况(个)</th>
+				<th colspan="3">是否制定培训规划及年度培训计划</th>
+				<th colspan="3">是否制定省级具体实施办法</th>
+				<th colspan="3">中央财政经费执行情况</th>
+				<th colspan="5">是否有省级配套资金</th>
+				<th rowspan="4">其他需要说明的问题</th>
+			</tr>
+			<tr>
+				<th colspan="2">是</th>
+				<th>否</th>
+				<th colspan="6">计划认定</th>
+				<th colspan="6">已认定</th>
+				<th rowspan="3">未启动情况说明</th>
+				<th colspan="2">是</th>
+				<th>否</th>
+				<th colspan="2">是</th>
+				<th>否</th>
+				<th rowspan="3">中央下达经费(万元)</th>
+				<th rowspan="3">已拨付使用(万元)</th>
+				<th rowspan="3">执行率</th>
+				<th colspan="4">是</th>
+				<th>否</th>
+			</tr>
+			<tr>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">认定标准文件文号</th>
+				<th rowspan="2">附件</th>
+				<th rowspan="2">&nbsp;</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">其中县级医院</th>
+				<th rowspan="2">地市级医院</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">其中县级医院</th>
+				<th rowspan="2">地市级医院</th>
+	
+				<th rowspan="2">省级培训规划文件文号</th>
+				<th rowspan="2">附件</th>
+				<th rowspan="2"></th>
+				<th rowspan="2">省级实施管理办法文件文号</th>
+				<th rowspan="2">附件</th>
+				<th rowspan="2"></th>
+	
+				<th rowspan="2">省级资金管理办法文件文号</th>
+				<th rowspan="2">附件</th>
+				<th rowspan="2">培训基地补助(万/年)</th>
+				<th rowspan="2">培训对象补助(万/年)</th>
+				<th rowspan="2"></th>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+			</tr>
+		</thead>
+	</table>
+	<table border="1" style="width: inherit;">
+		<colgroup>
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+		</colgroup>
+		<thead>
+			<tr>
+				<th rowspan="3">年度</th>
+				<th colspan="4">计划招生人数(人)</th>
+				<th colspan="4">实际招生人数(人)</th>
+				<th colspan="4">延期毕业人数(人)</th>
+				<th colspan="4">退学等流失率（人）</th>
+				<th colspan="4">当届毕业生数</th>
+				<th colspan="4">上一年级留级毕业生数</th>
+				<th colspan="4">实际毕业生总数</th>
+				<th colspan="11">违约人数</th>
+				<th colspan="2">实际报到人数</th>
+				<th colspan="6">岗位编制落实情况（人）</th>
+				<th colspan="4">规范化培训落实情况（人）</th>
+			</tr>
+			<tr>
+				计划招生人数
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				实际招生人数
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				延期毕业人数
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				退学等流失率（人）
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				当届毕业生数
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				上一年级留级毕业生数
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				实际毕业生总数
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				违约人数
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+	
+				<th colspan="2">已完成违约手续</th>
+				<th rowspan="2">违约率</th>
+				<th rowspan="2">读研违约人数</th>
+				<th rowspan="2">读研违约人数占比</th>
+				<th rowspan="2">到其他医疗机构就业</th>
+				<th rowspan="2">其他原因</th>
+				实际报到人数
+				<th rowspan="2">临床医学</th>
+				<th rowspan="2">中医学类</th>
+				岗位编制落实情况（人）
+				<th colspan="2">已落实</th>
+				<th rowspan="2">其中，有编</th>
+				<th rowspan="2">未落实</th>
+				<th rowspan="2">岗位落实率</th>
+				<th rowspan="2">编制落实率</th>
+				规范化培训落实情况
+				<th colspan="2">已落实</th>
+				<th rowspan="2">未落实</th>
+				<th rowspan="2">落实规培率</th>
+			</tr>
+			<tr>
+				计划招生人数
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				实际招生人数
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				延期毕业人数
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				退学等流失率（人）
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				当届毕业生数
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				上一年级留级毕业生数
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				实际毕业生总数
+				<th>实际&nbsp;</th>
+				<th>其中，民族医学</th>
+				违约人数
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>违约-临床医学</th>
+				<th>违约-中医学类</th>
+				实际报到人数
+				岗位编制落实情况（人）
+				<th>岗位-临床医学</th>
+				<th>岗位-中医学类</th>
+				规范化培训落实情况
+				<th>临床医学</th>
+				<th>中医学类</th>
+			</tr>
+		</thead>
+	</table>
+	<table border="1" style="width: inherit;">
+		<colgroup>
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+	
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+			<col width="100">
+		</colgroup>
+		<thead>
+			<tr>
+				<th rowspan="3">年度</th>
+				<th colspan="4">计划招生人数(人)</th>
+				<th colspan="4">实际招生人数(人)</th>
+				<th colspan="4">延期毕业人数(人)</th>
+				<th colspan="4">退学等流失率（人）</th>
+				<th colspan="4">当届毕业生数</th>
+				<th colspan="4">上一年级留级毕业生数</th>
+				<th colspan="4">实际毕业生总数</th>
+				<th colspan="11">违约人数</th>
+				<th colspan="2">实际报到人数</th>
+				<th colspan="6">岗位编制落实情况（人）</th>
+				<th colspan="4">规范化培训落实情况（人）</th>
+			</tr>
+			<tr>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th rowspan="2">临床医学</th>
+				<th colspan="2">中医学</th>
+				<th rowspan="2">合计</th>
+				<th colspan="2">已完成违约手续</th>
+				<th rowspan="2">违约率</th>
+				<th rowspan="2">读研违约人数</th>
+				<th rowspan="2">读研违约人数占比</th>
+				<th rowspan="2">到其他医疗机构就业</th>
+				<th rowspan="2">其他原因</th>
+				<th rowspan="2">临床医学</th>
+				<th rowspan="2">中医学类</th>
+				<th colspan="2">已落实</th>
+				<th rowspan="2">其中，有编</th>
+				<th rowspan="2">未落实</th>
+				<th rowspan="2">岗位落实率</th>
+				<th rowspan="2">编制落实率</th>
+				<th colspan="2">已落实</th>
+				<th rowspan="2">未落实</th>
+				<th rowspan="2">落实规培率</th>
+			</tr>
+			<tr>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>实际&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>&nbsp;</th>
+				<th>其中，民族医学</th>
+				<th>违约-临床医学</th>
+				<th>违约-中医学类</th>
+				<th>岗位-临床医学</th>
+				<th>岗位-中医学类</th>
+				<th>临床医学</th>
+				<th>中医学类</th>
+			</tr>
+		</thead>
+	</table>
+	<div class="demo" id="demo" style="width: 600px;height: 400px;">
+		<div class="elf-grid">
+			<div class="elf-grid-head"> 
+				<table>d
+					<thead>
+						<tr>
+							<th>标题1</th>
+							<th>标题2</th>
+							<th>标题3</th>
+							<th>标题4</th>
+							<th>标题5</th>
+							<th>标题6</th>
+							<th>标题7</th>
+							<th>标题8</th>
+							<th>标题9</th>
+							<th>标题10</th>
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class="elf-grid-body">
+				<table>
+					<tbody>
+						<tr>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+							<td>row1</td>
+						</tr>
+						<tr>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+							<td>row2</td>
+						</tr>
+						<tr>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+						</tr>
+						<tr>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+						</tr>
+						<tr>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+						</tr>
+						<tr>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+							<td>row3</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<h2>table grid </h2>
+		<p>显示：标题、横向表头（固定横向表头）、行标（固定行标）、纵向表头（固定纵向表头）、横向表头和纵向表头...</p>
+		<div class="" style="width: 600px;border: 1px solid #555;background-color: #f5f5f4;height: 300px;">
+			<div class="elf-grid-head">
+				<div class="elf-grid-table">
+					<colgroup>
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="20%"/>
+					</colgroup>		
+					<ol>
+						<li class="thead">
+							<div>类型</div>
+							<div>名称</div>
+							<div>学历</div>
+							<div>基本工资</div>
+							<div>实际发放工资</div>
+						</li>
+					</ol>
+				</div>
+			</div>
+			<div class="elf-grid">				
+				<div class="elf-grid-table elf-grid-line-number">					
+					<colgroup>
+						<col/>
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="20%"/>
+						<col width="20%"/>
+					</colgroup>
+					<ol class="elf-grid-table-tbody">
+						<li class="thead">
+							<div class="th">类型</div>
+							<div class="th">名称</div>
+							<div class="th">学历</div>
+							<div class="th">基本工资</div>
+							<div class="th">实际发放工资</div>
+						</li>
+						<li>
+							<div>cell1</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell2</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell3</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell4</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell5</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell6</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell7</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell8</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell9</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell10</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell-11</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell-12</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell-13</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell-14</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell-15</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+						<li>
+							<div>cell-16</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+							<div>cell</div>
+						</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
+	<div style="height: 400px;">
+		<div class="table-head" id="table-head">
+			<table>
+				<colgroup>
+					<col width="166px">
+					<col width="166px">
+					<col width="166px">
+					<col width="166px">
+					<col width="166px">
+				</colgroup>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>年齡</th>
+						<th>職業</th>
+						<th>分數</th>
+						<th>性別</th>
+					</tr>
+				</thead>
+			</table>
+		</div>
+		<div class="table-body" id="table-body">
+			<table>
+				<colgroup>					
+					<col width="166px">
+					<col width="166px">
+					<col width="166px">
+					<col width="166px">
+					<col width="166px">
+				</colgroup>
+				<tbody>
+				<tr>
+					<td>Name</td>
+					<td>Age</td>
+					<td>Position</td>
+					<td>Income</td>
+					<td>Gender</td>
+				</tr>
+				<tr>
+					<td>John</td>
+					<td>37</td>
+					<td>Managing director</td>
+					<td>90.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Susan</td>
+					<td>34</td>
+					<td>Partner</td>
+					<td>90.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>David</td>
+					<td>29</td>
+					<td>Head of production</td>
+					<td>70.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Laura</td>
+					<td>29</td>
+					<td>Head of marketing</td>
+					<td>70.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>Kate</td>
+					<td>18</td>
+					<td>Marketing</td>
+					<td>50.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>Mona</td>
+					<td>21</td>
+					<td>Marketing</td>
+					<td>53.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>Mike</td>
+					<td>21</td>
+					<td>Marketing</td>
+					<td>53.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Mark</td>
+					<td>25</td>
+					<td>Production</td>
+					<td>52.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Peter</td>
+					<td>33</td>
+					<td>Production</td>
+					<td>55.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Jennifer</td>
+					<td>24</td>
+					<td>Production</td>
+					<td>49.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>David</td>
+					<td>25</td>
+					<td>Photography</td>
+					<td>51.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Anna</td>
+					<td>42</td>
+					<td>Head of photography</td>
+					<td>56.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>Rita</td>
+					<td>30</td>
+					<td>Photography</td>
+					<td>54.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>Magnus</td>
+					<td>25</td>
+					<td>Freelancer</td>
+					<td>65.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Johnny</td>
+					<td>29</td>
+					<td>Freelancer</td>
+					<td>63.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Mark</td>
+					<td>25</td>
+					<td>Production</td>
+					<td>52.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Peter</td>
+					<td>33</td>
+					<td>Production</td>
+					<td>55.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Jennifer</td>
+					<td>24</td>
+					<td>Production</td>
+					<td>49.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>David</td>
+					<td>25</td>
+					<td>Photography</td>
+					<td>51.000</td>
+					<td>Male</td>
+				</tr>
+				<tr>
+					<td>Anna</td>
+					<td>42</td>
+					<td>Head of photography</td>
+					<td>56.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>Rita</td>
+					<td>30</td>
+					<td>Photography</td>
+					<td>54.000</td>
+					<td>Female</td>
+				</tr>
+				<tr>
+					<td>Magnus</td>
+					<td>25</td>
+					<td>Freelancer</td>
+					<td>65.000</td>
+					<td>Male</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div> -->
+	<input type="text" value="123" name="ddd" id="dd">
+</body>
+</html>

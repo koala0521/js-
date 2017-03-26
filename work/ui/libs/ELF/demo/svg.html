@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UI DEMO Tree </title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../plugins/css/elf_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_tree.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_fixed.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_flow.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_utils.js"></script>
+	<script type="text/javascript" src="../elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_tree.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_chart.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0;right: 0;z-index: 999999;}
+	</style>
+	<style type="text/css">
+		/*svg {
+			transform: rotate(-90deg);
+			background: yellowgreen;
+			!*border-radius: 50%;*!
+		}
+		!*circle {
+			fill: yellowgreen;
+			stroke: #655;
+			stroke-width: 50;
+			stroke-dasharray: 130 315.15926;
+
+		}*!
+		circle.c2{
+			!*fill: green;*!
+			stroke: #655;
+			stroke-width: 50;
+			stroke-dasharray: 30 315.15926;
+			!*transform: rotate(30deg);*!
+		}*/
+	</style>
+	<script type="text/javascript">
+		//饼图数据结构
+		var pieData = [
+			{
+				value: 30,
+				color:"#F38630"
+			},{
+				value : 50,
+				color : "#E0E4CC"
+			},{
+				value : 100,
+				color : "#69D2E7"
+			}
+		];
+		var pie={
+			total:0,
+			r:50,
+			point:{x:100,y:100},
+			data:[
+				{
+					value: 30,
+					color:"#F38630",
+					startPoint:{},
+					endPoint:{}
+				},{
+					value : 70,
+					color : "#E0E4CC",
+					startPoint:{},
+					endPoint:{}
+				},{
+					value : 100,
+					color : "#69D2E7",
+					startPoint:{},
+					endPoint:{}
+				},{
+					value : 100,
+					color : "#f00",
+					startPoint:{},
+					endPoint:{}
+				},{
+					value : 100,
+					color : "#ff0",
+					startPoint:{},
+					endPoint:{}
+				},{
+					value : 100,
+					color : "#f0f",
+					startPoint:{},
+					endPoint:{}
+				}
+			]
+		}
+		function doFan(){
+			pie.total=0;
+			Elf.utils.each(pie.data,function(index){
+				pie.total+=pie.data[index].value;
+			});
+			Elf.utils.each(pie.data,function(index,obj){
+				var hudu=(2*Math.PI / 360) * 360 * obj.value/pie.total;
+				var radians = (Math.PI / 180) * Math.round(1);
+				//hudu=radians;
+				console.info(hudu);
+				if(index===0){
+					obj.startPoint.x=pie.point.x;
+					obj.startPoint.y=pie.point.y-pie.r;
+					obj.endPoint.x=pie.point.x + pie.r*Math.sin(hudu);
+					obj.endPoint.y=pie.point.y + pie.r*Math.cos(hudu);
+				}else{
+					obj.startPoint=pie.data[index-1].endPoint;
+					obj.endPoint.x=pie.point.x + pie.r*Math.sin(hudu);
+					obj.endPoint.y=pie.point.y + pie.r*Math.cos(hudu);
+				}
+			});
+		}
+		function creatFanD(x,y,r,cx1,cy1,cx2,cy2,sweepFlag){
+			var d="M"+x+","+y;
+				d+=" L"+cx1+","+cy1;
+				d+=" A"+r+","+r+","+ 0+","+0+","+1+","+cx2+","+cy2;
+				d+=" L"+x+","+y;
+				d+=" Z";
+			return d;
+		}
+
+		function fanPath(cx,cy,rx,ry,startDeg,endDeg){
+			//椭圆弧 7个参数以字母A（绝对坐标的缩写）或a（相对坐标的缩写）开始，后面紧跟7个参数
+
+			//cx,cy
+			//x-axis-rotation 椭圆x轴旋转角度
+			//large-src-flag 如果圆弧的角度小于180度，其值为0；如果需要圆弧的角度大于或等于180度，则为1
+			//sweep-flag 如果需要圆弧以负角度绘制则为0，以正角度则为1
+			//终点的x坐标和Y坐标
+
+			var d="M"+cx+","+cy;
+			var startX,startY,endX,endY;
+			startX=cx + Math.sin(2*Math.PI / 360*startDeg) * rx;
+			startY=cy + Math.cos(2*Math.PI / 360*startDeg) * ry;
+			endX=cx + Math.sin(2*Math.PI / 360*startDeg) * rx;
+			endY=cy + Math.cos(2*Math.PI / 360*startDeg) * ry;
+			d+=" L"+startX+","+startY;
+			return ;
+		}
+		var point = []; //结果
+		/*
+		 * 求圆周上等分点的坐标
+		 * ox,oy为圆心坐标
+		 * r为半径
+		 * count为等分个数
+		 */
+		function getPoint(r, ox, oy, count){
+			var point=[];
+			var radians = (Math.PI / 180) * (Math.round(360 / count)), //弧度
+					i = 0;
+			for(; i < count; i++){
+				var x = ox + r * Math.sin(radians * i),
+					y = oy + r * Math.cos(radians * i);
+
+				point.unshift({x:x,y:y}); //为保持数据顺时针
+			}
+			return point;
+		}
+		function onload(){
+			doFan();
+			//var temp=document.createDocumentFragment();
+			var temp=Elf.controls.createElement("div");
+			var svgcnt=document.getElementById("svgcnt");
+			var svg=Elf.controls.createElement("svg");
+
+			Elf.utils.attr(svg,"version","1.1");
+			Elf.utils.attr(svg,"viewBox","0 0 200 200");
+			Elf.utils.attr(svg,"width","200");
+			Elf.utils.attr(svg,"height","200");
+			Elf.utils.attr(svg,"preserveAspectRatio","xMinYMin meet");
+			var group=Elf.controls.createElement("g");
+			//Elf.utils.attr(group,"translate","translate(480,250)");
+
+			Elf.utils.attr(svg,"style","transform:rotate(180deg);transform-origin:center;");
+			//Elf.utils.attr(group,"transform-origin","100px 100px");
+			var jp=getPoint(100,100,100,5);
+
+
+			Elf.utils.each(jp,function(index,obj){
+				var path=Elf.controls.createElement("path");
+				if(index==0){
+					var d=creatFanD(100,100,100,jp[jp.length-1].x,jp[jp.length-1].y,obj.x,obj.y);
+				}else{
+					var d=creatFanD(100,100,100,jp[index-1].x,jp[index-1].y,obj.x,obj.y);
+				}
+				Elf.utils.attr(path,"d",d);
+				Elf.utils.attr(path,"fill",pie.data[index].color);
+				Elf.utils.attr(path,"stroke-opacity","0");
+				Elf.controls.appendTo(path,group);
+
+			});
+			/*var path=Elf.controls.createElement("path");
+			Elf.utils.attr(path,"cs","800,600");
+			Elf.utils.attr(path,"d","M849.5,215 L849.5,115 A100,100,0,0,1,907.1006905790194,307.4384716126692 L849.5,215 Z");
+			Elf.utils.attr(path,"fill","#cc0c00");
+			Elf.utils.attr(path,"stroke-opacity","0");*/
+
+
+			Elf.controls.appendTo(group,svg);
+			Elf.controls.appendTo(svg,temp);
+			svgcnt.innerHTML=temp.innerHTML;
+
+			/*var svg='<svg width="960" height="500"><g transform="translate(480,250)"><g class="arc"><path d="M1.469576158976824e-14,-240A240,240 0 0,1 107.0492887034484,-214.803281604555L80.2869665275863,-161.10246120341625A180,180 0 0,0 1.1021821192326179e-14,-180Z" style="fill: rgb(152, 171, 197);"></path><text transform="translate(48.113911736435526,-204.41392197553103)" dy=".35em">&lt;5</text></g><g class="arc"><path d="M107.0492887034484,-214.803281604555A240,240 0 0,1 226.32103905324743,-79.86731047092076L169.74077928993557,-59.90048285319056A180,180 0 0,0 80.2869665275863,-161.10246120341625Z" style="fill: rgb(138, 137, 166);"></path><text transform="translate(157.34405840318342,-139.07856515371307)" dy=".35em">5-13</text></g><g class="arc"><path d="M226.32103905324743,-79.86731047092076A240,240 0 0,1 239.89217619670538,7.193316315084522L179.91913214752904,5.3949872363133915A180,180 0 0,0 169.74077928993557,-59.90048285319056Z" style="fill: rgb(123, 104, 136);"></path><text transform="translate(207.49417749449054,-32.34449421284646)" dy=".35em">14-17</text></g><g class="arc"><path d="M239.89217619670538,7.193316315084522A240,240 0 0,1 185.29089011249533,152.53617945038215L138.96816758437149,114.4021345877866A180,180 0 0,0 179.91913214752904,5.3949872363133915Z" style="fill: rgb(107, 72, 107);"></path><text transform="translate(196.58564250968948,73.85177830663643)" dy=".35em">18-24</text></g><g class="arc"><path d="M185.29089011249533,152.53617945038215A240,240 0 0,1 -239.7935922865823,9.951537484044003L-179.84519421493673,7.463653113033002A180,180 0 0,0 138.96816758437149,114.4021345877866Z" style="fill: rgb(160, 93, 86);"></path><text transform="translate(-66.78280177123042,199.0981099548274)" dy=".35em">25-44</text></g><g class="arc"><path d="M-239.7935922865823,9.951537484044003A240,240 0 0,1 -25.080788568417415,-238.68588991556737L-18.81059142631306,-179.01441743667553A180,180 0 0,0 -179.84519421493673,7.463653113033002Z" style="fill: rgb(208, 116, 60);"></path><text transform="translate(-158.9390039857519,-137.25302551134214)" dy=".35em">45-64</text></g><g class="arc"><path d="M-25.080788568417415,-238.68588991556737A240,240 0 0,1 -2.5725010549733476e-13,-240L-1.9293757912300106e-13,-180A180,180 0 0,0 -18.81059142631306,-179.01441743667553Z" style="fill: rgb(255, 140, 0);"></path><text transform="translate(-10.987896250295181,-209.712341401246)" dy=".35em">≥65</text></g></g></svg>';
+			var svgcnt=document.getElementById("svgcnt");
+			svgcnt.innerHTML=svg;*/
+		}
+	</script>
+</head>
+<body onload="onload();">
+	<div id="svgcnt"></div>
+
+	<!--<svg version="1.1" style="width: 1699px; height: 390px;">
+		<g>
+			<path cs="1000,1000" d="M849.5,215 L849.5,115 A151,100,0,0,1,907.1006905790194,307.4384716126692 L849.5,215 Z" fill="#cc0c00" stroke-opacity="0"></path>
+		</g>
+	</svg>-->
+	<!--<svg width="200" height="200" style="background-color: #00AA91;">
+		&lt;!&ndash;<circle r="50" cx="100" cy="100" class="c1"/>&ndash;&gt;
+		<circle r="50" cx="100" cy="100" class="c2"/>
+		&lt;!&ndash;<circle r="50" cx="100" cy="100" class="c3"/>&ndash;&gt;
+	</svg>-->
+	<!--<svg width="400" height="400">
+		<path d="M200,200 L200,20 A180,180 0 0,1 377,231 z"
+			  style="fill:#ff0000;
+    fill-opacity: 1;
+    stroke:black;
+    stroke-width: 1"/>
+		<path d="M200,200 L377,231 A180,180 0 0,1 138,369 z"
+			  style="fill:#00ff00;
+    fill-opacity: 1;
+    stroke:black;
+    stroke-width: 1"/>
+		<path d="M200,200 L138,369 A180,180 0 0,1 20,194 z"
+			  style="fill:#0000ff;
+    fill-opacity: 1;
+    stroke:black;
+    stroke-width: 1"/>
+		<path d="M200,200 L20,194 A180,180 0 0,1 75,71 z"
+			  style="fill:#ff00ff;
+    fill-opacity: 1;
+    stroke:black;
+    stroke-width: 1"/>
+		<path d="M200,200 L75,71 A180,180 0 0,1 200,20 z"
+			  style="fill:#ffff00;
+    fill-opacity: 1;
+    stroke:black;
+    stroke-width: 1"/>
+	</svg>-->
+
+	<!--<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width: 600px;height:600px;">
+		<g>
+			<path fill="#E86C60" d="M17,0c-1.9,0-3.7,0.8-5,2.1C10.7,0.8,8.9,0,7,0C3.1,0,0,3.1,0,7c0,6.4,10.9,15.4,11.4,15.8 c0.2,0.2,0.4,0.2,0.6,0.2s0.4-0.1,0.6-0.2C13.1,22.4,24,13.4,24,7C24,3.1,20.9,0,17,0z"></path>
+		</g>
+		<circle cx="200" cy="200" r="100" stroke="#333"	stroke-width="2" fill="red"/>
+		<path d="M250 150 L150 350 L350 350 Z" fill="green"/>
+	</svg>-->
+	<!--<div style="width: 600px;height: 400px;margin-top: 30px;margin-left: 30px;">
+		<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="width: 400px;height:400px;">
+			<g>
+				<path fill="#E86C60" d="M17,0c-1.9,0-3.7,0.8-5,2.1C10.7,0.8,8.9,0,7,0C3.1,0,0,3.1,0,7c0,6.4,10.9,15.4,11.4,15.8 c0.2,0.2,0.4,0.2,0.6,0.2s0.4-0.1,0.6-0.2C13.1,22.4,24,13.4,24,7C24,3.1,20.9,0,17,0z"></path>
+			</g>
+			<circle cx="50%" cy="50%" r="50" stroke="#ff0"	stroke-width="2" fill="red"/>
+
+		</svg>
+	</div>-->
+
+</body>
+</html>

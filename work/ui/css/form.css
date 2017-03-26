@@ -1,0 +1,46 @@
+/**
+* [form description]
+* @Author   liweiliang  QQ:406320591(406320591@QQ.com).
+* @DateTime 2017-02-22.
+* @version  1.0
+* @return   {[type]}    [description]
+*/
+body{    font-family: 'Microsoft Yahei', 'sans-serif'; font-size: 14px;}
+.clearfix:after {content:" "; display: block; clear: both; height: 0;}
+.clearfix {zoom:1;}
+
+.assessTit{ font-size: 20px; height: 50px; line-height: 50px; text-align: center; border-bottom: 1px solid #000; }
+.choicebox{ width: 700px; margin-left: 2em; }
+.assessDesc{ width: 100%; margin-bottom: 15px; overflow: hidden; }
+.assessDesc p{ text-indent: 2em; }
+.choice{ width: 100%; margin-bottom: 15px;  overflow: hidden;}
+.choice h3{ font-size: 14px; margin-bottom: 10px; }
+.choice li{ float: left; width: 20%; font-size: 12px; vertical-align: middle;}
+.choice li input[type="radio"]{ vertical-align: middle; }
+.proposal{ width: 100%; height: 70px; resize:none; }
+
+.proReport{}
+.proReport label{ float: left; display: inline-block; width: 75px; height: 27px; line-height: 27px; text-align: right; padding: 0 5px; box-sizing: border-box; }
+.proReport select,.proReport input{width: 166px; height: 27px; line-height: 27px;outline: none;border: 1px solid #d2cfcf;-webkit-border-radius: 2px;-moz-border-radius: 2px;border-radius: 2px;box-sizing: border-box; }
+.proReport .proReportBtn{ width: 80px !important; float: right; color: #fff;    background: #4395ff; }
+.trainHeight_T1{ height: 100px !important; }
+.trainPt_T1{ padding-top: 100px !important; }
+.notEvaluated{color: #ccc; }
+.alreadyEvaluated{color: #0000FF;}
+
+
+.v_flex_wrap,.v_flex_top,.v_flex_conter{ position: absolute; }
+.v_flex_wrap{top: 0; left: 0; right: 0; bottom: 0; min-width: 1000px; }
+.v_flex_top{top: 0; left: 0; right: 0; height: 75px; padding:0 24px;border-bottom: 1px solid #ccc; }
+.v_flex_top h3{color: #fff; line-height: 75px; font-weight: normal;font-size: 2.3rem;text-shadow: 4px 2px 0 #003469;}
+.v_flex_conter{top:75px; left: 0; right: 0; bottom: 0; overflow: auto;}
+.assessTabnav{ width: 612px; height: 42px; line-height: 40px; font-size: 16px; margin:20px auto 0; border:1px solid #797979; overflow: hidden;}
+.assessTabnav a{ float: left; display: block; width: 203px; color:#000; text-align: center; border-right:1px solid #797979; box-sizing: border-box;}
+.assessTabnav a:last-child{ border-right: none; }
+.assessTabnav a.assessCurr{ color:#fff;  background: #0882d5; }
+.assessTabcon{}
+.assessSearch{ width: 650px; height: 40px; margin:20px auto; overflow: hidden;}
+/*.assessSearch td{ float: left; width: 33.333%; }*/
+.assessSearch td label{ float: left; display: inline-block; width: 70px; height: 32px; line-height: 32px; text-align: right; padding:0 5px; }
+.assessSearch td input[type="text"],.assessSearch td select{ width: 146px; height: 32px; line-height: 32px; }
+.queryTabBtn{  width: 120px; height: 32px; line-height: 32px; color:#fff; border:none; border-radius: 7px; margin-left: 70px; background: #169bd5; }

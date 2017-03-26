@@ -1,0 +1,42 @@
+body .content{
+	padding-top: 74px;	
+	margin: -74px 0 0 240px;
+	
+}
+
+.content .contentTable{
+	overflow-x: auto;
+	position: relative;	
+}
+
+.content .infoTable{	
+	background: #AB1E1E;
+	max-height: 470px;
+	position: relative;
+}
+.content .infoTable .turnPage{
+	position: absolute;
+	bottom: -60px;
+	left: 0;
+	height: 30px;
+	background: #66F4DF;
+}
+.content .infoTable .tHeadBox{
+	height: 51px;
+	text-align: center;
+	background-color: #dce9f9; 
+	
+}
+
+.content .infoTable .tHeadBox table{
+	padding: 0;
+	height: 51px;
+	border: none;
+	overflow: hidden;
+	border-collapse: collapse;	
+}
+
+.content .infoTable .tHeadBox th{
+	padding: 0 4px;
+	border: 1px solid #aaa;
+}

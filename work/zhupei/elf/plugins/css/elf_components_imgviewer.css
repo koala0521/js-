@@ -1,0 +1,21 @@
+@charset "utf-8";
+.elf-imgviewer{background-color: #fff;display: block;}
+.elf-imgviewer-viewer{position: relative;}
+.elf-imgviewer-viewer > img{position: relative;width:100%;display:block;height:auto;}
+.elf-imgviewer-prev,.elf-imgviewer-next{position: absolute;top:0;width:50%;height: 100%;z-index: 1;cursor: pointer;}
+.elf-imgviewer-prev{left: 0;}
+.elf-imgviewer-next{right: 0;}
+.elf-imgviewer-prev-btn,.elf-imgviewer-next-btn{position: absolute;width: 40px;height: 76px;top: 50%;margin-top: -38px;background-color: #9f9fa0;opacity: .5;}
+.elf-imgviewer-prev-btn{left: 0;background: #9f9fa0 url("../images/elf_components_imgviewer/imgviewer_prev_arrow.png") no-repeat scroll center center;opacity: .1;}
+.elf-imgviewer-next-btn{right: 0;background: #9f9fa0 url("../images/elf_components_imgviewer/imgviewer_next_arrow.png") no-repeat scroll center center;opacity: .1;}
+.elf-imgviewer-prev:hover .elf-imgviewer-prev-btn,.elf-imgviewer-next:hover .elf-imgviewer-next-btn{opacity: .5;}
+.elf-imgviewer-thumbs-wrap{position: relative;height: 80px;margin-top: 16px;margin-bottom: 16px;}
+.elf-imgviewer-thumbs-inner{position: absolute;left:32px;right: 32px;height: 100%;overflow: hidden;}
+.elf-imgviewer-thumb{height: 100%;overflow: hidden;border: 1px solid #ccc;margin: 0 4px;}
+.elf-imgviewer-thumbs{white-space:nowrap;position: absolute;line-height: 1px;}
+.elf-imgviewer-thumbs li{display: inline-block;height: 80px;width:112px;overflow: hidden;}
+.elf-imgviewer-thumbs li.current .elf-imgviewer-thumb{border: 1px solid #333;}
+.elf-imgviewer-thumbs li img{width: 100%;height: auto;display: block;}
+.elf-imgviewer-thumbs-prev,.elf-imgviewer-thumbs-next{position: absolute;width: 32px;height: 100%;top: 0;border: none;outline: none;}
+.elf-imgviewer-thumbs-prev{left: 0;background: rgba(0, 0, 0, 0) url("../images/elf_components_imgviewer/img_viewer_thumbs_arrow_prev.png") no-repeat scroll center center;}
+.elf-imgviewer-thumbs-next{right: 0;background: url("../images/elf_components_imgviewer/img_viewer_thumbs_arrow_next.png") no-repeat scroll center center;}

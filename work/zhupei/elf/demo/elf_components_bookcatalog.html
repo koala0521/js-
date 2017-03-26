@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>accordion DEMO</title>
+	<!--加载组件样式-->
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no,address=no" name="format-detection">
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../css/elf_animate.css" rel="stylesheet"/>
+	<link type="text/css" href="../css/elf_ui.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_accordion.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_base.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_dialog.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_bookcatalog.js"></script>
+	<script type="text/javascript" src="../../_data/catalog_data.js"></script>
+	<script type="text/javascript" src="../../_data/chapters.js"></script>
+	<script type="text/javascript">
+		var page={};
+		function onload(){
+			var layoutls=document.getElementById("als");
+			tree=Elf.components.bookcatalog({
+				store:bookchapters,
+				autoOpen:false,
+				currentId:"102",
+				onClick:function(target,item){
+					console.info(item);
+				},
+				onOpen:function(target,item){
+					//解决展开问题
+					document.scrollingElement.scrollTop="48px";
+				},
+				createNode:function(target,obj){
+		            var opts=target.options;
+		            var node=Elf.controls.createElement("li");
+		            node.accordionNode=Elf.controls.createElement("div","elf-accordion-node",node);
+		            node.handle=Elf.controls.createElement("i","elf-accordion-handle",node.accordionNode);
+		            node.link=Elf.controls.createElement("a","elf-accordion-point",{innerHTML:obj[opts.nameKey]},node.accordionNode);
+		            return node;
+		        },
+				target:layoutls
+			});
+		}
+	</script>
+</head>
+<body onload="onload();">
+	<!-- <div style="position: absolute;top:0;left: 0;width: 100%;z-index: 100000;">
+		<button onclick="createDialog();">创建窗口</button>
+		<button onclick="Elf.components.dialog.methods.show(page.dialog1);">打开窗口</button>
+		<button onclick="Elf.components.dialog.methods.close(page.dialog1);">关闭窗口</button>
+	</div> -->
+	<div id="als">
+		
+	</div>
+	<!-- <div style="margin-top: 32px;">
+		<div class="elf-accordion">
+			<div class="ford">
+				<div class="node"></div>
+				<div class="ls">
+					<div class="node"></div>
+					<div class="ls"></div>
+				</div>
+			</div>
+			<div class="ford">
+				<div class="node"></div>
+				<div class="ls">
+					<div class="node"></div>
+					<div class="ls"></div>
+				</div>
+			</div>
+		</div>
+		<div class="elf-accordion">
+			<ul>
+				<li class="opened elf-selected">
+					<div class="elf-accordion-node">
+						<i class="elf-accordion-handle"></i>
+						<a href="" class="elf-accordion-point">封面</a>
+					</div>
+					<ul>
+						<li class="leaf elf-active">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">封面</a>
+							</div>
+							<ul></ul>
+						</li>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">扉页</a>
+							</div>
+							<ul></ul>
+						</li>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">版权页</a>
+							</div>
+							<ul></ul>
+						</li>
+					</ul>
+				</li>
+				<li class="">
+					<div class="elf-accordion-node">
+						<i class="elf-accordion-handle"></i>
+						<a href="">封面</a>
+					</div>
+					<ul>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">封面</a>
+							</div>
+							<ul></ul>
+						</li>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">扉页</a>
+							</div>
+							<ul></ul>
+						</li>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">版权页</a>
+							</div>
+							<ul></ul>
+						</li>
+					</ul>
+				</li>
+				<li class="">
+					<div class="elf-accordion-node">
+						<i class="elf-accordion-handle"></i>
+						<a href="">封面</a>
+					</div>
+					<ul>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">封面</a>
+							</div>
+							<ul></ul>
+						</li>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">扉页</a>
+							</div>
+							<ul></ul>
+						</li>
+						<li class="leaf">
+							<div class="elf-accordion-node">
+								<i class="elf-accordion-handle"></i>
+								<a href="">版权页</a>
+							</div>
+							<ul></ul>
+						</li>
+					</ul>
+				</li>
+				<li class="leaf">
+					<div class="elf-accordion-node">
+						<i class="elf-accordion-handle"></i>
+						<a href="">封面</a>
+					</div>
+					<ul></ul>
+				</li>
+				<li class="leaf">
+					<div class="elf-accordion-node">
+						<i class="elf-accordion-handle"></i>
+						<a href="">扉页</a>
+					</div>
+					<ul></ul>
+				</li>
+				<li class="leaf">
+					<div class="elf-accordion-node">
+						<i class="elf-accordion-handle"></i>
+						<a href="">版权页</a>
+					</div>
+					<ul></ul>
+				</li>
+			</ul>
+		</div> 
+	</div>-->
+</body>
+</html>

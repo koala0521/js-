@@ -1,0 +1,28 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>document</title>
+		<link rel="stylesheet" href="../css/elf_components_dialog.css">
+		<script src="../elf_components_dialog.js" ></script>
+	</head>
+	<body>
+
+		<input type="button" value="按钮"  id="btn" >
+		
+
+		<script>
+
+			var btn = document.getElementById('btn');	
+
+			btn.onclick = function(){
+
+				alert(1);
+
+				Elf.components.dialog();
+			}
+
+		</script>
+	</body>
+</html>
+ 

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UI DEMO Tree </title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../plugins/css/elf_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_accordionnav.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_accordionnav.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0px;left: 0;z-index: 999999;}
+	</style>
+	<script type="text/javascript">
+
+		var data=[
+			{"categoryName":"疾病分类","depth":1,"iD":1,"orderBy":1,"parentID":0,"path":"1"},
+			{"categoryName":"药品分类","depth":1,"iD":2,"orderBy":1,"parentID":0,"path":"2"},
+			{"categoryName":"检查分类","depth":1,"iD":3,"orderBy":1,"parentID":0,"path":"3"},
+			{"categoryName":"循证分类","depth":1,"iD":4,"orderBy":1,"parentID":0,"path":"4"},
+			{"categoryName":"医保用药分类","depth":1,"iD":5,"orderBy":1,"parentID":0,"path":"5"},
+			{"categoryName":"研究进展分类","depth":1,"iD":6,"orderBy":1,"parentID":0,"path":"6"},
+			{"categoryName":"手术分类","depth":1,"iD":7,"orderBy":1,"parentID":0,"path":"7"},
+
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"代谢科","depth":2,"iD":8,"orderBy":0,"parentID":1,"path":"1/8"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"代谢性疾病","depth":3,"iD":9,"orderBy":0,"parentID":8,"path":"1/8/9"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"泌尿外科","depth":2,"iD":10,"orderBy":0,"parentID":1,"path":"1/10"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"泌尿生殖系先天性畸形","depth":3,"iD":11,"orderBy":0,"parentID":10,"path":"1/10/11"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"泌尿系先天性畸形","depth":4,"iD":12,"orderBy":0,"parentID":11,"path":"1/10/11/12"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"肾盂异常","depth":5,"iD":13,"orderBy":0,"parentID":12,"path":"1/10/11/12/13"},
+
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"儿科","depth":2,"iD":14,"orderBy":0,"parentID":2,"path":"1/14"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"小儿循环系统疾病","depth":3,"iD":15,"orderBy":0,"parentID":2,"path":"1/14/15"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"血液系统疾病","depth":3,"iD":16,"orderBy":0,"parentID":3,"path":"1/14/16"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"泌尿系统疾病","depth":3,"iD":17,"orderBy":0,"parentID":3,"path":"1/14/17"},
+			{"abbreviate":"","addTime":1255936066000,"categoryName":"神经精神系统疾病","depth":3,"iD":18,"orderBy":0,"parentID":3,"path":"1/14/18"}
+		];
+
+		Elf.components.accordionNav.defaults.onClick=function(e){
+			console.info(e.key);
+		};
+		var tree;
+		function creatTreeView(){
+			var treeview=document.getElementById("treeview");
+			tree=Elf.components.accordionNav({
+				store:data,
+				key:"iD",
+				nameKey:"categoryName",
+				parentKey:"parentID",
+				autoOpen:false,
+				currentId:"9",
+				target:treeview
+			});
+		};
+		function openNav(){
+			var currentId=document.getElementById("selector").value;
+			Elf.components.accordionNav.methods.openCurrent(tree,currentId);
+		};
+		function onload(){
+			/*mainLayout=Elf.layout.fixed({
+			 flow:"clomn",
+			 top:{
+			 height:"75px"
+			 },
+			 left:{
+			 width:"220px"
+			 }
+			 });*/
+
+			//console.info(vendor);
+			// var mask=
+			/* Elf.confirm.prototype.init=function(){
+			 alert("dsfdsfds");
+			 }*/
+			// var showConfirm=document.getElementById("showConfirm");
+			//var confirm=Elf.components.confirm({title:"温馨提示",text:"这是提示信息"});
+			/*confirm.prototype.init();
+			 confirm.close();
+			 confirm.prototype.close();*/
+		}
+	</script>
+</head>
+<body onload="onload();">
+<div id="toolbar" style="padding: 1em;">
+	<button onclick="creatTreeView();">创建菜单</button>
+	<select id="selector">
+		<option value="8">代谢科</option>
+		<option value="9">代谢性疾病</option>
+		<option value="10">泌尿外科</option>
+		<option value="11">泌尿生殖系先天性畸形</option>
+		<option value="12">泌尿系先天性畸形</option>
+		<option value="13">肾盂异常</option>
+		<option value="14">儿科</option>
+		<option value="15">小儿循环系统疾病</option>
+		<option value="16">血液系统疾病</option>
+		<option value="17">泌尿系统疾病</option>
+		<option value="18">神经精神系统疾病</option>
+	</select>
+	<button onclick="openNav();">展开节点</button>
+</div>
+<div id="treeview" style="float: left;border: 1px solid #ccc;background-color: #f2f2f2;margin: 64px;width: 240px;height: 600px;overflow-x: auto;overflow-x: scroll;"></div>
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UI DEMO</title>
+
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_tree.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<!-- <script type="text/javascript" src="../plugins/elf_components_base.js"></script> -->
+	<script type="text/javascript" src="../plugins/elf_components_base.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_tree.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="js/timer.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0;right: 0;z-index: 999999;}
+	</style>
+	<script type="text/javascript">
+		/*
+			时间配置说明：
+			new Date(2015,8,25,0,0,0);			
+			第一个参数年
+			第二个参数月数（8代表9月）
+			第三个参数：时
+			第四个参数：分
+			第五个参数：秒
+			trigger
+			触发器参数说明：
+				status:状态 （0已开始，-1未开始，1已结束）
+				seconds：剩余秒数（）；
+					-1：
+					1：
+					0；
+		*/
+		var cfg=[
+			{
+				start:new Date(2016,11,9,11,0,0),
+				end:new Date(2016,11,9,18,40,0),
+				trigger:function(state,second){
+					console.info(second);
+					var btn1=document.getElementById("button1");
+					if(state==0){
+						Elf.utils.removeAttr(btn1,'disabled');
+						btn1.innerHTML="进行中:"+second.startedHour+"小时"+second.startedMinute+"分"+second.startedSecond;
+					}else if(state < 0){
+						//未开始
+						Elf.utils.attr(btn1,'disabled','disabled');
+						btn1.innerHTML="未开始"+second.startHour+"小时"+second.startMinute+"分"+second.startSecond;
+					}else{
+						//已结束
+						Elf.utils.attr(btn1,'disabled','disabled');
+						btn1.innerHTML="已结束";
+					}
+				}
+			},{
+				start:new Date(2016,11,9,18,53,0),
+				end:new Date(2016,11,9,20,0,0),
+				trigger:function(state,second){
+					console.info(second);
+					var btn2=document.getElementById("button2");
+					if(state==0){						
+						Elf.utils.removeAttr(btn2,'disabled');
+						btn2.innerHTML="进行中"+second.startedHour+"小时"+second.startedMinute+"分"+second.startedSecond;
+					}else if(state < 0){
+						//未开始
+						Elf.utils.attr(btn2,'disabled','disabled');
+						btn2.innerHTML="未开始"+second.startHour+"小时"+second.startMinute+"分"+second.startSecond;
+					}else{
+						//已结束
+						Elf.utils.attr(btn2,'disabled','disabled');
+						btn2.innerHTML="已结束";
+					}
+				}
+			},{
+				start:new Date(2016,11,9,18,50,0),
+				end:new Date(2016,11,9,18,52,0),
+				trigger:function(state,second){
+					console.info(second);
+					var btn3=document.getElementById("button3");
+					if(state==0){						
+						Elf.utils.removeAttr(btn3,'disabled');
+						btn3.innerHTML="进行中"+second.startedHour+"小时"+second.startedMinute+"分"+second.startedSecond;
+					}else if(state < 0){
+						//未开始
+						Elf.utils.attr(btn3,'disabled','disabled');
+						btn3.innerHTML="未开始"+second.startHour+"小时"+second.startMinute+"分"+second.startSecond;
+					}else{
+						//已结束
+						Elf.utils.attr(btn3,'disabled','disabled');
+						btn3.innerHTML="已结束";
+					}
+				}
+			}
+		];
+		var log;
+		var timer;
+		function dothead(ct,t){
+			var serverDate=new Date(ct);
+			var c1={
+				start:new Date(2016, 11, 20, 8, 0, 0),
+                end:new Date(2016, 11, 20, 11, 1, 0)
+			},
+			c2={
+				start:new Date(2016, 11, 20, 12, 0, 0),
+                end:new Date(2016, 11, 20, 15, 1, 0)
+			},
+			c3={
+				start:new Date(2016, 11, 20, 16, 0, 0),
+                end:new Date(2016, 11, 20, 19, 1, 0)
+			},
+			c4={
+				start: new Date(2016, 11, 21, 8, 0, 0),
+                end: new Date(2016, 11, 21, 11, 1, 0)
+			};
+			if(serverDate<c1.start){
+				//1,2,3,4未开始
+				log.innerHTML="1,2,3,4未开始 "+serverDate;
+			}else if(serverDate >= c1.start && serverDate<= c1.end){
+				log.innerHTML="1开始,2,3,4未开始 "+serverDate;
+				//1开始
+				//2,3,4未开始
+			}else if(serverDate<c2.start){
+				log.innerHTML="1结束,2未开始,3,4未开始 "+serverDate;
+				//1结束
+				//2,3,4未开始
+				//log.innerHTML="1结束,2开始,3未开始,4未开始 "+serverDate;
+			}else if(serverDate >= c2.start && serverDate<= c2.end){
+				log.innerHTML="1结束,2开始,3,4未开始 "+serverDate;
+				//1结束
+				//2开始
+				//3,4未开始
+			}else if(serverDate<c3.start){
+				log.innerHTML="1,2结束,3未开始,4未开始 "+serverDate;
+				//1结束
+				//2结束
+				//3,4未开始
+			}else if(serverDate >= c3.start && serverDate<= c3.end){
+				log.innerHTML="1,2结束,3开始,4未开始 "+serverDate;
+				//1结束
+				//2结束
+				//3开始
+				//4未开始
+			}else if(serverDate<c4.start){
+				log.innerHTML="1,2,3结束,4未开始 "+serverDate;
+				//1结束
+				//2结束
+				//3结束
+				//4未开始
+			}else if(serverDate >= c4.start && serverDate<= c4.end){
+				log.innerHTML="1,2,3结束,4开始 "+serverDate;
+				//1结束
+				//2结束
+				//3结束
+				//4开始
+			}else if(serverDate>c4.end){
+				log.innerHTML="1,2,3,4结束 "+serverDate;
+				//1结束
+				//2结束
+				//3结束
+				//4结束
+			}
+		}
+		function onload(){
+			//timer=new Timer(cfg);
+			//timer.interval(new Date().getTime());
+			changeLog=document.getElementById("changeLog");
+			var visibilitychange="visibilitychange";
+			if(document.hidden){
+				visibilitychange="visibilitychange";
+			}else if(document.mozHidden){
+				visibilitychange="mozvisibilitychange";
+			}else if(document.mozHidden){
+				visibilitychange="msvisibilitychange";
+			}else if(document.mozHidden){
+				visibilitychange="msVisibilityChange";
+			}else if(document.webkitHidden){
+				visibilitychange="webkitvisibilitychange";
+			}
+			changeLog.innerHTML=visibilitychange;
+			document.addEventListener(visibilitychange,function(evt){
+				changeLog.innerHTML=changeLog.innerHTML+"--"+visibilitychange+":"+evt.target.visibilityState;
+			});
+			log=document.getElementById("log");
+			var	current=new Date().getTime();
+			timer=window.setInterval(function(){
+				current+=1000;
+				dothead(current);
+			},1000);
+		}
+		/*var d=new Date();
+		var d1=Date.UTC(2016,11,20,0,0,0);
+		var d2=new Date(2016,11,20,0,0,0);
+		console.log(d.getTime());
+		console.log(d1);
+		console.log(d2.getTime());*/
+	</script>
+</head>
+<body onload="onload();">
+<div id="log" style="padding: 1em;">
+	
+</div>
+<div id="changeLog" style="padding: 1em;">
+	
+</div>
+<!-- <div class="p32">
+	<button id="button1" disabled="disabled">开始1</button>
+	<button id="button2" disabled="disabled">开始2</button>
+	<button id="button3" disabled="disabled">开始3</button>
+</div> -->
+<!--<div id="treeview" style="float: right;padding: 20px;background-color: #f2f2f2;margin: 20px;width: 200px;">
+	<div class="elf_treeview">
+		<ul>
+			<li>
+				<div class="elf_tree_node"><i class="elf_tree_icon expanded"></i><a href="#" class="elf_tree_node_point"><span>一级菜单</span></a></div>
+				<ul>
+					<li>
+						<div class="elf_tree_node selected"><i class="elf_tree_icon expanded"></i><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+						<ul>
+							<li>
+								<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point selected">三级菜单</a></div>
+							</li>
+							<li>
+								<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">三级菜单</a></div>
+							</li>
+							<li>
+								<div class="elf_tree_node"><i class="elf_tree_icon expanded"></i><a href="#" class="elf_tree_node_point">三级菜单</a></div>
+								<ul>
+									<li>
+										<div class="elf_tree_node"><i class="elf_tree_icon expanded"></i><a href="#" class="elf_tree_node_point">四级菜单</a></div>
+										<ul>
+											<li>
+												<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">五级菜单</a></div>
+											</li>
+											<li>
+												<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">五级菜单</a></div>
+											</li>
+											<li>
+												<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">五级菜单</a></div>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">四级菜单</a></div>
+									</li>
+									<li>
+										<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">四级菜单</a></div>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+					</li>
+					<li>
+						<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+					</li>
+					<li>
+						<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+					</li>
+					<li>
+						<div class="elf_tree_node"><i class="elf_tree_icon"></i><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+					</li>
+				</ul>
+			</li>
+			&lt;!&ndash;<li>
+                <div class="elf_tree_node"><a href="#" class="elf_tree_node_point">一级菜单</a></div>
+                <ul>
+                    <li>
+                        <div class="elf_tree_node"><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+                    </li>
+                    <li>
+                        <div class="elf_tree_node"><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+                    </li>
+                    <li>
+                        <div class="elf_tree_node"><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+                    </li>
+                    <li>
+                        <div class="elf_tree_node"><a href="#" class="elf_tree_node_point">二级菜单</a></div>
+                    </li>
+                </ul>
+            </li>&ndash;&gt;
+		</ul>
+	</div>-->
+
+</body>
+</html>

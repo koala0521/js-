@@ -1,0 +1,11 @@
+@charset "utf-8";
+.elf-dialog{position: absolute;left: 0;top: 0; width:100%; height:100%;z-index:9999;}
+.elf-dialog-mask{position: fixed; left:0; top:0; right:0; bottom:0; background-color: #000; opacity: .125;}
+.elf-dialog-body{display: inline-block; position: relative; width:680px; height: 480px; max-width: 98%;max-height: 98%; background-color: #fff; padding-bottom:7px; border-radius: 7px; }
+.elf-dialog-closeIcon{position: absolute;top:0;right: 0;z-index: 3;display: inline-block;width: 32px;height:32px;font-size: 32px;line-height: normal;cursor: pointer;text-align: center;vertical-align: middle;font-family: sans-serif;color:#fff; }
+.elf-dialog-closeIcon:before{content: "×";display: inherit;vertical-align: text-top;line-height: 100%;}
+.elf-dialog-closeIcon:hover{color:red;}
+.elf-dialog-title{font-size: 1.125rem; color: #fff; margin-left: .5rem;line-height: 32px;}
+.elf-dialog-content{height:100%;}
+.elf-dialog .elf-tbar{border-top-left-radius: 7px; border-top-right-radius: 7px;}
+.elf-dialog .elf-scroll{bottom:7px;height:100%;padding-top: 33px;}

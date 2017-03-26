@@ -1,0 +1,14 @@
+@charset "utf-8";
+*{margin: 0;padding: 0;font-family: "Microsoft YaHei", "Helvetica Neue", Helvetica, "sans-serif";}
+html,body {width: 100%;height: 100%;overflow: auto;font-size: 16px;position: absolute;top:0;left: 0;}
+.none{display: none;}
+.shadow{box-shadow:0px 0px 2px 0px rgba(0,0,0,.125);}
+@-webkit-keyframes rotate{from{-webkit-transform: rotate(0deg)}to{-webkit-transform: rotate(360deg)}}
+@-moz-keyframes rotate{from{-moz-transform: rotate(0deg)}to{-moz-transform: rotate(360deg)}}
+@-ms-keyframes rotate{from{-ms-transform: rotate(0deg)}to{-ms-transform: rotate(360deg)}}
+@-o-keyframes rotate{from{-o-transform: rotate(0deg)}to{-o-transform: rotate(360deg)}}
+@keyframes rotate{from{transform: rotate(0deg)}to{transform: rotate(360deg)}}
+.rotate{-webkit-transition-property: -webkit-transform;-moz-transition-property: -moz-transform;-ms-transition-property: -ms-transform;-o-transition-property: -o-transform;transition-property: transform;-webkit-transition-duration: 0s;-moz-transition-duration: 0s;-ms-transition-duration: 0s;-o-transition-duration: 0s;transition-duration: 0s;-webkit-animation: rotate 1s linear infinite;-moz-animation: rotate 1s linear infinite;-ms-animation: rotate 1s linear infinite;-o-animation: rotate 1s linear infinite;animation: rotate 1s linear infinite;}
+/* icons */
+.icon24{display: inline-block;height: 24px;width: 24px;text-align: center;line-height: 24px;}
+.icon18{display: inline-block;height: 18px;width: 18px;text-align: center;line-height: 18px;}

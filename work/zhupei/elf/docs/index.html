@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>docs </title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_tree.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_fixed.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_flow.css" rel="stylesheet"/>
+	<link type="text/css" href="css/css.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_utils.js"></script>
+	<script type="text/javascript" src="../elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_tree.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_nav.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<script type="text/javascript" src="data/tree-data.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0;right: 0;z-index: 999999;}
+	</style>
+	<script type="text/javascript">
+		var page={};
+		function onload(){
+			page.mainlayout=Elf.layout.fixed({
+				flow:"clomn",
+				top:{height:"42px"},
+				left:{ width:"240px"}
+			});
+			page.header=Elf.controls.createElement("header");
+			Elf.controls.appendTo(page.header,page.mainlayout.topRegion);
+			page.logo=Elf.controls.createElement("a",{width:"240px",height:32},"elf_logo pull-left");
+			Elf.controls.appendTo(page.logo,page.header);
+			page.headNav=Elf.components.nav({
+				store:[
+					{
+						title:"ELF",url:"#elf",type:"",target:"",name:"ELF",id:"1"
+					},{
+						title:"CSS",url:"#css",type:"",name:"CSS",id:"2"
+					},{
+						title:"组件",url:"#components",type:"",name:"组件",id:"3"
+					},{
+						title:"插件",url:"#plugins",type:"",name:"插件",id:"4"
+					}
+				],
+				target:page.header,
+				onClick:function(data){
+					console.info(data);
+				}
+			});
+			console.info(page);
+			page.leftMenus=Elf.components.tree({
+				store:treeData,
+				vie:true,
+				autoOpen:false,
+				key:"id",
+				nameKey:"cname",
+                parentKey:"pid",
+                pathKey:"path",
+				target:page.mainlayout.leftRegion
+			});
+		}
+	</script>
+</head>
+<body onload="onload();">
+
+</body>
+</html>

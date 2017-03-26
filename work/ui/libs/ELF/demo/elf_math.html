@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>math标签 DEMO</title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_base.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_base.js"></script>
+	<script type="text/javascript">
+		page={};
+		function onload(){
+			var accordion=document.getElementsByClassName("elf-accordion");
+			if(accordion){
+				Elf.utils.each(accordion,function(index,obj){
+					Elf.xEvents.bind(obj,"click",function(event){
+						console.info(event.target);
+						var tt=event.target;
+						Elf.components.toast({
+							text:tt.innerText
+						})
+					});
+				});
+			}
+		}
+	</script>
+</head>
+
+<body onload="onload();">
+	<div style="position: absolute;top:0;left: 0;width: 100%;z-index: 100000;">
+		<button onclick="createDialog();">创建窗口</button>
+		<button onclick="Elf.components.dialog.methods.show(page.dialog1);">打开窗口</button>
+		<button onclick="Elf.components.dialog.methods.close(page.dialog1);">关闭窗口</button>
+	</div>
+	<div style="width: 480px;padding: 1rem;margin-top: 32px;">
+		<p>
+			When
+			<math xmlns="http://www.w3.org/1998/Math/MathML">
+				<mi>a</mi><mo>&#x2260;</mo><mn>0</mn>
+			</math>,
+			there are two solutions to
+			<math xmlns="http://www.w3.org/1998/Math/MathML">
+				<mi>a</mi><msup><mi>x</mi><mn>2</mn></msup>
+				<mo>+</mo> <mi>b</mi><mi>x</mi>
+				<mo>+</mo> <mi>c</mi> <mo>=</mo> <mn>0</mn>
+			</math>
+			and they are
+			<math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+				<mi>x</mi> <mo>=</mo>
+				<mrow>
+					<mfrac>
+						<mrow>
+							<mo>&#x2212;</mo>
+							<mi>b</mi>
+							<mo>&#x00B1;</mo>
+							<msqrt>
+								<msup><mi>b</mi><mn>2</mn></msup>
+								<mo>&#x2212;</mo>
+								<mn>4</mn><mi>a</mi><mi>c</mi>
+							</msqrt>
+						</mrow>
+						<mrow> <mn>2</mn><mi>a</mi> </mrow>
+					</mfrac>
+				</mrow>
+				<mtext>.</mtext>
+			</math>
+		</p>、
+		<p>
+			&#8704;
+			&#8730;
+			&#8721;<sub>2</sub><sup>-2</sup>
+
+		</p>
+		<p>When `a != 0`, there are two solutions to `ax^2 + bx + c = 0` and
+			they are</p>
+		<p style="text-align:center">
+			`x = (-b +- sqrt(b^2-4ac))/(2a) .`
+		</p>
+	</div>
+</body>
+</html>

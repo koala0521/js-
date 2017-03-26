@@ -1,0 +1,19 @@
+2015/10/12
+created
+
+......
+not logged for a long time
+
+2016/01/25
+1\ change loading gif size from 12vw to 15vw (frame201601251139.css)
+2\ WebSocket must dismiss loading effect while onmessage and onerror (elf-min201601251139.js)
+
+2016/02/26
+1\ App control loading mask's delay (elf-min201602260922.js)
+
+2016/03/14
+1\ Add function "Elf.xEvents.stopPop" to stop event propagation (elf-min201603141120.js)
+
+2016/03/30
+1\ solve bug of more than one loading mash showed (elf-min201603300947.js)
+2\ filter "length" property for old version chrome's(version 38) bug (elf-min201603300947.js)

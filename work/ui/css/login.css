@@ -1,0 +1,87 @@
+/**
+ * [login description]
+ * @Author   liweiliang  QQ:406320591(406320591@QQ.com).
+ * @DateTime 2017-02-22.
+ * @version  1.0
+ * @return   {[type]}    [description]
+ */
+.elf-pop-mask{
+    background-color: transparent;opacity: 1;
+    /*background-image: -webkit-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);*/
+    /*background-image: -webkit-radial-gradient(50% 0,30% 30%,rgba(17, 172, 247, 0.8) 10%,#00064a);*/
+    background-image: -webkit-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: -o-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: -moz-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: -ms-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+}
+.loginBox{position: relative;}
+.loginTit{
+    width: 700px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 70px;
+    color: #fff;
+    font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.loginDesc{
+    width: 500px;
+    height: 75px;
+    margin-top: 20px;
+    margin-left: 175px;
+    font-size: 16px;
+    color: #fff;
+    font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.login-form{
+    display:block;
+    width: 500px;
+    height: 280px;
+    margin:0 auto;
+    text-align: center;
+    font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 50px 20px 70px 15px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px #195aa8;
+    border: 3px solid #003f91;
+    background: linear-gradient(#0176ea,#002972);
+    background: -moz-linear-gradient(#0176ea,#002972);
+    background: -webkit-linear-gradient(#0176ea,#002972);
+    background: -o-linear-gradient(#0176ea,#002972);
+    background: -ms-linear-gradient(#0176ea,#002972);
+    /*background: url("../images/platform_name.png") center 25px rgba(255,255,255,0.5) no-repeat;*/
+    /* -webkit-box-reflect: below 5px -webkit-gradient(linear, 63% 24%,60% 193%, from(rgba(255,255,255,0)), to(rgba(255,255,255,0.4)));*/
+    /*-webkit-box-reflect: below 5px -webkit-linear-gradient(transparent,transparent 60%,rgba(0,0,0,.4));*/
+}
+.login-form label{color: #fff; font-size: 18px;}
+.login-form h1{
+    font-size:30px;
+    font-weight:500;
+}
+.login-form input[type="text"],.login-form input[type="password"]{
+    border-radius: 5px;
+}
+.login_btn{
+    width: 210px;
+    height: 40px;
+    color: #fff;
+    font-size: 18px;
+    background: #2088ec;
+    border:none;
+    border-radius: 5px;
+    font-family: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.login-page{
+    position: absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-image: -webkit-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: -o-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: -moz-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: -ms-radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+    background-image: radial-gradient(center,rgba(159, 212, 255, 0.8) 10%,#025dba);
+}
+
+

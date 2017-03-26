@@ -1,0 +1,121 @@
+html,body {font-family: "Helvetica Neue",Arial,sans-serif;}
+h1,h2,h3,h4,h5,h6{font-weight: normal;}
+a {background: transparent;text-decoration: none;cursor: pointer;color: #08c;}
+a:active,a:hover,a:focus {outline:none;text-decoration: none;}
+a[name]{color: #2a2a2a;}
+header{background-color: #2d90f1;color:#fff;}
+footer{background-color: #f2f2f3;}
+.elf-header{height:60px;}
+.elf-header ~ .elf-view{padding-top:60px;}
+.nav-bar a{
+	display: block;
+	color: #fff;
+	line-height: 60px;
+    padding: 0 16px;
+}
+.nav-bar a:hover{
+	color: #f2f2f3;
+	/*text-shadow: 0 1px 0 rgba(0,0,0,.5);*/
+}
+.nav-bar:after{content: ' ';clear: both;display: block;}
+.nav-bar li.active a{
+	background-color: #E6E6E6;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1ffffff', endColorstr='#29ffffff',GradientType=0 );
+	-moz-box-shadow: 0 0 5px #595959; /* CSS3 box shadows */
+	-webkit-box-shadow: 0 0 5px #595959;
+	box-shadow: 0 0 5px #595959;
+	color:#2d90f1;
+}
+.pull-left{float: left;}
+.nav-bar-header a{
+	padding:10px 12px  10px 0;
+	color: #fff;
+}
+.leftside{
+	width:240px;
+}
+h1.tbar{
+	padding-left:10px;
+	position:relative;
+}
+h1.tbar:before{
+	content: "";
+    width: 4px;
+    background-color: #2d90f1;
+    height: 1.5rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    margin-top: -0.76rem;
+}
+/* h1.tbar:after{
+	content: "";
+    width: 4px;
+    background-color: #2d90f1;
+    height: 1rem;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin-top: -0.76rem;
+} */
+pre{
+	border: 1px dotted #ffe0bb;
+	background: #fffce8 none repeat scroll 0 0;
+    font-family: "Courier New","Terminal",monospace;
+    font-size: 12px;
+    line-height: 16px;
+    margin: 0 10px 20px 0;
+    padding:0 10px;
+}
+code{
+	background: transparent none repeat scroll 0 0;
+    border: 0 none;
+    font-size: 100%;
+    margin: 0;
+    outline: 0 none;
+    padding: 0;
+    vertical-align: baseline;
+}
+.demo{
+	border:solid 1px #EF8F1D;
+	background-color:#ffe0bb;
+	padding:10px;
+	min-height:300px;
+}
+.elf-tbar{background-color: #ccc;color:#333;}
+.table{
+	border-collapse: collapse;
+}
+.table-cell{
+	line-height:135%;padding:10px;
+}
+.table .c1{width: 50%;}
+.catalog,.docs{
+	padding:2rem;
+}
+.docs .code{
+	width: 100%;
+	padding:1rem;
+
+}
+ol{
+	padding-left: 24px;
+}
+ol li{
+	list-style-position: outside;
+	list-style: decimal;
+}
+.doc{
+	position: relative;
+}
+.doc:before{
+	content: "";
+	width:100%;
+	height: 1px;
+	position: absolute;
+	top: 0;
+	border-top: solid 1px #ccc;
+}
+h3 ~ p{
+	padding-left: 2rem;
+}

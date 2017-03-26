@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no">
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <title>IES</title>
+    <!--<link type="text/css" href="../css/frame201601251139.css" rel="stylesheet"/>-->
+    <!--<script type="text/javascript" src="../elf-min201601251139.js" charset="UTF-8"></script>-->
+
+    <link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+    <script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_localStorage.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+    <script type="text/javascript" src="../plugins/elf_components_base.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="../plugins/elf_components_ajax.js" charset="UTF-8"></script>
+
+    <link type="text/css" href="../plugin/progress/elf_progress.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../plugin/progress/elf_progress.js" charset="UTF-8"></script>
+
+    <link type="text/css" href="../plugin/cloudUploader/elf_cloudUploader.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../plugin/cloudUploader/elf_cloudUploader.js" charset="UTF-8"></script>
+
+
+
+    <style>
+        .cloudUploader{
+            width: 16px;
+            height: 12px;
+        }
+        .bgObj{
+            width: 16px;
+            height: 12px;
+            background-image: url("img/file.png");
+        }
+    </style>
+
+    <script>
+        function onPageLoad() {
+//            var uploader=Elf.controls.cloudUploader("ws://192.168.8.242:8389/websocket","","cloudUploader","");
+            var bgObj=Elf.controls({
+                name: "div",
+                className:"bgObj"
+            });
+            var uploader=Elf.controls.cloudUploader({
+//                service:"ws://192.168.8.151:8080/msb-1/websocket",
+//                service:"ws://192.168.1.25:5005/websocket",
+                service:"http://192.168.1.25:5005/services",
+                bucketName:"mvw-develop",
+                basePath:"kevintest",
+                token:"a9fc46ef-c73d-4c64-ad2c-7fdb5891b73f&type=mobile&p0latform=android",
+                uploaderStyle:"cloudUploader",
+                backgroundObj:bgObj,
+                acceptType:"",
+                acceptTypeStr:"仅支持 XXX 类型的文件",
+                sizeLimit:1048576, //1M
+                sizeLimitStr:"不允许上传超过 1M 的文件！",
+                onComplete:function(data){
+                }
+            });
+            document.body.appendChild(uploader);
+        }
+    </script>
+</head>
+<body onload="onPageLoad()"></body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="minifier.js" charset="UTF-8"></script>
+    <script>
+
+        function onPageLoad(){
+            var fileList=[
+                '../../src/v2/elf.js',
+                '../../src/v2/elf_utils.js',
+                '../../src/v2/elf_terminalInfo.js',
+                '../../src/v2/elf_algorithm.js',
+                '../../src/v2/elf_constants.js',
+                '../../src/v2/elf_cssText.js',
+                '../../src/v2/elf_control.js',
+                '../../src/v2/elf_effects.js',
+                '../../src/v2/elf_xEvents.js',
+                '../../src/v2/elf_localStorage.js',
+                '../../src/v2/elf_webSocket.js',
+                '../../plugins/elf_components_base.js'
+            ];
+            doMinify(fileList);
+        }
+    </script>
+</head>
+<body onload="onPageLoad()">
+</body>
+</html>

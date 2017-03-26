@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UI DEMO</title>
+
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_tree.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_fixed.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_flow.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+	<!--加载组件-->
+	<!--<script type="text/javascript" src="../plugins/elf_components_base.js"></script>-->
+	<!--<script type="text/javascript" src="../src/v2/elf-min-2-0.js" charset="UTF-8"></script>-->
+	<script type="text/javascript" src="../plugins/elf_components_tree.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0;right: 0;z-index: 999999;}
+	</style>
+	<script type="text/javascript">
+		var page={};
+		var elementObjects=[];
+		function onload(){
+			//elementObjects.push(document.body);
+			page.el=Elf.controls.createElement("div",{test:"test text",id:"123"},document.body);
+			/*Elf.components.tree.defaults.onClick=function(e){
+				console.info(e.key);
+			};*/
+		}
+	</script>
+</head>
+<body onload="onload();">
+<div id="toolbar" style="padding: 1em;">
+	<hr style="margin-top: 10px;"/>
+	<h3>布局</h3>
+	<hr style="margin-bottom: 10px;"/>
+	<button onclick="fixedLayout();">fixed Layout</button>
+	<hr style="margin-top: 10px;"/>
+	<h3>组件</h3>
+	<hr style="margin-bottom: 10px;"/>
+	<button onclick="showConfirm();">确认框</button>
+	<button onclick="showModelConfirm();">确认框-带遮罩</button>
+	<button onclick="showToast();">显示提示</button>
+	<button onclick="showLoading();">显示 Loading</button>
+	<button onclick="closeLoading();">关闭 Loading</button>
+	<button onclick="creatTreeView();">创建树形菜单</button>
+	<hr style="margin-top: 10px;"/>
+	<h3>ELF Api</h3>
+	<hr style="margin-bottom: 10px;"/>
+	<!--<button onclick="showMask();">遮罩层</button>
+    <button onclick="closeMask();">关闭遮罩层</button>-->
+	<button onclick="creatElem();">创建元素</button>
+	<button onclick="creatCheckbox();">创建Checkbox</button>
+	<button onclick="testAddClass();">add class a</button>
+	<button onclick="testAddClass2();">add class b</button>
+	<button onclick="testRemoveClassa();">remove class a</button>
+	<button onclick="testRemoveClassb();">remove class b</button>
+	<button onclick="testRemoveClassc();">remove class c</button>
+</div>
+<div id="treeview" style="float: left;border: 1px solid #ccc;background-color: #f2f2f2;margin: 20px;width: 240px;height: 400px;overflow-x: auto;overflow-x: scroll;"></div>
+<form id="testForm">
+	<div>
+		<p>tagName:</p>
+		<input name="tagName">
+	</div>
+	<div>
+		<p>类名:</p>
+		<input name="classLs" value="">
+	</div>
+	<div>
+		<p>属性列表:</p>
+		<input name="tagName">
+	</div>
+	<div>
+		<p>父对象:</p>
+		<select>
+			<option value=""></option>
+		</select>
+	</div>
+	<input type="submit" value="提交"/>
+</form>
+
+</body>
+</html>

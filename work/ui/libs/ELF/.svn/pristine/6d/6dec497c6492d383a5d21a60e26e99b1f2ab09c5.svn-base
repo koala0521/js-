@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>UI DEMO Paging bar</title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_paging.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_paging.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0px;left: 0;z-index: 999999;}
+	</style>
+	<script type="text/javascript">
+		var page={};
+
+		function onload(){
+			page.pagingBar=document.getElementById("paging-bar");
+			page.toCurrentPager=document.getElementById("updatePagerBtn");
+			page.total=document.getElementById("total");
+			page.pageSize=document.getElementById("pageSize");
+			page.currentPage=document.getElementById("currentPage");
+
+			page.paging=Elf.components.paging({
+				total:40,
+				pageSize:10,
+				currentPage:1,
+				statusFormat:"共 <b>{{total}}</b> 条记录 <b>{{totalPage}}</b> 页 当前第 <b>{{currentPage}}</b> 页",
+				onPagerChange:function(p){
+					console.info(p);
+				},
+				target:page.pagingBar
+			});
+			Elf.xEvents.bind(page.toCurrentPager,"click",function(evt){
+				Elf.components.paging.methods.update(page.paging,{
+					total:Number(page.total.value),
+					currentPage:Number(page.currentPage.value),
+					pageSize:Number(page.pageSize.value)
+				});
+			});
+		}
+	</script>
+</head>
+<body onload="onload();">
+	<div class="p16">
+		<p>总记录数：<input type="number" name="total" min="1" id="total"></p>
+		<p>每页条数：<input type="number" name="total" min="1" id="pageSize"></p>
+		<p>当前页数：<input type="number" name="tocurrent" min="1" id="currentPage"</p>
+		<button class="btn" id="updatePagerBtn">跳转到</button>>
+	</div>
+	<div class="prl24" id="paging-bar">
+		<!-- <div class="elf-paging">
+			<span>共100条记录</span><span>10页</span>
+			<button class="btn">首页</button>
+			<button class="btn">上一页</button>
+			<button class="btn">下一页</button>
+			<button class="btn">尾页</button>
+			<span>第1/10页</span>
+			<span>跳转</span>
+			<input type="number" name="to" min="1" max="10">
+			<button class="btn" disabled="disabled">跳转</button>
+		</div>
+
+		<div class="elf-paging mt24">
+			<span>共100条记录</span><span>10页</span>
+			<button class="btn">首页</button>
+			<button class="btn">1</button>
+			<button class="btn current">2</button>
+			<button class="btn">3</button>
+			<button class="btn">4</button>
+			<button class="btn">5</button>
+			<button class="btn">6</button>
+			<button class="btn" disabled="disabled">...</button>
+			<button class="btn">尾页</button>
+			<span>跳转</span>
+			<input type="number" name="to" min="1" max="10">
+			<button class="btn" disabled="disabled">跳转</button>
+		</div>
+
+		<div class="elf-paging mt24">
+			<span>共100条记录</span><span>10页</span>
+			<button class="btn">首页</button>
+			<button class="btn" disabled="disabled">...</button>
+			<button class="btn">3</button>
+			<button class="btn">4</button>
+			<button class="btn current">5</button>
+			<button class="btn">6</button>
+			<button class="btn">7</button>
+			<button class="btn" disabled="disabled">...</button>
+			<button class="btn">尾页</button>
+			<span>跳转</span>
+			<input type="number" name="to" min="1" max="10">
+			<button class="btn" disabled="disabled">跳转</button>
+		</div> -->
+	</div>
+</body>
+</html>

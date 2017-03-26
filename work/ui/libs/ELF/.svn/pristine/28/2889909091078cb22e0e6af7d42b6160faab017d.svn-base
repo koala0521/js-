@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Grig UI DEMO</title>
+	<!--加载组件样式-->
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../css/elf_ui.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_base.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_paging.css" rel="stylesheet"/>
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<!--加载ELF库文件-->
+	<script type="text/javascript" src="../src/v2/elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_utils.js"></script>
+	<script type="text/javascript" src="../src/v2/elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../src/v2/elf_webSocket.js" charset="UTF-8"></script>
+
+	<!--加载组件-->
+	<script type="text/javascript" src="../plugins/elf_components_ajax.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_paging.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_uploader.js"></script>
+	<link type="text/css" href="../plugin/progress/elf_progress.css" rel="stylesheet"/>
+    <script type="text/javascript" src="../plugin/progress/elf_progress.js"></script>
+	<!--加载布局组件-->
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<style type="text/css">
+		#toolbar{position: fixed;top: 0px;left: 0;z-index: 999999;}
+		.progress{
+            width: 400px;
+            height: 48px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            margin-left:-250px;
+            margin-top: -20px;
+            z-index: 9999;
+        }
+	</style>
+	<script type="text/javascript">
+		var page={};
+		function onload(){
+			page.uploaderBtn=document.getElementById("uploader");
+			page.log=document.getElementById("log");
+			var args={
+				token:"7bf2e02fcc084fd8a59bbd6389eabecf",
+				serviceNumber:"9000011",
+				serviceModule:"GP",
+			}
+			page.uploader=Elf.components.uploader({
+				action:"http://192.168.8.46:8003/servicesGp2016",
+				accept:".xls,.xlsx",
+				maxSize:"1048576*200",//200M
+				data:args,
+				loaderType:"",
+				inputStyle:"",
+				renderTo:page.uploaderBtn,
+				context:page.uploaderBtn,
+				uploadSuccess:function(result,status,xhr){
+					console.info(this);
+                    console.info(result);
+                    page.log.innerHTML=JSON.stringify(result);
+                },
+                beforeUpload:function(xhr,settings){
+                	Elf.components.loading();
+	                /*page.progress=Elf.controls.progress("progress");
+	                Elf.controls.appendTo(page.progress,document.body);*/
+
+	                /*Elf.xEvents.bind(xhr.upload,"progress",function(evt){
+	                	if(page.progress){
+	                		var percent=parseInt(evt.loaded*100/evt.total);
+		                    percent+="%";
+		                    page.progress.setPercent(percent);
+	                	}
+	                });*/
+	            },
+	            uploadComplete:function(xhr){
+	                /*Elf.utils.remove(page.progress);
+	                page.progress=null;*/
+	                Elf.components.loading("close");
+	            }
+			});
+		}
+	</script>
+</head>
+<body onload="onload();">
+	<div class="prl24 ptb24" id="paging-bar">
+		<span class="btn relative" id="uploader">上传文件</span>
+		
+	</div>
+	<div id="log"></div>
+</body>
+</html>

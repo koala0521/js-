@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>帮助中心</title>
+	<link type="text/css" href="../css/elf_framework.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_confirm.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_toast.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_loading.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_components_tree.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_fixed.css" rel="stylesheet"/>
+	<link type="text/css" href="../plugins/css/elf_layout_flow.css" rel="stylesheet"/>
+	<link type="text/css" href="css/css.css" rel="stylesheet"/>
+	<script type="text/javascript" src="../elf.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_utils.js"></script>
+	<script type="text/javascript" src="../elf_terminalInfo.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_algorithm.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_constants.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_cssText.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_control.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_effects.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_xEvents.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_localStorage.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="../elf_webSocket.js" charset="UTF-8"></script>
+
+	
+	<script type="text/javascript" src="../plugins/elf_components_confirm.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_loading.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_toast.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_tree.js"></script>
+	<script type="text/javascript" src="../plugins/elf_components_nav.js"></script>
+	<script type="text/javascript" src="../plugins/elf_layout_fixed.js"></script>
+	<script type="text/javascript" src="data/tree-data.js"></script>
+	<script type="text/javascript" src="js/demos.js"></script>
+</head>
+<body class="elf-body">
+	<h2 class="subtitle1"><a name="loading">加载提示插件</a></h2>
+	<div>
+		<p><strong>Elf.components.loading</strong></p>
+		<p><strong>options</strong></p>
+		<div class="table">
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						width <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>64
+					</div>
+					<p class="">动画图标的宽度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						width <a href="#Number" class="type">Number</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>64
+					</div>
+					<p class="">动画图标的高度</p>
+				</div>
+			</div>
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						color <a href="#color" class="type">color</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>颜色值
+					</div>
+					<p class="">loading 动画颜色</p>
+				</div>
+			</div>
+			
+			<div class="table-row">
+				<div class="table-cell">
+					<h5 class="option">
+						target <a href="#color" class="Element">Element</a>
+					</h5>
+					<div class="default-value">
+						<span>默认：</span>Element Object default document.body
+					</div>
+					<p class="">loading 动画颜色</p>
+				</div>
+			</div>
+		</div>
+		<h4 class="mt16"><strong>举例:</strong></h4>
+		<pre>
+		<code>
+		//创建显示loading
+		Elf.components.loading();
+		//关闭并销毁loading
+		Elf.components.loading("close");
+		</code>
+		</pre>
+		<h4 class="mt16"><strong>Demo:</strong></h4>
+		<div class="demo">
+			<button onClick="showLoading();">显示Loading</button>
+		</div>
+	</div>
+</body>
+</html>
