@@ -1,0 +1,338 @@
+/*  专业科室情况表  
+ *	created by gaopengfei
+ * time 2017-3-31
+ * */
+
+/*--------- grid four ------------------*/
+.grid4{
+	
+	overflow: auto;
+}
+.zyjd-professional-department{
+
+	overflow: hidden;
+}
+.zyjd-professional-department .PD-warp{
+	
+	min-width: 850px;
+	overflow: auto;
+	position: relative;
+}
+.bottom-btn{
+	height: 40px;
+	padding: 5px 10px;
+	text-align: center;
+}
+
+.bottom-btn .btn{
+	
+	height: 30px;
+}
+
+.zyjd-professional-department .title{
+	
+	height: 60px;
+	padding: 10px 0;
+	text-align: center;
+	font-size: 14px;
+	position: relative;
+}
+
+.zyjd-professional-department .title .grid-number{
+	
+	position: absolute;
+	left: 0;
+	top: 10px;
+	
+}
+
+.zyjd-professional-department .grid4-body{
+	
+	border-left: 1px solid #000;
+	border-top: 1px solid #000;
+	margin-bottom: 20px;
+}
+.zyjd-professional-department ul.noborder{
+	
+	border: none;
+}
+
+.zyjd-professional-department .grid4-body .grid-list li{
+
+	min-height: 40px;
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
+	overflow: hidden;
+}
+
+.zyjd-professional-department .grid4-body li.noborder{
+	
+	border: none;
+}
+
+.zyjd-professional-department .grid4-body .grid-list div{
+	
+	height: 100%;
+	line-height: 40px;
+
+}
+
+.no-padding{
+	
+	padding: 0;
+}
+.relative{
+	
+	position: relative;
+}
+
+.grid4-body .grid-list div {
+	
+	border-right: 1px solid #000;		
+}
+.fw{
+	
+	font-weight: bold;
+}
+.textc{
+	
+	text-align: center;
+}
+.textl{
+	
+	text-align: left;
+}
+
+.position-r{
+	
+	position: absolute;
+	top: 0px;
+	right: 0px;
+}
+.position-r20{
+	
+	position: absolute;
+	top: 0px;
+	right: 5px;	
+}
+
+.grid4-body .grid-list input.text{
+	height: 38px;
+	box-sizing: border-box;
+	width: 100%;
+	border: none;
+	outline-color: red;
+	outline-width: 1px;
+	text-align: left;
+	padding: 0 5px;
+}
+
+
+
+.grid4-body .grid-list div.nobr{
+	
+	border-right: none;	
+}
+
+/*--------- grid five ------------------*/
+.grid5{
+	
+	overflow: auto;
+}
+.min-w100{
+	
+	min-width: 100px;
+}
+
+.max-w80{
+	
+	max-width: 80px;
+}
+div.ceils{
+	
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;	
+	text-align: center;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
+div.ceils .text{
+	
+	height: 100%;
+	width: 100%;
+	border: none;
+	outline-color: red;
+	outline-width: 1px;
+	text-align: center;
+}
+
+div.last-ceils .text {
+	
+	height: 28px;
+}
+
+.mt-1{
+	
+	margin-top: -1px;
+}
+
+.h20{
+	
+	height: 20px;	
+}
+
+.h30{
+	
+	height: 30px;
+	line-height: 30px;
+}
+
+.h40{
+	
+	height: 40px;
+}
+
+.h50{
+	
+	height: 50px;
+}
+
+.h60{
+	
+	height: 60px;		
+}
+
+.line-h40{
+	
+	line-height: 40px;
+}
+
+.line-h20{
+	
+	line-height: 20px;
+}
+
+.line-h30{
+	
+	line-height: 30px;
+}
+
+.line-h50{
+	
+	line-height: 50px;
+}
+
+.line-h60{
+	
+	line-height: 60px;
+}
+
+.line-h80{
+	
+	line-height: 80px;
+}
+
+.PD-warp .grid5-warp .ceils.pt4{
+	
+	padding-top: 4px;
+}
+
+.PD-warp .grid5-warp .grid-head{
+	height: 80px;
+	min-height: 80px;	
+	font-weight: 600;
+}
+
+.PD-warp .grid5-body{
+	
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+	margin-bottom: 20px;
+	
+}
+.PD-warp .grid5-body div{
+	
+	padding: 0;
+}
+
+/*--------- grid six ------------------*/
+
+.grid6{
+	
+	overflow: auto;
+}
+
+textarea{
+	max-width: 100%;
+	overflow: auto;
+	border: none;
+	outline: none;
+	padding: 10px;
+	min-width: 100%;
+	min-height: 100px;
+}
+
+
+.borderbr{
+	
+	border-bottom: 1px solid #000;
+	border-right: 1px solid #000;
+}
+
+.borderl{
+	
+	border-left: 1px solid #000;
+}
+.relative{
+	position: relative;
+}
+.max-w03{
+	
+	max-width: 30%;
+}
+.pos-center{
+	position: absolute;
+	left: 10px;
+	top: 50%;
+	transform: translateY(-50%);
+}
+
+.PD-warp .grid6-body{
+
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+	margin-bottom: 20px;
+			
+	
+}
+
+.grid6-list div{
+	padding: 0;
+	
+}
+
+.grid6-list div.textc{
+	
+	text-align: center;
+}
+
+.grid6-list div.ceils{
+	
+	text-align: left;
+
+}
+.grid6-list div.ceils.pl10{
+	
+	padding-left: 10px;
+}
+.grid6-list div.ceils span{
+	
+	padding: 0 10px;	
+}
+
+.PD-warp .grid6-list li{
+/*	/*
+	border-bottom: 1px solid #000;
+	border-right: 1px solid #000;*/
+}

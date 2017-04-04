@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>中医基地系统</title>
+		
+		<!-- 基础css样式 -->
+		<link rel="stylesheet" href="../elf/css/elf-framework-2.0.css" />
+		<link rel="stylesheet" type="text/css" href="../elf/css/elf_ui.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_base.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/css/elf_animate.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/css/form.css"/>
+
+		
+		<!-- 组件css文件 -->
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_paging.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_dialog.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_accordionnav.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_grid.css"/>
+		
+		<!-- 我的css文件  -->
+								<!--省中医管理局-->
+		<link rel="stylesheet" href="../mycss/zyjd-provinceManage.css" />
+								<!--专业科室-->
+		<link rel="stylesheet" type="text/css" href="../mycss/zyjd-professionalDepartment.css"/>
+		
+		<!-- 基础js文件 -->
+		<script src="../elf/src/v2/elf-min-2-0.js" ></script>
+		<script src="../elf/src/v2/elf_control.js" ></script>
+	    <script src="../elf/src/v2/elf_utils.js" ></script>
+    	<script src="../elf/src/v2/elf_xEvents.js" ></script>
+    	<script src="../elf/src/v2/elf_algorithm.js" ></script>	
+    	
+    	<!-- 组件js文件 -->
+    	<script src="../elf/plugins/elf_components_grid.js" ></script>
+    	<script src="../elf/plugins/elf_components_dialog.js" ></script>
+    	<script src="../elf/plugins/elf_components_accordionnav.js" ></script>
+    	<script src="../elf/plugins/elf_components_paging.js" ></script>   	
+    		<!--加载布局组件-->
+		<script type="text/javascript" src="../elf/plugins/elf_components_ajax.js"></script>
+    	
+    	<!-- 数据文件 -->
+    	<script src="students-info.js" ></script>
+
+		<script>
+						
+//			var provinceManageJD = {};
+			
+			
+		</script>
+		
+		<!-- 我的JS文件 -->
+		
+					<!-- 基础js文件（ 优先加载 ） -->
+		<script src="../myjs/zyjd-gaopengfei-basic.js" ></script>
+		
+		<script src="../myjs/zyjd-userDepartment.js" ></script>
+							<!--省中医管理局-->
+		<script src="../myjs/zyjd-MaterialAudit.js" ></script>
+							<!--专业科室-->
+		<script src="../myjs/zyjd-professionalDepartment.js" ></script>
+		
+	</head>
+	<body">
+		
+		<div class="header" > </div>
+		
+		<div class="menu" id="list" > 
+			<h3 _id = 1 >用户管理</h3>
+			<ul>
+				<li ><h3 _id = 20 >培训基地</h3></li>
+				
+				<li><h3 _id = 21 >专业科室</h3></li>
+				
+				<li><h3 _id = 22 >协同单位</h3></li>
+			</ul>
+			<h3 _id = 23  >省级材料上报附件3</h3>
+			<ul>
+				<li  >
+					<h3 _id = 100 >基本情况4</h3>
+				
+				</li>
+				<li >
+					
+					<h3 _id = 101 >基本情况5</h3></li>
+				<li>
+					
+					<h3 _id = 102 >基本情况6</h3>
+				
+				</li>
+			</ul>			
+		</div>
+		
+		<div id="bg" class="jd-pro-content p10 "> </div>
+		
+		
+		<!-- js -->
+		<script type="text/javascript">
+			
+			var list = document.getElementById("list");
+			var box = document.getElementById("bg");
+			console.log( zyjdModuleByGao );
+	////////////////////////////////////////////		
+
+//***省级用户***
+
+// 用户管理页面接口：	zyjdModuleByGao.userManage
+
+// 培训基地审核页面接口：	zyjdModuleByGao.trainBase
+
+// 专业科室审核页面接口：	zyjdModuleByGao.SpecialDepartment
+
+// 协同单位审核页面接口：zyjdModuleByGao.cooperativeUnits
+
+//省级材料上报附件3接口： zyjdModuleByGao.provincialReported
+
+
+//***专业科室***
+
+//专业科室基本情况表4接口 ： zyjdModuleByGao.basiSituation4
+
+//专业科室基本情况表5接口 ： zyjdModuleByGao.basiSituation5
+
+//专业科室基本情况表6接口 ： zyjdModuleByGao.basiSituation6
+
+
+	////////////////////////////////////////////////		
+			list.onclick = function( ev ){
+				box.innerHTML ='';
+				var tar = ev.target;
+				
+			 	var id = Elf.utils.attr( tar , '_id'); 
+				
+				window.id = id; //模拟树形菜单id
+				
+				if( id == 1 ){
+					
+					new zyjdModuleByGao.userManage
+					
+					return
+				}
+				
+				if( id == 20 ){
+					
+					new zyjdModuleByGao.trainBase
+					
+					return
+				}				
+				
+				if( id == 21 ){
+					
+					new zyjdModuleByGao.SpecialDepartment
+					
+					return
+				}					
+				if( id == 22 ){
+					
+					new zyjdModuleByGao.cooperativeUnits
+					
+					return
+				}
+
+				if( id == 23 ){
+					
+					new zyjdModuleByGao.provincialReported
+					
+					return
+				}				
+				
+				if( id == 100 ){
+					
+					new zyjdModuleByGao.basiSituation4
+					
+					return
+				}					
+				if( id == 101 ){
+					
+					new zyjdModuleByGao.basiSituation5
+					
+					return
+				}
+				
+				if( id == 102 ){
+					
+					new  zyjdModuleByGao.basiSituation6
+					
+					return
+				}								
+				
+				
+			}
+			
+		</script>
+		
+	</body>
+</html>
