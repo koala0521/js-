@@ -77,17 +77,6 @@
 			}
 		}
 		,{
-			title:"专业基地（科室）",
-			name:"",
-			width:100,
-			align:"center",
-			renderer:function(name,rowIndex,rowData){	    			
-	
-				return "<div>"+ rowData.name +"</div>";
-				
-			}
-		}
-		,{
 			title:"联系人",
 			name:"",
 			width:60,
@@ -120,7 +109,7 @@
 			align:"center",
 			renderer:function(name,rowIndex,rowData){	    			
 				
-				var str = "<a class='open-grid2 prl12' href='javascript:;'>表2</a><a  class='open-grid3 prl12' href='javascript:;'>表3</a>";
+				var str = "<a class='open-grid2 prl12' target='_blank' href='new-window.html#newPage2'>表2</a><a class='open-grid3 prl12' target='_blank' href='new-window.html#newPage3'>表3</a>";
 				return str;
 				
 			}	    		
@@ -139,7 +128,6 @@
 		}
 	
 	];
-
 		
 	function TrainingBase(){
 
@@ -185,7 +173,7 @@
 			<div class="hfull pr20" >
 				<div>培训基地（医院）名称 : </div>
 				<div>
-					<input class="hospitalName prl5 ptb4 getvalue" />
+					<input  name="hospitalName"  class="hospitalName prl5 ptb4 getvalue" />
 				</div>
 			</div>
 			
@@ -202,7 +190,7 @@
 			<div class="hfull pr20" >
 				<div class="" > 审核状态 : </div>
 				<div class="" >
-					<select name="zhuangtai" class="zhuangtai getvalue" >
+					<select name="shZhuangTai" class="zhuangtai getvalue" >
 						<option value="全部">全部</option>
 						<option value="未上报">未上报</option>
 						<option value="已上报(未审核)">已上报(未审核)</option>
@@ -232,12 +220,12 @@
 		//绑定事件
 		conditionQuery.addEventListener('click' , function(ev){
 			
-			_this.conditionQueryFn.call( conditionQuery , ev ); 
+			_this.conditionQueryFn.call( conditionQuery , ev , _this ); 
 			
 		});
 		batchSelection.addEventListener('click', function(ev){
 			
-			_this.batchSelectionFn.call( batchSelection , ev ) 
+			_this.batchSelectionFn.call( batchSelection , ev , _this ); 
 			
 		});
 		
@@ -269,7 +257,7 @@
 	    		if( Elf.utils.hasClass(tt,"open-grid2") ){
 	    			
 	    			console.log( "打开表2。。。");
-
+	
 	    			return
 	    		}
 	    		
@@ -317,39 +305,67 @@
 	}
 	
 	//条件查询
-	TrainingBase.prototype.conditionQueryFn = function(ev){
+	TrainingBase.prototype.conditionQueryFn = function( ev , _this ){
 		var e,
 			tt,
 			has,
-			infos;		
+			infos,
+			infosObj,
+			has,
+			hosptialName;
+		
+		infosObj = {};
 		has = Elf.utils.hasClass;		
 		e = Elf.getEvent(ev);
 		tt = Elf.getEventSource(ev);
+		
+		hosptialName = this.getElementsByClassName('hospitalName')[0];
 
-		if( has( tt , 'conditionQuery') ){
-	
-			infos = this.getElementsByClassName('getvalue');
+		if( has( tt , 'conditionQuery') ){			
 			
+			if( Elf.utils.trim( hosptialName.value ) === '' ){
+				
+				hosptialName.focus();
+				
+				console.log('请填医院名称');
+				
+				return
+			}
+			
+			infos = this.getElementsByClassName('getvalue');
 			
 			for (var i = 0; i < infos.length; i++) {
 				
-				if( Elf.utils.trim( infos[i].value ) === '' ){
-					
-					infos[i].focus();
-					
-					console.log('请填医院名称');
-					
-					return
-				}
+				infosObj[infos[i].name] = infos[i].value;
 			}
+			console.log( infosObj );
 			//请求数据，更新视图
+ 			
+ 			//loading动画
+		    Elf.components.loading({
+
+		        target:document.body   //loading组件的父级元素
+		    });
+		    setTimeout(function(){
+		    	
+		    	console.log( '关闭loading' );
+			    //关闭loading
+				Elf.components.loading.methods.close();	
+				
+		    },1000);
+
+			
+			
+			var data = studentList;	//假数据
+
+			Elf.components.grid.methods.update( _this.grid,data.slice(0 ,pageSize) );	
 			
 		}
 
 	}
 	
 	//批量选择
-	TrainingBase.prototype.batchSelectionFn = function(ev){
+	TrainingBase.prototype.batchSelectionFn = function(ev , _this ){
 	
 		var e,
 		tt,
@@ -493,7 +509,7 @@
 	}
 	
 	//专业科室审核函数接口
-	zyjdModuleByGao.SpecialDepartment = SpecialDepartment;
+	zyjdModuleByGao.specialDepartment = SpecialDepartment;
 	
 	SpecialDepartment.prototype.init = function(data){
 		
@@ -582,12 +598,12 @@
 //		//绑定事件
 		conditionQuery.addEventListener('click' , function(ev){
 			
-			_this.conditionQueryFn.call( conditionQuery , ev );
+			_this.conditionQueryFn.call( conditionQuery , ev , _this );
 			
 		} );
 		batchSelection.addEventListener('click', function(ev){
 			
-			_this.batchSelectionFn.call( batchSelection , ev );
+			_this.batchSelectionFn.call( batchSelection , ev , _this );
 			
 		} );
 		
@@ -665,7 +681,7 @@
 	}
 	
 	//条件查询
-	SpecialDepartment.prototype.conditionQueryFn = function(ev){
+	SpecialDepartment.prototype.conditionQueryFn = function( ev , _this ){
 		var e,
 			tt,
 			has,
@@ -680,8 +696,6 @@
 		
 		if( has( tt , 'conditionQuery') ){
 			
-			console.log( 1 );
-			
 			if( Elf.utils.trim( hospital.value ) === '' ){
 				
 				hospital.focus();
@@ -692,8 +706,14 @@
 				
 			}else{
 				
+				hospital.value = '';
 				//发送ajax请求数据，更新视图		
 				console.log('医院查找中...');
+ 				//假数据
+ 				var data = studentList;
+				//更新数据
+				Elf.components.grid.methods.update(_this.grid,data.slice(0 , pageSize ) );	
+			
 			}
 			
 		
@@ -703,7 +723,7 @@
 	}
 	
 	//批量选择
-	SpecialDepartment.prototype.batchSelectionFn = function(ev){
+	SpecialDepartment.prototype.batchSelectionFn = function(ev , _this ){
 	
 		var e,
 		tt,
@@ -720,6 +740,12 @@
 			Elf.utils.removeClass(this.getElementsByClassName('un-success')[0] , 'active' );
 			//请求数据，更新视图
 			console.log('审核通过的医院查找中...');
+			
+			//假数据
+			var data = studentList;
+			//更新数据
+			Elf.components.grid.methods.update(_this.grid,data.slice(0 , pageSize ) );	
+			
 			return
 		}
 		
@@ -729,6 +755,12 @@
 			Elf.utils.removeClass(this.getElementsByClassName('success')[0] , 'active' );
 			//请求数据，更新视图
 			console.log('未审核通过的医院查找中...');
+			
+			//假数据
+			var data = studentList;
+			//更新数据
+			Elf.components.grid.methods.update(_this.grid,data.slice(0 , pageSize ) );	
+						
 			return
 		}		
 		
@@ -815,7 +847,6 @@
 			width:100,
 			align:"center",
 			renderer:function(name,rowIndex,rowData){	    			
-				//接受一个数组，循环生成协同单位
 				var str = "<div><a href='javascript:;'>"+ rowData.name  +"</a></div>";
 				return str;
 				
@@ -827,8 +858,7 @@
 			width:100,
 			align:"center",
 			renderer:function(name,rowIndex,rowData){	    			
-				//接受一个数组，循环生成协同单位
-				console.log( name );
+
 				var str = "<div><a class='xtdw1' href='javascript:;'>"+ rowData.name  +"</a></div>";
 				return str;
 			}

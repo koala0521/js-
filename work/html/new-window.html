@@ -2,8 +2,78 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title></title>
+		<title>中医基地系统</title>
+		
+		<!-- 基础css样式 -->
+		<link rel="stylesheet" href="../elf/css/elf-framework-2.0.css" />
+		<link rel="stylesheet" type="text/css" href="../elf/css/elf_ui.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_base.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/css/elf_animate.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/css/form.css"/>
+
+		
+		<!-- 组件css文件 -->
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_paging.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_dialog.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_accordionnav.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_grid.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_toast.css"/>
+		<link rel="stylesheet" type="text/css" href="../elf/plugins/css/elf_components_loading.css"/>
+		
+		<!-- 我的css文件  -->
+								<!--省中医管理局-->
+		<link rel="stylesheet" href="../mycss/zyjd-provinceManage.css" />
+								<!--专业科室-->
+		<link rel="stylesheet" type="text/css" href="../mycss/zyjd-professionalDepartment.css"/>
+		
+		<!-- 基础js文件 -->
+		<script src="../elf/src/v2/elf-min-2-0.js" ></script>
+		<script src="../elf/src/v2/elf_control.js" ></script>
+	    <script src="../elf/src/v2/elf_utils.js" ></script>
+    	<script src="../elf/src/v2/elf_xEvents.js" ></script>
+    	<script src="../elf/src/v2/elf_algorithm.js" ></script>	
+    	
+    	<!-- 组件js文件 -->
+    	<script src="../elf/plugins/elf_components_grid.js" ></script>
+    	<script src="../elf/plugins/elf_components_dialog.js" ></script>
+    	<script src="../elf/plugins/elf_components_accordionnav.js" ></script>
+    	<script src="../elf/plugins/elf_components_paging.js" ></script> 
+    	<script src="../elf/plugins/elf_components_toast.js" ></script>
+    	<script src="../elf/plugins/elf_components_loading.js" ></script>
+    	
+    		<!--加载布局组件-->
+		<script type="text/javascript" src="../elf/plugins/elf_components_ajax.js"></script>
+    	
+    	<!-- 数据文件 -->
+    	<script src="students-info.js" ></script>
+    	<script src="../myjs/test-data.js" > </script>
+		
+		<!-- 我的JS文件 -->
+		
+					<!-- 基础js文件（ 优先加载 ） -->
+		<script src="../myjs/zyjd-gaopengfei-basic.js" ></script>
+		
+					<!--省级用户管理&省级材料上报模块-->		
+		<script src="../myjs/zyjd-userDepartment.js" ></script>
+		
+					<!-- 省级用户申报材料审核 -->
+		<script src="../myjs/zyjd-MaterialAudit.js" ></script>
+		
+							<!--专业科室-->
+		<script src="../myjs/zyjd-professionalDepartment.js" ></script>
+		
 	</head>
-	<body>
+	<body class="full" >
+		
+		<div id="bg" class="full" >
+			
+		</div>
+		
+		<script>
+			
+			new zyjdModuleByGao.provincialReported;
+			
+		</script>
+		
 	</body>
 </html>

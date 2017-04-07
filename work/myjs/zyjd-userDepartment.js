@@ -64,7 +64,7 @@
 		renderer:function(name,rowIndex,rowData){
 		
 			//rowData.pici
-			return "第一批";
+			return "<div>第一批<div>";
 
 		}
 	}
@@ -155,8 +155,7 @@
 	    		var tt = evt.target;
 
 	    		if( Elf.utils.hasClass(tt,"bianJi") ){
-	    			
-	    			console.log( item );
+
 	    			_this.handle( evt , item ,data );
 	    		}
 			},
@@ -205,29 +204,9 @@
 			_this = this;
 			e = Elf.getEvent(ev);
 			target = Elf.getEventSource(ev); 		
-			dialogHtml = Elf.controls.createElement( 'div','wfull dialog-inner' );		
-			dialogHtml.innerHTML = `<div class="clear-both pt20" >
-		        	<div class="fl hfull name prl6"  >基地名称 :  </div>	
-		        	<div class="fr hfull text" > <input type="text" class="full prl6 area-name text" value= ${ obj.yiyuanname } /> </div>
-		        </div>
-		        
-		        <div class="clear-both pt20" >
-		        	<div class="fl hfull name prl6"  >密码 :  </div>	
-		        	<div class="fr hfull text" > <input type="password" class="full prl6 pass-word text" value= ${ obj.passsword }  /> </div>
-		        </div>
-		        
-		        <div class="clear-both pt20" >
-		        	<div class="fl hfull name prl6"  >备注 :  </div>	
-		        	<div class="fr hfull text" > <input type="text" class="full prl6 other-info text" value=" ${ obj.beizhu ? obj.beizhu : '' }" /> </div>
-		        </div>
-		        
-		        <div class="pt30 button-box" >
-					<input class="btn saveData prl24 ptb6" type="button" value="确定"  />
-		        </div>
-		        
-		        <div class="tips pt20" >
-		        	请填写完整 !
-		        </div>`;
+			dialogHtml = Elf.controls.createElement( 'div','wfull dialog-inner' );	
+			
+			dialogHtml.innerHTML = '<div class="clear-both pt20" ><div class="fl hfull name prl6"  >基地名称 :  </div>	<div class="fr hfull text" > <input type="text" class="full prl6 area-name text" value='+ obj.yiyuanname  +' /> </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >密码 :  </div><div class="fr hfull text" ><input type="password" class="full prl6 pass-word text" value='+  obj.passsword  +'  /> </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >备注 :  </div><div class="fr hfull text" > <input type="text" class="full prl6 other-info text" value="'+ ( obj.beizhu ? obj.beizhu : '' ) +' " /> </div></div><div class="pt30 button-box" ><input class="btn saveData prl24 ptb6" type="button" value="确定"  /></div><div class="tips pt20" >请填写完整 ! </div>';
 			
 			dialog = Elf.components.dialog({			
 		        title:'',   
@@ -281,15 +260,37 @@
 					} else{
 	
 						// 修改完成，返回数据 ,更新视图。
-						console.log( data );
-						
+
 						obj.yiyuanname = areaName.value;
 						obj.beizhu = otherInfo.value;
+
+						Elf.components.grid.methods.update(_this.grid,data.slice( (currentPage-1)*pageSize , currentPage*pageSize));	
+
 						
-						Elf.components.grid.methods.update(_this.grid,data.slice( (currentPage-1)*pageSize , pageSize));						
-						returnData.areaName = areaName.value;
-						returnData.passWord = passWord.value;
-						returnData.otherInfo = otherInfo.value;
+						//loading动画
+					    Elf.components.loading({
+//					        width:300,  //没效果...
+//					        height:300, //没效果...
+//					        color:"#000",   //没效果...
+					        target:_this.warp   //loading组件的父级元素
+					    });
+					    
+
+						
+//						returnData.areaName = areaName.value;
+//						returnData.passWord = passWord.value;
+//						returnData.otherInfo = otherInfo.value;
+						
+						//发送ajax请求给后端更新数据
+						setTimeout(function(){
+							
+							// 发送成功关闭loading动画
+						    Elf.components.loading.methods.close();
+							//删除弹框
+							Elf.utils.remove( dialog );							
+							
+						},2000);
+
 					}				
 					
 				}
@@ -308,15 +309,18 @@
 	
 	var $creatE,
 		$pTo,
+		$attr,
 		gridHdata;
 	
 	$creatE = Elf.controls.createElement;
 	$pTo = Elf.controls.appendTo;
+	$attr = Elf.utils.attr;
 	
 	function ProvincialReported(){
 		
 		this.content = document.getElementById("bg");
-		this.warp = $creatE('div' ,'grid4 full');
+		this.form = $creatE('form');
+		this.warp = $creatE('div' ,'grid3 full');
 		
 		this.init();
 	}
@@ -344,8 +348,11 @@
 					
 					_this.warp.innerHTML = data;
 					_this.content.innerHTML = '';
-					Elf.controls.appendTo( _this.warp, _this.content);
+					Elf.controls.appendTo( _this.warp, _this.form);
+					Elf.controls.appendTo( _this.form, _this.content);
 					_this.btnFn();
+					_this.creatInfos();
+					_this.hideBtns();
 				},
 				error:function(xhr){
 					
@@ -355,29 +362,136 @@
 		
 	}
 	
+	//btn事件
 	ProvincialReported.prototype.btnFn = function(){
 
 		this.warp.addEventListener('click' , function(ev){
 			
 			var has,
 				e,
-				tt;
+				tt,
+				arr,
+				rows,
+				texts,
+				obj,
+				_this;
+				
+			_this = this;	
+			obj = null;	
+			arr = [];
 			has = Elf.utils.hasClass;		
 			e = Elf.getEvent(ev);
 			tt = Elf.getEventSource(ev);
 			
 			if( has( tt , 'save-data' ) ){
 				
-				console.log('保存数据');  
+				console.log('保存数据'); 
+				
+				rows = this.getElementsByClassName('rowData');
+				
+				for (var i = 0; i < rows.length; i++) {
+					texts = rows[i].getElementsByClassName('text-info');
+					obj = {};
+					for (var j = 0; j < texts.length; j++) {
+						obj[texts[j].name] = texts[j].value;
+					}
+					arr.push( obj );
+					
+					console.log(  arr );
+				}	
+				
 				return
 			}
 			if( has( tt , 'submit-data' ) ){
 				
 				console.log('提交数据'); 
+				rows = this.getElementsByClassName('rowData');
+
+				for (var i = 0; i < rows.length; i++) {
+					texts = rows[i].getElementsByClassName('text-info');
+					obj = {};
+					for (var j = 0; j < texts.length; j++) {
+						
+						if( Elf.utils.trim( texts[j].value ) === '' ){
+							
+							texts[j].focus();
+							
+						    Elf.components.toast({
+						        width:200,
+						        height:200,
+						        holdtime:1000,
+						        text:'请填写完整信息！',
+						        opacity:1,
+						        target:_this.content
+						    });			
+			
+							return
+						}
+						
+						obj[texts[j].name] = texts[j].value;
+					}
+					
+					arr.push( obj );
+					
+					console.log(  arr );
+				}
 				return
 			}			
 			
 		})
+	}
+	
+	//渲染数据
+	ProvincialReported.prototype.creatInfos = function(){
+		var infosWarp = document.getElementsByClassName('infos-warp')[0];
+		
+		var data = hospitalData;
+		var str ='';
+		
+		for (var i = 0; i < 2; i++) {
+			
+			var row = $creatE('div' , 'full h40 clear-fix rowData');
+
+			var index = $creatE('div' , 'col-xs-1 ceils hfull');			
+			index.innerHTML = '<span>'+ (i + 1) +'</span>';			
+
+			var name = $creatE('div' , 'col-xs-3 ceils hfull');			
+			name.innerHTML = '<input type="text" name="hospitalName" value="'+ ( data[i].hospitalName ? data[i].hospitalName :"" ) +'" class="full text-info" />';
+
+			var qingKuang = $creatE('div' , 'col-xs-5 hfull');			
+			qingKuang.innerHTML = '<div class="col-xs-4 hfull ceils" ><input type="text" name="leiBie" value="'+ (data[i].type ? data[i].type : "") +'" class="full text-info" /></div><div class="col-xs-4 hfull ceils" ><input type="text" name="level" value="'+ (data[i].level ? data[i].level : "") +'" class="full text-info" /></div><div class="col-xs-4 hfull ceils" ><input type="text" name="dengJitype"  value="'+ (data[i].djtype ? data[i].djtype : "") +'" class="full text-info" /></div>';
+			
+			var peiXunLiang = $creatE('div' , 'col-xs-3 hfull ceils');
+			peiXunLiang.innerHTML = '<input type="text" name="peiXunLiang" value="'+ ( data[i].pxzl? data[i].pxzl :""  ) +'" class="full text-info" />'
+			
+			$pTo( index , row );
+			$pTo( name , row );
+			$pTo( qingKuang , row );
+			$pTo( peiXunLiang , row );
+			$pTo( row , infosWarp );
+
+		}
+		
+	}
+	
+	//隐藏按钮
+	ProvincialReported.prototype.hideBtns = function(){
+		var hash,
+			btns;
+			
+		hash = window.location.hash.substring(1);
+	
+		btns = this.warp.getElementsByClassName('btn');
+		
+		console.log( hash );
+		if( hash.indexOf('newPage3') !== -1 ){
+			
+			for (var i = 0; i < btns.length; i++) {
+				
+				Elf.effects.hidden(btns[i]);
+			}			
+		}
+	
 	}
 	
 })()

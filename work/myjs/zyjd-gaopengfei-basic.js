@@ -14,7 +14,7 @@ var zyjdModuleByGao = {
 
 // 培训基地审核页面：	zyjdModuleByGao.trainBase
 
-// 专业科室审核页面：	zyjdModuleByGao.SpecialDepartment
+// 专业科室审核页面：	zyjdModuleByGao.specialDepartment
 
 // 协同单位审核页面：zyjdModuleByGao.cooperativeUnits
 

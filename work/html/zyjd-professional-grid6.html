@@ -6,15 +6,15 @@
 			
 			<h3 class="hfull " >专业科室教学主任基本情况表</h3>
 			<div class="grid-number prl24 hfull">				
-				<h3 class="hfull " >表6</h3>
+				<h3 class="hfull " >表6 <span class="mark" >注：所有项目都是必填项</span></h3>
 				
 			</div>
 			<div class="btn-warp" >
-				<button class="btn save-data prl24 mr10" > 保存 </button>			
-				<button class="btn submit-data prl24" > 提交 </button>	
+
+				<input type="button" value="保存" class="btn save-data prl24 mr10" />
+				<input type="button" value="完成" class="btn submit-data prl24" />	
 			</div>
 
-		
 		</div>
 		
 		<div class="grid6-body grid-body wfull">
@@ -22,13 +22,13 @@
 										
 				<ul class="grid6-list " >
 					
-					<li class="clear-fix h30" > 
+					<li class="clear-fix h40 line-h40" > 
 						
 						<div class="col-xs-4 hfull" >
 							
 							<div class=" col-xs-4 ceils hfull" ><span>姓名</span></div>
 							<div class=" col-xs-8 ceils hfull" >
-								<input type="text" class="text prl10" value="" />
+								<input type="text" class="text prl10" name="xm" />
 							</div>									
 							
 						</div>
@@ -36,30 +36,30 @@
 							
 							<div class=" col-xs-2 ceils hfull" ><span>性别</span></div>
 							<div class=" col-xs-2 ceils hfull" >
-								<input type="text" class="text prl10" value="" />
+								<input type="text" class="text prl10" name="xb" />
 							</div>										
 
 							<div class=" col-xs-2 ceils hfull" ><span>年龄</span></div>
 							<div class=" col-xs-2 ceils hfull" >
-								<input type="text" class="text prl10" value="" />
+								<input type="text" class="text prl10" name="nl" />
 							</div>										
 
 							<div class=" col-xs-2 ceils hfull" ><span>学历</span></div>
 							<div class=" col-xs-2 ceils hfull" >
-								<input type="text" class="text prl10" value="" />
+								<input type="text" class="text prl10" name="xl" />
 							</div>										
 
 						</div>
 						
 					</li>
 
-					<li class="clear-fix h30" > 
+					<li class="clear-fix h40 line-h40" > 
 						
 						<div class="col-xs-4 hfull" >
 							
 							<div class=" col-xs-4 ceils hfull" ><span>学位</span></div>
 							<div class=" col-xs-8 ceils hfull" >
-								<input type="text" class="text prl10" value="" />
+								<input type="text" class="text prl10" name="" />
 							</div>									
 							
 						</div>
@@ -67,14 +67,14 @@
 							<div class=" col-xs-6 hfull" >
 								<div class=" col-xs-4 ceils hfull" ><span>职称</span></div>
 								<div class=" col-xs-8 ceils hfull" >
-									<input type="text" class="text prl10" value="" />
+									<input type="text" class="text prl10" name="" />
 								</div>										
 								
 							</div>
 							<div class=" col-xs-6 hfull" >
 								<div class=" col-xs-4 ceils hfull" ><span>职务</span></div>
 								<div class=" col-xs-8 ceils hfull" >
-									<input type="text" class="text prl10" value="" />
+									<input type="text" class="text prl10" name="" />
 								</div>										
 								
 							</div>							
@@ -83,7 +83,7 @@
 						
 					</li>
 					
-					<li class="clear-fix h30" > 
+					<li class="clear-fix h40 line-h40" > 
 						
 						<div class="col-xs-4 hfull" >
 							
@@ -94,16 +94,18 @@
 						<div class="col-xs-8 hfull" >
 							
 							<div class="ceils hfull pl10" >
-								<input type="radio" name="dsqk" /><label>硕导</label>
-								<input type="radio" name="dsqk" /><label>博导</label>
-								<input type="radio" name="dsqk" /><label>其他</label>
+								<span class="radio-warp" >
+									<input class="radio-dsqk" type="radio" name="dsqk" value="硕导" /><label>硕导</label>
+									<input class="radio-dsqk" type="radio" name="dsqk" value="博导" /><label>博导</label>
+									<input class="radio-dsqk" type="radio" name="dsqk" value="其他" /><label>其他</label>
+								</span>
 							</div>
 
 						</div>
 						
 					</li>
 					
-					<li class="clear-fix h30" > 
+					<li class="clear-fix h40 line-h40" > 
 						
 						<div class="col-xs-8 hfull" >
 							
@@ -113,14 +115,14 @@
 						
 						<div class="col-xs-4 hfull ceils" >
 							
-								<input type="text" class="col-xs-12 text pr30 hfull" value="" />
-								<span class="position-r20 prl4" >张</span>
+								<input type="text" class="col-xs-12 text pr30 hfull w-85" name="" />
+								<span class="position-r20 prl4" >年</span>
 
 						</div>
 						
 					</li>							
 					
-					<li class="clear-fix h30" > 
+					<li class="clear-fix h40 line-h40" > 
 						
 						<div class="col-xs-6 hfull" >										
 								
@@ -132,7 +134,7 @@
 							
 							<div class="col-xs-8 hfull ceils" >
 								
-								<input type="text" class="col-xs-12 text pr30 hfull" value="" />										
+								<input type="text" class="col-xs-12 text pr30 hfull" name="" />										
 							</div>	
 
 						</div>
@@ -147,7 +149,7 @@
 							
 							<div class="col-xs-8 hfull ceils" >
 								
-								<input type="text" class="col-xs-12 text pr30 hfull" value="" />										
+								<input type="text" class="col-xs-12 text pr30 hfull" name="" />										
 							</div>	
 
 						</div>
@@ -162,7 +164,7 @@
 						</div>
 						<div class="col-xs-8 hfull borderl" > 
 							
-							<textarea name="" class="wfull hfull text" rows="" cols=""></textarea>
+							<textarea name="" class="full text textarea" rows="" cols=""></textarea>
 						
 						</div>
 						
@@ -176,7 +178,7 @@
 						</div>
 						<div class="col-xs-8 hfull borderl" > 
 							
-							<textarea name="" class="wfull hfull text" rows="" cols=""></textarea>
+							<textarea name="" class="full text textarea" rows="" cols=""></textarea>
 						
 						</div>
 						
@@ -190,7 +192,7 @@
 						</div>
 						<div class="col-xs-8 hfull borderl" > 
 							
-							<textarea name="" class="wfull hfull text" rows="" cols=""></textarea>
+							<textarea name="" class="full text textarea" rows="" cols=""></textarea>
 						
 						</div>
 						
@@ -205,7 +207,7 @@
 						</div>
 						<div class="col-xs-8 hfull borderl" > 
 							
-							<textarea name="" class="wfull hfull text" rows="" cols=""></textarea>
+							<textarea name="" class="full text textarea" rows="" cols=""></textarea>
 						
 						</div>
 						
@@ -219,7 +221,7 @@
 						</div>
 						<div class="col-xs-8 hfull borderl" > 
 							
-							<textarea name="" class="wfull hfull text" rows="" cols=""></textarea>
+							<textarea name="" class="full text textarea" rows="" cols=""></textarea>
 						
 						</div>
 						
@@ -233,7 +235,7 @@
 						</div>
 						<div class="col-xs-8 hfull borderl" > 
 							
-							<textarea name="" class="wfull hfull text" rows="" cols=""></textarea>
+							<textarea name="" class="full text textarea" rows="" cols=""></textarea>
 						
 						</div>
 						
@@ -244,9 +246,9 @@
 		</div>
 		
 		<div class="wfull relative pt2 bottom-btn" >
-		
-			<button class="btn save-data prl24 btn mr10" >保存</button>			
-			<button class="btn submit-data prl24 btn mr10" >提交</button>	
+
+			<input type="button" value="保存" class="btn save-data prl24 mr10" />
+			<input type="button" value="完成" class="btn submit-data prl24" />	
 		</div>
 	</div>
 </div>
