@@ -54,8 +54,8 @@
 
 .focus{
 	
-    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2), 0 0 8px rgba(82,168,236,0.8);
-    border-color: rgba(82,168,236,0.8);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.2), 0 0 8px rgba(255,0,0,0.8);
+    border-color: rgba(255,0,0,0.8);
 }
 
 .zyjd-professional-department .grid4-body{
@@ -156,7 +156,7 @@
 	text-align: left;
 	padding: 0 5px;
 	margin: 1px;
-	/*text-align: center;*/
+	text-align: center;
 }
 
 .grid4-body .grid-list input.w96{

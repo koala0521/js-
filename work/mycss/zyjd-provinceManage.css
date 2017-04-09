@@ -57,6 +57,14 @@ a{
 	color: #000;
 	background: #f0f0f0;
 	font-size: 14px;
+	position: relative;
+}
+.numberPeople .add-hospital{
+	
+	line-height: 30px;
+	position: absolute;
+	right: 6px;
+	top: 5px;	
 }
 
 .tableWarp{
@@ -92,8 +100,12 @@ th,td{
 	height: 50px;
 	width: 300px;
 	margin: 0 auto;
-	overflow: hidden;
 }
+.elf-dialog .dialog-inner > div.relative{
+	
+	position: relative;
+}
+
 .elf-dialog .dialog-inner > div input{
 	
 	border-width: 1px;
@@ -110,7 +122,7 @@ th,td{
 
 .elf-dialog .dialog-inner > div .text{
 	width: 200px;
-	text-align: left;
+	text-align: center;
 	box-sizing: border-box;	
 }
 
@@ -120,8 +132,13 @@ th,td{
 	margin: 0;
 	text-align: center;
 }
-.elf-dialog .dialog-inner > div.tips{
-	
+.elf-dialog .dialog-inner div.tips{
+	width: 100px;
+	position: absolute;
+	height: 30px;
+	line-height: 30px;
+	bottom: 0px;
+	right: -100px;
 	text-align: center;
 	color: red;
 	font-size: 12px;

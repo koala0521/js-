@@ -103,19 +103,22 @@ zhuanyekeshiData.grid4Data = {
 		"yjyNum":"66",			
 		"diseaseType":[
 		
-			{"jbtype":"1类","nzzNum":"20"}
+			{"jbtype":"1类","nzzNum":"20"},
+			{"jbtype":"3类","nzzNum":"25"}
 		
 		],
 		
 		"skillType":[
 		
-			{"sszl":"普通类","nwcNum":"30"}
+			{"lcjnName":"普通类","lcjnNum":"30"},
+			{"lcjnName":"疑难类","lcjnNum":"20"}
 		
 		],
 		
 		"medicalEquipment":[
 			
-			{"sbyqName":"核磁治疗仪","sbNum":"8"}
+			{"sbyqName":"核磁治疗仪","sbyqNum":"8"},
+			{"sbyqName":"不认识什么仪","sbyqNum":"12"}
 		
 		]
 	}

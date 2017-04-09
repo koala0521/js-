@@ -26,6 +26,7 @@
 		checkCol:false,
 		valign:"middle",
 		renderer:function(name,rowIndex,rowData){
+			
 			return rowIndex+1+ (currentPage-1)*pageSize;
 		}
 	}
@@ -62,9 +63,8 @@
 		fixedColumn:false,
 		valign:"middle",
 		renderer:function(name,rowIndex,rowData){
-		
-			//rowData.pici
-			return "<div>第一批<div>";
+
+			return "<div>"+ ( rowData.pici ? rowData.pici : '第一批' ) +"<div>";
 
 		}
 	}
@@ -119,6 +119,7 @@
 		this.contTitle(data);
 		this.grid(data);
 		this.pagesNumber(data);
+		this.addHospital(data);
 
 	}
 	
@@ -129,13 +130,17 @@
 			_this;
 			
 		_this = this;
-		conTil = $creatE('div','wfull numberPeople pl6');
+		conTil = $creatE('div','wfull numberPeople pl6 relative');
 		numbers = $creatE('span');
 		numbers.innerHTML = '剩余名额：'+ 3;
+		addrow = $creatE('button' , 'btn add-hospital prl12');
+		addrow.innerHTML = '添加基地';
 		$pTo( numbers , conTil );
+		$pTo( addrow , conTil );
 		$pTo( conTil , _this.moduleWarp );
 	}
 	
+	//生成表格
 	UserManagement.prototype.grid = function( data ){
 		
 		var gridWarp,
@@ -164,6 +169,7 @@
 
 	}
 	
+	//分页工具
 	UserManagement.prototype.pagesNumber = function( data ){
 		
 		var pageNumber ,paging ,_this;
@@ -193,9 +199,10 @@
 		
 	}
 	
-	UserManagement.prototype.handle = function ( ev , obj , data ){	//弹框结构和事件
+	//表格编辑事件
+	UserManagement.prototype.handle = function( ev , obj , data ){
 			
-			var dialog,
+		var dialog,
 			dialogHtml,
 			e,
 			target,
@@ -206,7 +213,7 @@
 			target = Elf.getEventSource(ev); 		
 			dialogHtml = Elf.controls.createElement( 'div','wfull dialog-inner' );	
 			
-			dialogHtml.innerHTML = '<div class="clear-both pt20" ><div class="fl hfull name prl6"  >基地名称 :  </div>	<div class="fr hfull text" > <input type="text" class="full prl6 area-name text" value='+ obj.yiyuanname  +' /> </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >密码 :  </div><div class="fr hfull text" ><input type="password" class="full prl6 pass-word text" value='+  obj.passsword  +'  /> </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >备注 :  </div><div class="fr hfull text" > <input type="text" class="full prl6 other-info text" value="'+ ( obj.beizhu ? obj.beizhu : '' ) +' " /> </div></div><div class="pt30 button-box" ><input class="btn saveData prl24 ptb6" type="button" value="确定"  /></div><div class="tips pt20" >请填写完整 ! </div>';
+			dialogHtml.innerHTML = '<div class="clear-both pt20" ><div class="fl hfull name prl6"  >基地名称 :  </div>	<div class="fr hfull text" > <input type="text" disabled="disabled" class="full prl6 area-name text" value='+ obj.yiyuanname  +' /> </div> </div><div class="clear-both pt20 relative" ><div class="fl hfull name prl6"  >密码 :  </div><div class="fr hfull text" ><input type="password" class="full prl6 pass-word text" value='+  obj.password  +'  /> </div><div class="tips prl10" >请输入密码 ! </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >备注 :  </div><div class="fr hfull text" > <input type="text" class="full prl6 other-info text" value="'+ ( obj.beizhu ? obj.beizhu : '' ) +' " /> </div></div><div class="pt30 button-box" ><input class="btn saveData prl24 ptb6" type="button" value="确定"  /></div>';
 			
 			dialog = Elf.components.dialog({			
 		        title:'',   
@@ -215,7 +222,7 @@
 		        width: 600,  
 		        height: 400,
 		        modal:true,    //是否显示遮罩层
-	            target: document.body,    // 弹框父级元素，如果不写默认为body
+	            target: _this.moduleWarp,    // 弹框父级元素，如果不写默认为body
 		        onCloseDestroy:true,   //关闭弹框时，是否删除弹框组件DOM元素   
 		        onClose:function(){		//关闭弹框时触发的函数
 		        			        	
@@ -223,7 +230,7 @@
 		        }
 				
 			});	
-			
+
 			dialogHtml.addEventListener("click",function( ev ){
 				
 				var e,target,areaName,passWord,otherInfo,tips,returnData;
@@ -236,28 +243,19 @@
 				tips = this.getElementsByClassName('tips')[0];
 				returnData = {};
 				
-				if( tar.nodeName === "INPUT" && Elf.utils.hasClass( tar , "text" ) ){
+				if( tar.nodeName === "INPUT" && Elf.utils.hasClass( tar , "text" ) && tar !== areaName  ){
 					
 					tar.value = '';
 					
 				} else if ( tar.nodeName === "INPUT" && Elf.utils.hasClass( tar , "saveData" ) ){
 					
-					if( Elf.utils.trim(areaName.value) === '' ){
-						
-						areaName.focus();
-						tips.innerHTML = '请填写基地名称 ！';
-						tips.style.display = 'block';					
-						Elf.effects.show(tips , 2000 );
-	
-						
-					} else if( Elf.utils.trim(passWord.value) === '' ){
+					if( Elf.utils.trim(passWord.value) === '' ){
 						
 						passWord.focus();
-						tips.innerHTML = '请输入密码 ！';
 						tips.style.display = 'block';
 						Elf.effects.show(tips , 2000 );
 						
-					} else{
+					} else {
 	
 						// 修改完成，返回数据 ,更新视图。
 
@@ -274,13 +272,7 @@
 //					        color:"#000",   //没效果...
 					        target:_this.warp   //loading组件的父级元素
 					    });
-					    
-
-						
-//						returnData.areaName = areaName.value;
-//						returnData.passWord = passWord.value;
-//						returnData.otherInfo = otherInfo.value;
-						
+					    						
 						//发送ajax请求给后端更新数据
 						setTimeout(function(){
 							
@@ -298,7 +290,97 @@
 			});
 		
 		}	
+	
+	//添加基地
+	UserManagement.prototype.addHospital = function(data){
+		
+		var html,
+			diolog,
+			data,
+			addBtn,
+			_this;
+			
+			_this = this;
+			addBtn = this.moduleWarp.querySelector('.add-hospital');
+			html = Elf.controls.createElement( 'div','wfull dialog-inner' );
+			html.innerHTML = '<div class="clear-both pt20" ><div class="fl hfull name prl6"  >基地名称 :  </div>	<div class="fr hfull text" > <input type="text" class="full prl6 area-name text" name="yiyuanname" value="" /> </div> </div><div class="clear-both pt20 relative" ><div class="fl hfull name prl6"  >密码 :  </div><div class="fr hfull text" ><input type="password" class="full prl6 pass-word text" name="password"  /> </div><div class="tips prl10" >请输入密码 ! </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >备注 :  </div><div class="fr hfull text" > <input type="text" class="full prl6 other-info text" name="beizhu" /> </div></div><div class="pt30 button-box" ><input class="btn saveData prl24 ptb6" type="button" value="确定"  /></div>';
+			
+			
+			addBtn.addEventListener('click',function(){
+				
+				dialog = Elf.components.dialog({
+					
+			        title:'请填写基地信息',   
+			        content: html, 
+			        dialogClass:'dialog-warp', 
+			        width: 600,  
+			        height: 400,
+			        modal:true,    //是否显示遮罩层
+		            target: _this.moduleWarp,    // 弹框父级元素，如果不写默认为body
+			        onCloseDestroy:true,   //关闭弹框时，是否删除弹框组件DOM元素   
+			        onClose:function(){		//关闭弹框时触发的函数
+			        			        	
+			            console.log( "关闭弹框" );
+			        }
+					
+				});
+				
+				dialog.addEventListener('click',function(ev){
+					var e,
+						target,
+						hospitalName,
+						pw,
+						otherInfo,
+						obj;
+					obj = {};	
+					e = Elf.getEvent(ev);
+					target = Elf.getEventSource(ev);
+					hospitalName = this.querySelector('input.area-name');
+					pw = this.querySelector('input.pass-word');
+					otherInfo = this.querySelector('input.other-info'); 
+					
+					if( Elf.utils.hasClass( target , 'saveData' ) ){
+						
+						if( Elf.utils.trim(hospitalName.value) === '' ){
+							
+						    Elf.components.toast({
+						        width:200,
+						        height:200,
+						        holdtime:500,
+						        text:'请输入基地名称！',
+						        target:dialog
+						    });
+							
+						}else if( Elf.utils.trim(pw.value) === '' ){
+							
+						    Elf.components.toast({
+						        width:200,
+						        height:200,
+						        holdtime:500,
+						        text:'请输入密码！',
+						        target:dialog
+						    });							
+							
+						}else{
+							
+							obj[hospitalName.name] = hospitalName.value;
+							obj[pw.name] = pw.value;
+							obj[otherInfo.name] = otherInfo.value;
+							obj.pici = '第二批';
+							data.push( obj );
 
+							Elf.components.grid.methods.update(_this.grid,data.slice( (currentPage-1)*pageSize , currentPage*pageSize));
+						}
+						
+						
+					}
+					
+				});
+				
+			});
+			console.log( addBtn );
+
+	}
 
 })()
 

@@ -26,7 +26,8 @@
 			
 			this.creatGrid4();
 		}
-				
+		
+		//生成表格
 		BasiSituation4.prototype.creatGrid4 = function(){
 			var _this = this;
 			
@@ -54,59 +55,61 @@
 			
 		}
 		
+		//按钮事件
 		BasiSituation4.prototype.btnFn = function(){
+			
+			var _this = this;
 			
 			this.warp.addEventListener('click', function(ev){
 		
 				var has,
 					e,
 					tt,
-					texts,
 					infoObj,
 					radios,
 					isChecked,
 					rowStr,
-					rowWarp;
+					rowWarp,
+					allInput;
 					
 				has = Elf.utils.hasClass;		
 				e = Elf.getEvent(ev);
 				tt = Elf.getEventSource(ev);
-				infoObj = {};
 				isChecked = false;
-				texts = this.getElementsByClassName('text');				
+							
 				radios = this.getElementsByClassName('is-importent');
-								
+
+				allInput = this.querySelectorAll('input.text');
+				
+				infoObj = {};
+
+				
+				//保存数据
 				if( has( tt , 'save-data' ) ){
 					
-					console.log('保存数据');
-					for (var i = 0; i < texts.length; i++) {
-						
-						infoObj[texts[i].name] = texts[i].value;
-					
-					}
-					
-//					console.dir( JSON.stringify(infoObj) );
+					infoObj = _this.getFormData();
+
+					console.log( infoObj );
+
 					//发送后台数据
 //					ajaxPost();
 					
 					return
 				}
 				
+				//提交数据按钮
 				if( has( tt , 'submit-data' ) ){
 					
-					console.log('提交数据');
-					
-					
+					//验证radio非空
 					for (var i = 0; i < radios.length; i++) {
 						
 						if( radios[i].checked ){
 							
 							isChecked = true;
-							infoObj[radios[i].name] = radios[i].value;
+							break;
 						}
-						
+
 					}
-					
 					if( !isChecked ){
 
 						Elf.utils.addClass( radios[0].parentNode , "focus");
@@ -125,11 +128,12 @@
 						Elf.utils.removeClass( radios[0].parentNode , "focus");
 					}
 					
-					for (var i = 0; i < texts.length; i++) {
+					//验证text非空
+					for (var i = 0; i < allInput.length; i++) {
 						
-						if(  Elf.utils.trim( texts[i].value ) === '' ){
+						if(  Elf.utils.trim( allInput[i].value ) === '' ){
 							
-							texts[i].focus();
+							allInput[i].focus();
 								
 						    Elf.components.toast({
 						        holdtime:1000,
@@ -140,10 +144,11 @@
 						    
 						    return
 						}
-						
-						infoObj[texts[i].name] = texts[i].value;
 					
 					}
+					
+					//提交数据					
+					infoObj = _this.getFormData();	
 									
 					//发送数据给后端
 										
@@ -163,20 +168,20 @@
 						
 						console.log( '添加疾病种类' );
 						
-						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text w96" name="jbzlItemsName"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text w96" name="jbzlItemsNum" /></div>';
+						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="jbtype"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="nzzNum" /></div>';
 						
 					}else if(  has( itemsWarp , 'lcjn') ){
 						var len = itemsWarp.getElementsByClassName('items').length;
-						console.log( '添加疾病种类' );
+						console.log( '添加手术种类' );
 
-						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1)  +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text w96" name=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text w96" name="" /></div>';
+						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1)  +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="lcjnName"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="lcjnNum" /></div>';
 
 					}else if(  has( itemsWarp , 'ylsb') ){
 						
 						var len = itemsWarp.getElementsByClassName('items').length;						
-						console.log( '添加疾病种类' );
+						console.log( '添加设备种类' );
 						
-						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text w96" name=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text w96" name="" /></div>';						
+						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="sbyqName"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="sbyqNum" /></div>';						
 						
 					}
 					
@@ -196,8 +201,7 @@
 			hash = window.location.hash.substring(1);
 		
 			btns = this.warp.getElementsByClassName('btn');
-			
-			console.log( hash );
+
 			if( hash.indexOf('newPage') !== -1 ){
 				
 				for (var i = 0; i < btns.length; i++) {
@@ -212,32 +216,195 @@
 		BasiSituation4.prototype.randerInfo = function(data){
 			var data,
 				objTexts,
-				radios;
+				radios,
+				diseaseHtml,
+				diseaseTypeWarp,
+				skillHtml,
+				skillTypeWarp,
+				medicalHtml,
+				medicalEquipment;
 				
 			data = data;			
 			objTexts = this.warp.getElementsByClassName('objText');							
 			radios = this.warp.getElementsByClassName('is-importent');
-			jbTypeWarp = this.warp.querySelector('.jbzl');
-//			循环填充数据
+			diseaseTypeWarp = this.warp.querySelector('.disease-type-warp');
+			skillTypeWarp = this.warp.querySelector('.skill-type-warp');
+			medicalEquipment = this.warp.querySelector('.medical-equipment-warp');
+			diseaseHtml = '';
+			skillHtml = '';
+			medicalHtml = '';
+
 //			console.log( data );
-			
+			//单选按钮
 			for (var i = 0; i < radios.length; i++) {
 				
 				if( radios[i].value == data.isImportent ){
 					
 					radios[i].checked = "checked";
 				}
-				radios[i]
 			}
-			
+			//其他基础数据
 			for (var i = 0; i < objTexts.length; i++) {
 				
 				objTexts[i].value = data[objTexts[i].name];
 			}
+
 			
-			console.log( jbTypeWarp );
+			//疾病种类
+			if( !data.diseaseType.length ){
+				
+				for (var i = 0; i < 2; i++) {
+					
+					diseaseHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="jbtype" value=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="nzzNum" value="" /></div></div>';
+							
+				}				
+				
+				
+			}else{
+				
+				for (var i = 0; i < data.diseaseType.length; i++) {
+					
+					diseaseHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="jbtype" value="'+ data.diseaseType[i].jbtype +'"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="nzzNum" value="'+ data.diseaseType[i].nzzNum +'" /></div></div>';
+							
+				}				
+				
+			}
+
+			diseaseTypeWarp.innerHTML = diseaseHtml;
+			
+			//手术种类
+			if( !data.skillType.length ){
+				
+				for (var i = 0; i < 2; i++) {
+					
+					skillHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="lcjnName" value=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="lcjnNum" value="" /></div></div>';
+							
+				}				
+				
+				
+			}else{
+				
+				for (var i = 0; i < data.skillType.length; i++) {
+					
+					skillHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="lcjnName" value="'+ data.skillType[i].lcjnName +'"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="lcjnNum" value="'+ data.skillType[i].lcjnNum +'" /></div></div>';
+							
+				}				
+				
+			}
+			
+			skillTypeWarp.innerHTML = skillHtml;
+			
+			//设备仪器
+			if( !data.medicalEquipment.length ){
+				
+				for (var i = 0; i < 2; i++) {
+					
+					medicalHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="sbyqName" value=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="sbyqNum" value="" /></div></div>';
+							
+				}				
+				
+				
+			}else{
+				
+				for (var i = 0; i < data.medicalEquipment.length; i++) {
+					
+					medicalHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="sbyqName" value="'+ data.medicalEquipment[i].sbyqName +'"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="sbyqNum" value="'+ data.medicalEquipment[i].sbyqNum +'" /></div></div>';
+							
+				}				
+				
+			}
+			
+			medicalEquipment.innerHTML = medicalHtml;			
+		
 		}
 		
+		//获取表单数据
+		BasiSituation4.prototype.getFormData = function(){
+			
+			var objTexts,
+				infoObj,
+				radios,
+				isChecked,
+				allInput;
+				
+			objTexts = this.warp.getElementsByClassName('objText');				
+			radios = this.warp.getElementsByClassName('is-importent');
+			diseaseType = this.warp.querySelectorAll('.disease-type-warp .items');
+			skillType = this.warp.querySelectorAll('.skill-type-warp .items');
+			medicalEquipment = this.warp.querySelectorAll('.medical-equipment-warp .items');
+			allInput = this.warp.querySelectorAll('input.text');
+			isChecked = false;			
+			infoObj = {};
+			infoObj.diseaseType = [];
+			infoObj.skillType = [];
+			infoObj.medicalEquipment = [];
+			
+			//基础数据
+			for (var i = 0; i < objTexts.length; i++) {
+				
+				infoObj[objTexts[i].name] = objTexts[i].value;
+			
+			}
+			//单选按钮数据
+			for (var i = 0; i < radios.length; i++) {
+				
+				if( radios[i].checked ){
+					
+					isChecked = true;
+					infoObj[radios[i].name] = radios[i].value;
+				}
+				
+			}
+			//疾病种类
+			for (var i = 0; i < diseaseType.length; i++) {
+				
+				var arrInfos = diseaseType[i].querySelectorAll('.arrText');
+				var obj = {};
+				infoObj.diseaseType.push(obj);
+				
+				for (var j = 0; j < arrInfos.length; j++) {
+					
+					obj[arrInfos[j].name] = arrInfos[j].value;
+				}
+				
+
+			}
+			
+			//临床技能/手术种类
+			for (var i = 0; i < skillType.length; i++) {
+				
+				var arrInfos = skillType[i].querySelectorAll('.arrText');
+				var obj = {};
+				infoObj.skillType.push(obj);
+				
+				for (var j = 0; j < arrInfos.length; j++) {
+					
+					obj[arrInfos[j].name] = arrInfos[j].value;
+				}
+				
+
+			}
+
+			//设备仪器名称
+			for (var i = 0; i < medicalEquipment.length; i++) {
+				
+				var arrInfos = medicalEquipment[i].querySelectorAll('.arrText');
+				var obj = {};
+				infoObj.medicalEquipment.push(obj);
+				
+				for (var j = 0; j < arrInfos.length; j++) {
+					
+					obj[arrInfos[j].name] = arrInfos[j].value;
+				}
+				
+
+			}
+			
+			return infoObj;
+		
+		}
+		
+	
 	})();
 	
 //------***** 专业科室 > 专业科室基本情况表5 ******--------	
