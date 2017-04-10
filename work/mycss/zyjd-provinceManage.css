@@ -244,7 +244,7 @@ th,td{
 
 .grid3-warp{
 	
-	overflow: auto;
+	overflow: hidden;
 }
 .pm-grid3{
 	
@@ -284,10 +284,15 @@ th,td{
 .pm-grid3 .pm-grid3-body .info p{
 	
 	padding: 20px 10px;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 800;
 	
 }
+.pm-grid3 .pm-grid3-body .info p input{
+	
+	text-align: center;
+}
+
 .pm-grid3-body ul.hospital-info{
 	text-align: center;
 	border-left: 1px solid #000;
@@ -296,6 +301,16 @@ th,td{
 ul.hospital-info div{
 	
 	padding: 0;
+}
+.pm-grid3 .addrow-warp{
+	padding: 5px 0;
+	border: 1px solid #000;
+	border-top: none;
+	text-align: left;
+}
+.pm-grid3 .addrow-warp input.btn{
+	
+	line-height: 30px;
 }
 
 ul.hospital-info .text-info{

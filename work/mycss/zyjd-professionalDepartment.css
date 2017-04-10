@@ -82,7 +82,7 @@
 	border: none;
 }
 
-.zyjd-professional-department .grid4-body li.noborderb{
+.zyjd-professional-department .grid4-body .noborderb{
 
 	border-bottom: none;
 }
@@ -97,11 +97,19 @@
 	height: 100%;
 }
 
+.grid4-body .items-warp.borderr{
+	
+	border-right: 1px solid #000;
+}
 
 .grid4-body .grid-list div span{
 	
-	line-height: 40px;
+	line-height: 30px;
 	
+}
+.redBorder{
+	
+	border: 1px solid red;
 }
 
 .no-padding{
@@ -129,6 +137,11 @@
 	
 	text-align: left;
 }
+.textr{
+	
+	text-align: right;
+}
+
 
 .position-r{
 	
@@ -139,34 +152,38 @@
 .position-r20{
 	
 	position: absolute;
-	top: 0px;
-	right: 5px;	
+	top: 5px;
+	right:20px;	
 }
 
 .r0{
-	right: 0px;	
+	right: 20px;	
 }
-
+.grid4-body input.text{
+	
+	width: 100px;
+}
 .grid4-body .grid-list input.text{
-	height: 38px;
+	height: 28px;
 	box-sizing: border-box;
-	width: 80%;
-	outline-color: red;
+	border-color: red;
 	outline-width: 1px;
 	text-align: left;
 	padding: 0 5px;
 	margin: 1px;
 	text-align: center;
+	font-size: 12px;
 }
 
-.grid4-body .grid-list input.w96{
+.grid4-body .grid-list input.w200{
 	
-	width: 96%;
+	width: 200px;
 }
 
 .grid4-body .grid-list div{
 	
 	text-align: left;
+	padding: 5px;
 }
 .grid4-body .grid-list div.textc{
 	
@@ -319,7 +336,7 @@ div.last-ceils .text {
 	margin-bottom: 10px;
 }
 
-.PD-warp div.addrow-warp span.addrow{
+.PD-warp div.addrow-warp input.addrow{
 	height: 30px;
 	line-height: 30px;
 }

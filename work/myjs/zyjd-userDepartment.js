@@ -184,9 +184,9 @@
 		        maxPager:5,     //分页组件最多显示的页码数量结构
 		        showStatus:false,    
 		        statusFormat:"共 <b>{{total}}</b> 条记录 <b>{{totalPage}}</b> 页 当前第 <b>{{currentPage}}</b> 页", 
-		        onPagerChange:function(p){  //页码跳转函数 ， 函数有一个参数，就是当前点击的按钮对应的页码
+		        onPagerChange:function(p){ 
 		            currentPage = p; 		            
-					
+					console.log( data );
  					//更新数据
 					Elf.components.grid.methods.update(_this.grid,data.slice((p-1)*pageSize,pageSize*p));
 
@@ -295,6 +295,7 @@
 	UserManagement.prototype.addHospital = function(data){
 		
 		var html,
+			str,
 			diolog,
 			data,
 			addBtn,
@@ -302,12 +303,13 @@
 			
 			_this = this;
 			addBtn = this.moduleWarp.querySelector('.add-hospital');
-			html = Elf.controls.createElement( 'div','wfull dialog-inner' );
-			html.innerHTML = '<div class="clear-both pt20" ><div class="fl hfull name prl6"  >基地名称 :  </div>	<div class="fr hfull text" > <input type="text" class="full prl6 area-name text" name="yiyuanname" value="" /> </div> </div><div class="clear-both pt20 relative" ><div class="fl hfull name prl6"  >密码 :  </div><div class="fr hfull text" ><input type="password" class="full prl6 pass-word text" name="password"  /> </div><div class="tips prl10" >请输入密码 ! </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >备注 :  </div><div class="fr hfull text" > <input type="text" class="full prl6 other-info text" name="beizhu" /> </div></div><div class="pt30 button-box" ><input class="btn saveData prl24 ptb6" type="button" value="确定"  /></div>';
+			str = '<div class="clear-both pt20" ><div class="fl hfull name prl6"  >基地名称 :  </div>	<div class="fr hfull text" > <input type="text" class="full prl6 area-name text" name="yiyuanname"  autocomplete="new-password" /> </div> </div><div class="clear-both pt20 relative" ><div class="fl hfull name prl6"  >密码 :  </div><div class="fr hfull text" ><input type="password" class="full prl6 pass-word text" name="password" autocomplete="new-password" /> </div><div class="tips prl10" >请输入密码 ! </div> </div><div class="clear-both pt20" ><div class="fl hfull name prl6"  >备注 :  </div><div class="fr hfull text" > <input type="text" class="full prl6 other-info text" name="beizhu" /> </div></div><div class="pt30 button-box" ><input class="btn saveData prl24 ptb6" type="button" value="确定"  /></div>';
 			
 			
 			addBtn.addEventListener('click',function(){
 				
+				html = Elf.controls.createElement( 'div','wfull dialog-inner' );
+				html.innerHTML = str;
 				dialog = Elf.components.dialog({
 					
 			        title:'请填写基地信息',   
@@ -368,8 +370,8 @@
 							obj[otherInfo.name] = otherInfo.value;
 							obj.pici = '第二批';
 							data.push( obj );
-
-							Elf.components.grid.methods.update(_this.grid,data.slice( (currentPage-1)*pageSize , currentPage*pageSize));
+							currentPage = 1;							
+							new UserManagement();
 						}
 						
 						
@@ -378,8 +380,6 @@
 				});
 				
 			});
-			console.log( addBtn );
-
 	}
 
 })()
@@ -387,6 +387,7 @@
 
 
 //------******省级> 省级材料上报******-------
+
 ;(function(){
 	
 	var $creatE,
@@ -401,7 +402,7 @@
 	function ProvincialReported(){
 		
 		this.content = document.getElementById("bg");
-		this.form = $creatE('form');
+		this.form = $creatE('form','full');
 		this.warp = $creatE('div' ,'grid3 full');
 		
 		this.init();
@@ -432,9 +433,10 @@
 					_this.content.innerHTML = '';
 					Elf.controls.appendTo( _this.warp, _this.form);
 					Elf.controls.appendTo( _this.form, _this.content);
-					_this.btnFn();
-					_this.creatInfos();
+					_this.btnFn(provinceData.jdMingCe);
+					_this.creatInfos(provinceData.jdMingCe);
 					_this.hideBtns();
+					_this.addHospital();
 				},
 				error:function(xhr){
 					
@@ -445,8 +447,8 @@
 	}
 	
 	//btn事件
-	ProvincialReported.prototype.btnFn = function(){
-
+	ProvincialReported.prototype.btnFn = function( data ){
+		var data = data;
 		this.warp.addEventListener('click' , function(ev){
 			
 			var has,
@@ -455,6 +457,9 @@
 				arr,
 				rows,
 				texts,
+				lxr,
+				allText,
+				mobileNum,
 				obj,
 				_this;
 				
@@ -464,11 +469,15 @@
 			has = Elf.utils.hasClass;		
 			e = Elf.getEvent(ev);
 			tt = Elf.getEventSource(ev);
+			lxr = this.querySelector('.lxr');
+			mobileNum = this.querySelector('.mobile-num');
+			allText = this.querySelectorAll('input[type="text"]');
 			
 			if( has( tt , 'save-data' ) ){
 				
 				console.log('保存数据'); 
-				
+				data[lxr.name] = lxr.value;
+				data[mobileNum.name] = mobileNum.value;
 				rows = this.getElementsByClassName('rowData');
 				
 				for (var i = 0; i < rows.length; i++) {
@@ -478,59 +487,71 @@
 						obj[texts[j].name] = texts[j].value;
 					}
 					arr.push( obj );
-					
-					console.log(  arr );
-				}	
+				}
+				data.hospitalData = arr;
+				
+				console.log( data );
 				
 				return
 			}
 			if( has( tt , 'submit-data' ) ){
 				
-				console.log('提交数据'); 
+				for (var i = 0; i < allText.length; i++) {
+					
+					if( Elf.utils.trim( allText[i].value) === '' ){
+						
+						allText[i].focus();						
+					    Elf.components.toast({
+					        width:200,
+					        height:200,
+					        holdtime:1000,
+					        text:'请填写完整信息！',
+					        opacity:1,
+					        target:_this.content
+					    });			
+		
+						return						
+						
+					}
+				}
+				
+				console.log('上报数据'); 
+				data[lxr.name] = lxr.value;
+				data[mobileNum.name] = mobileNum.value;
 				rows = this.getElementsByClassName('rowData');
-
+				
 				for (var i = 0; i < rows.length; i++) {
 					texts = rows[i].getElementsByClassName('text-info');
 					obj = {};
 					for (var j = 0; j < texts.length; j++) {
-						
-						if( Elf.utils.trim( texts[j].value ) === '' ){
-							
-							texts[j].focus();
-							
-						    Elf.components.toast({
-						        width:200,
-						        height:200,
-						        holdtime:1000,
-						        text:'请填写完整信息！',
-						        opacity:1,
-						        target:_this.content
-						    });			
-			
-							return
-						}
-						
 						obj[texts[j].name] = texts[j].value;
 					}
-					
 					arr.push( obj );
-					
-					console.log(  arr );
 				}
-				return
+				data.hospitalData = arr;
+				
+				console.log( data );
+				
+				return				
+							
 			}			
 			
 		})
 	}
 	
 	//渲染数据
-	ProvincialReported.prototype.creatInfos = function(){
-		var infosWarp = document.getElementsByClassName('infos-warp')[0];
+	ProvincialReported.prototype.creatInfos = function( data ){
 		
-		var data = hospitalData;
+		var infosWarp = this.warp.getElementsByClassName('infos-warp')[0];		
+		var hospitalData = data.hospitalData;
 		var str ='';
+		var lxr = this.warp.querySelector('.lxr');
+		var mobileNum = this.warp.querySelector('.mobile-num');
 		
-		for (var i = 0; i < 2; i++) {
+		lxr.value = data.lxr;
+		mobileNum.value = data.mobileNum;
+		
+		for (var i = 0; i < hospitalData.length; i++) {
 			
 			var row = $creatE('div' , 'full h40 clear-fix rowData');
 
@@ -538,13 +559,13 @@
 			index.innerHTML = '<span>'+ (i + 1) +'</span>';			
 
 			var name = $creatE('div' , 'col-xs-3 ceils hfull');			
-			name.innerHTML = '<input type="text" name="hospitalName" value="'+ ( data[i].hospitalName ? data[i].hospitalName :"" ) +'" class="full text-info" />';
+			name.innerHTML = '<input type="text" name="hospitalName" value="'+ ( hospitalData[i].hospitalName ? hospitalData[i].hospitalName :"" ) +'" class="full text-info" />';
 
 			var qingKuang = $creatE('div' , 'col-xs-5 hfull');			
-			qingKuang.innerHTML = '<div class="col-xs-4 hfull ceils" ><input type="text" name="leiBie" value="'+ (data[i].type ? data[i].type : "") +'" class="full text-info" /></div><div class="col-xs-4 hfull ceils" ><input type="text" name="level" value="'+ (data[i].level ? data[i].level : "") +'" class="full text-info" /></div><div class="col-xs-4 hfull ceils" ><input type="text" name="dengJitype"  value="'+ (data[i].djtype ? data[i].djtype : "") +'" class="full text-info" /></div>';
+			qingKuang.innerHTML = '<div class="col-xs-4 hfull ceils" ><input type="text" name="leiBie" value="'+ (hospitalData[i].type ? hospitalData[i].type : "") +'" class="full text-info" /></div><div class="col-xs-4 hfull ceils" ><input type="text" name="level" value="'+ (hospitalData[i].level ? hospitalData[i].level : "") +'" class="full text-info" /></div><div class="col-xs-4 hfull ceils" ><input type="text" name="dengJitype"  value="'+ (hospitalData[i].djtype ? hospitalData[i].djtype : "") +'" class="full text-info" /></div>';
 			
 			var peiXunLiang = $creatE('div' , 'col-xs-3 hfull ceils');
-			peiXunLiang.innerHTML = '<input type="text" name="peiXunLiang" value="'+ ( data[i].pxzl? data[i].pxzl :""  ) +'" class="full text-info" />'
+			peiXunLiang.innerHTML = '<input type="text" name="peiXunLiang" value="'+ ( hospitalData[i].pxzl? hospitalData[i].pxzl :""  ) +'" class="full text-info" />'
 			
 			$pTo( index , row );
 			$pTo( name , row );
@@ -575,6 +596,35 @@
 		}
 	
 	}
+	
+	//添加基地
+	ProvincialReported.prototype.addHospital = function(){
+		
+		var addBtn,
+			infoWarp,
+			row,
+			rowHtml,
+			rowLen,
+			_this;
+		
+		_this = this;
+		addBtn = this.warp.querySelector('input.addrow');		
+		addBtn.addEventListener('click',function(){
+			row = $creatE('div' , 'full h40 clear-fix rowData');
+			infosWarp = _this.warp.querySelector('div.infos-warp'); 
+			rowLen = infosWarp.querySelectorAll('div.rowData');				
+			rowHtml = '<div class="col-xs-1 ceils hfull"><span>'+ (rowLen.length + 1) +'</span></div><div class="col-xs-3 ceils hfull"><input type="text" name="hospitalName" class="full text-info"></div><div class="col-xs-5 hfull"><div class="col-xs-4 hfull ceils"><input type="text" name="leiBie" class="full text-info"></div><div class="col-xs-4 hfull ceils"><input type="text" name="level"  class="full text-info"></div><div class="col-xs-4 hfull ceils"><input type="text" name="dengJitype" class="full text-info"></div></div><div class="col-xs-3 hfull ceils"><input type="text" name="peiXunLiang" class="full text-info"></div>';
+		
+			row.innerHTML = rowHtml;
+			$pTo( row , infosWarp );
+						
+		})
+		
+
+		
+	}
+	
+	
 	
 })()
 

@@ -12,7 +12,162 @@
 //------***** 专业科室 > 专业科室基本情况表4 ******--------	
 	;(function(){
 		
+		var jbzlGridHead = [
+			{
+				title:"编号",
+				name:"",
+				width:48,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+					return '<div class="fixedCell">'+ (rowIndex+1) +'</div>';
+				}
+			},		
+			{
+				title:"疾病种类",
+				name:"",
+				width:200,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+				
+					return '<div>'+ rowData.jbtype +'</div>';
+				}
+			},	
+			{
+				title:"年诊治例数",
+				name:"",
+				width:100,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+				
+					return '<div>'+ rowData.nzzNum +'</div>';
+				}
+			},
+			{
+	    		title:"操作"
+	    		,name:""
+	    		,width:150
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+
+	    			return '<input type="button" data-tooltip="删除第'+(rowIndex+1)+'行"'+' class="btn line-h30 prl6 delete elf-tooltip-left" value="删除" /><input type="button" class="edit prl6 btn line-h30" value="编辑" />'
+	    		}
+	    }
+		
+		];
+		var stGridHead = [
+			{
+				title:"编号",
+				name:"",
+				width:48,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+					return '<div class="fixedCell">'+ (rowIndex+1) +'</div>';
+				}
+			},		
+			{
+				title:"临床技能操作/手术种类",
+				name:"",
+				width:200,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+				
+					return '<div>'+ rowData.lcjnName +'</div>';
+				}
+			},	
+			{
+				title:"年完成例数",
+				name:"",
+				width:100,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+				
+					return '<div>'+ rowData.lcjnNum +'</div>';
+				}
+			},
+			{
+	    		title:"操作"
+	    		,name:""
+	    		,width:150
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+
+	    			return '<input type="button" class="btn line-h30 prl6 delete elf-tooltip-left" value="删除" /><input type="button" class="edit prl6 btn line-h30" value="编辑" />'
+	    		}
+	    }
+		
+		];		
+		var meGridHead = [
+			{
+				title:"编号",
+				name:"",
+				width:48,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+					return '<div class="fixedCell">'+ (rowIndex+1) +'</div>';
+				}
+			},		
+			{
+				title:"设备仪器名称（正常使用）",
+				name:"",
+				width:200,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+				
+					return '<div>'+ rowData.sbyqName +'</div>';
+				}
+			},	
+			{
+				title:"数量（台）",
+				name:"",
+				width:100,
+				align:"center",
+				fixedColumn:false,
+				checkCol:false,
+				valign:"middle",
+				renderer:function(name,rowIndex,rowData){
+				
+					return '<div>'+ rowData.sbyqNum +'</div>';
+				}
+			},
+			{
+	    		title:"操作"
+	    		,name:""
+	    		,width:150
+	    		,align:"center"
+	    		,renderer:function(name,rowIndex,rowData){
+
+	    			return '<input type="button" class="btn line-h30 prl6 delete elf-tooltip-left" value="删除" /><input type="button" class="edit prl6 btn line-h30" value="编辑" />'
+	    		}
+	    }		
+		
+		];
+		
 		function BasiSituation4(){
+			
 			this.content = document.getElementById("bg");
 			this.warp = $creatE('div' ,'grid4 full');
 			this.form = $creatE('form','full');
@@ -42,10 +197,10 @@
 					_this.content.innerHTML = '';
 					Elf.controls.appendTo( _this.warp, _this.form);
 					Elf.controls.appendTo( _this.form, _this.content);
-					_this.btnFn();
-					//请求数据
-//					console.log( zhuanyekeshiData.grid4Data.gridInfo );
+					//请求数据										
 					_this.randerInfo( zhuanyekeshiData.grid4Data.gridInfo );
+					_this.btnFn( zhuanyekeshiData.grid4Data.gridInfo );
+					_this.addInfo( zhuanyekeshiData.grid4Data.gridInfo );
 				},
 				error:function(xhr){
 					
@@ -56,10 +211,9 @@
 		}
 		
 		//按钮事件
-		BasiSituation4.prototype.btnFn = function(){
+		BasiSituation4.prototype.btnFn = function( data ){
 			
-			var _this = this;
-			
+			var _this = this;			
 			this.warp.addEventListener('click', function(ev){
 		
 				var has,
@@ -68,8 +222,6 @@
 					infoObj,
 					radios,
 					isChecked,
-					rowStr,
-					rowWarp,
 					allInput;
 					
 				has = Elf.utils.hasClass;		
@@ -78,18 +230,14 @@
 				isChecked = false;
 							
 				radios = this.getElementsByClassName('is-importent');
-
 				allInput = this.querySelectorAll('input.text');
 				
 				infoObj = {};
-
 				
 				//保存数据
 				if( has( tt , 'save-data' ) ){
 					
 					infoObj = _this.getFormData();
-
-					console.log( infoObj );
 
 					//发送后台数据
 //					ajaxPost();
@@ -154,41 +302,7 @@
 										
 					return
 				}
-				
-				//添加一行数据
-				if( has( tt , 'addrow' ) ){
-					itemsWarp = tt.parentNode.parentNode.parentNode. getElementsByClassName('items-warp')[0];				
-											
-					rowWarp = $creatE('div','items wfull clear-fix nobr borderbr');
-						
-					console.log( itemsWarp );
-					if(  has( itemsWarp , 'jbzl') ){
-						
-						var len = itemsWarp.getElementsByClassName('items').length;
-						
-						console.log( '添加疾病种类' );
-						
-						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="jbtype"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="nzzNum" /></div>';
-						
-					}else if(  has( itemsWarp , 'lcjn') ){
-						var len = itemsWarp.getElementsByClassName('items').length;
-						console.log( '添加手术种类' );
 
-						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1)  +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="lcjnName"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="lcjnNum" /></div>';
-
-					}else if(  has( itemsWarp , 'ylsb') ){
-						
-						var len = itemsWarp.getElementsByClassName('items').length;						
-						console.log( '添加设备种类' );
-						
-						rowStr = '<div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ (len+1) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="sbyqName"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="sbyqNum" /></div>';						
-						
-					}
-					
-					rowWarp.innerHTML = rowStr;
-					$pTo( rowWarp , itemsWarp);
-
-				}
 				
 			})
 		}
@@ -217,22 +331,20 @@
 			var data,
 				objTexts,
 				radios,
-				diseaseHtml,
 				diseaseTypeWarp,
-				skillHtml,
 				skillTypeWarp,
-				medicalHtml,
-				medicalEquipment;
-				
+				medicalEquipment,
+				_this,
+				dialog,
+				dialogHtml;
+			_this = this;	
 			data = data;			
 			objTexts = this.warp.getElementsByClassName('objText');							
 			radios = this.warp.getElementsByClassName('is-importent');
 			diseaseTypeWarp = this.warp.querySelector('.disease-type-warp');
 			skillTypeWarp = this.warp.querySelector('.skill-type-warp');
 			medicalEquipment = this.warp.querySelector('.medical-equipment-warp');
-			diseaseHtml = '';
-			skillHtml = '';
-			medicalHtml = '';
+			
 
 //			console.log( data );
 			//单选按钮
@@ -246,76 +358,252 @@
 			//其他基础数据
 			for (var i = 0; i < objTexts.length; i++) {
 				
-				objTexts[i].value = data[objTexts[i].name];
+				objTexts[i].value = data[objTexts[i].name]?data[objTexts[i].name]:'';
 			}
+			
+			//疾病种类				
+		    var dtGrid = Elf.components.grid({
+		        fixedTableSize:30,  
+		        data:data.diseaseType.slice(0 , Infinity),    //第一页要显示的数据
+		        cols:jbzlGridHead,   //加载学生信息表格结构
+		        width: 40,
+		        target:diseaseTypeWarp, //规定表格信息 的父级容器
+		        onCellSelected:function(evt,item,rowIndex,colIndex){
+		            var tt=evt.target;          // 事件源
+		            if(Elf.utils.hasClass(tt,"delete")){    //判断事件源是否是 删除 按钮
+		                console.info("删除行",item , rowIndex);
+		                
+		                data.diseaseType.splice( rowIndex , 1 );
+		                Elf.components.grid.methods.update( dtGrid , data.diseaseType );
+		            }
+		            if(Elf.utils.hasClass(tt,"edit")){  //判断事件源是否是 编辑 按钮
+		                console.info("编辑行");
+		                
+		                dialogHtml = '<div class="h40 line-h40 mt50" ><div class="col-xs-6 textr" ><span class="name" >疾病种类：</span></div><div class="col-xs-6 " ><input type="text" class="text p5 line-h20 textc" value= "'+ item.jbtype +'"  name="jbtype" /></div></div><div class="h40 line-h40 mt20" ><div class="col-xs-6 textr" ><span class="num" >年诊治例数：</span></div><div class="col-xs-6 " ><input type="text" class="text p5 line-h20 textc" value= "'+ item.nzzNum +'"  name="nzzNum" /></div></div><div class="h40 line-h40 mt20" ></div><div class="h40 line-h40 mt20 textc" ><input type="button" class="btn prl24 line-h30" value="确定" /></div>';
+		                
+		                dialog = Elf.components.dialog({
+					        title:'修改',   //弹框标题
+					        content:dialogHtml, //可以传一个dom元素进去，会append进 弹框内部
+					        dialogClass:'',  //整个弹框最外层父级添加class
+					        width:600,  //弹框可视区的高度和宽度定制
+					        height:360,
+					        modal:true,    //是否显示遮罩层
+				            target:_this.warp,    // 弹框父级元素，如果不写默认为body
+					        onCloseDestroy:true,   //关闭弹框时，是否删除弹框组件DOM元素   
+					        onClose:function(){//关闭弹框时触发的函数
+					            
+					            console.log("关闭弹框");
+					        }
+					    });
+						
+						dialog.addEventListener('click',function(ev){
+							
+							var has,
+								e,
+								tt,
+								infoObj,
+								radios,
+								isChecked,
+								allInput;
+								
+							has = Elf.utils.hasClass;		
+							e = Elf.getEvent(ev);
+							tt = Elf.getEventSource(ev);
+							allInput = this.querySelectorAll('input.text');
+							
+							if( has( tt , 'btn' ) ){
+								
+								for (var i = 0; i < allInput.length; i++) {
+									
+									if( Elf.utils.trim( allInput[i].value ) === '' ){
+										
+										allInput[i].focus();
+									    Elf.components.toast({
+									        holdtime:1000,
+									        text:'请填写完整信息！',
+									        opacity:0.8,
+									        target:document.body
+									    });										
+										return
+									}
+								}
+								for (var i = 0; i < allInput.length; i++) {
+								
+									item[allInput[i].name] = allInput[i].value;
+								}
 
+		               			Elf.components.grid.methods.update( dtGrid , data.diseaseType );								Elf.utils.remove(this);
+		               			
+							}
+							
+						})
+		            
+		            }
+		            
+		        }
+		     });
 			
-			//疾病种类
-			if( !data.diseaseType.length ){
-				
-				for (var i = 0; i < 2; i++) {
-					
-					diseaseHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="jbtype" value=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="nzzNum" value="" /></div></div>';
+			//临床技能
+		    var stGrid = Elf.components.grid({
+		        fixedTableSize:30,  
+		        data:data.skillType.slice(0 , Infinity),    
+		        cols:stGridHead,   
+		        width: 40,
+		        target:skillTypeWarp, 
+		        onCellSelected:function(evt,item,rowIndex,colIndex){
+		            var tt=evt.target;          // 事件源
+		            if(Elf.utils.hasClass(tt,"delete")){    //判断事件源是否是 删除 按钮
+		                console.info("删除行");
+		                data.skillType.splice( rowIndex , 1 );
+		                Elf.components.grid.methods.update( stGrid , data.skillType );
+		            }
+		            if(Elf.utils.hasClass(tt,"edit")){  //判断事件源是否是 编辑 按钮
+		                console.info("编辑行");
+		                
+		                dialogHtml = '<div class="h40 line-h40 mt50" ><div class="col-xs-6 textr" ><span class="name" >临床技能操作/手术种类：</span></div><div class="col-xs-6 " ><input type="text" class="text p5 line-h20 textc" value= "'+ item.lcjnName +'"  name="lcjnName" /></div></div><div class="h40 line-h40 mt20" ><div class="col-xs-6 textr" ><span class="num" >年完成例数：</span></div><div class="col-xs-6 " ><input type="text" class="text p5 line-h20 textc" value= "'+ item.lcjnNum +'"  name="lcjnNum" /></div></div><div class="h40 line-h40 mt20" ></div><div class="h40 line-h40 mt20 textc" ><input type="button" class="btn prl24 line-h30" value="确定" /></div>';
+		                
+		                dialog = Elf.components.dialog({
+					        title:'修改',   //弹框标题
+					        content:dialogHtml, //可以传一个dom元素进去，会append进 弹框内部
+					        dialogClass:'',  //整个弹框最外层父级添加class
+					        width:600,  //弹框可视区的高度和宽度定制
+					        height:360,
+					        modal:true,    //是否显示遮罩层
+				            target:_this.warp,    // 弹框父级元素，如果不写默认为body
+					        onCloseDestroy:true,   //关闭弹框时，是否删除弹框组件DOM元素   
+					        onClose:function(){//关闭弹框时触发的函数
+					            
+					            console.log("关闭弹框");
+					        }
+					    });
+						
+						dialog.addEventListener('click',function(ev){
 							
-				}				
-				
-				
-			}else{
-				
-				for (var i = 0; i < data.diseaseType.length; i++) {
-					
-					diseaseHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="jbtype" value="'+ data.diseaseType[i].jbtype +'"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="nzzNum" value="'+ data.diseaseType[i].nzzNum +'" /></div></div>';
+							var has,
+								e,
+								tt,
+								infoObj,
+								radios,
+								isChecked,
+								allInput;
+								
+							has = Elf.utils.hasClass;		
+							e = Elf.getEvent(ev);
+							tt = Elf.getEventSource(ev);
+							allInput = this.querySelectorAll('input.text');
 							
-				}				
-				
-			}
+							if( has( tt , 'btn' ) ){
+								
+								for (var i = 0; i < allInput.length; i++) {
+									
+									if( Elf.utils.trim( allInput[i].value ) === '' ){
+										
+										allInput[i].focus();
+									    Elf.components.toast({
+									        holdtime:1000,
+									        text:'请填写完整信息！',
+									        opacity:0.8,
+									        target:document.body
+									    });										
+										return
+									}
+								}
+								for (var i = 0; i < allInput.length; i++) {
+								
+									item[allInput[i].name] = allInput[i].value;
+								}
 
-			diseaseTypeWarp.innerHTML = diseaseHtml;
-			
-			//手术种类
-			if( !data.skillType.length ){
-				
-				for (var i = 0; i < 2; i++) {
-					
-					skillHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="lcjnName" value=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="lcjnNum" value="" /></div></div>';
+		               			Elf.components.grid.methods.update( stGrid , data.skillType );								Elf.utils.remove(this);
+		               			
+							}
 							
-				}				
-				
-				
-			}else{
-				
-				for (var i = 0; i < data.skillType.length; i++) {
-					
-					skillHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="lcjnName" value="'+ data.skillType[i].lcjnName +'"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="lcjnNum" value="'+ data.skillType[i].lcjnNum +'" /></div></div>';
+						})
+		            		                
+		            }
+		        }
+		     });
+
+			//设备仪器名称
+		    var meGrid = Elf.components.grid({
+		        fixedTableSize:30,  
+		        data:data.medicalEquipment.slice(0 , Infinity),    
+		        cols:meGridHead,   
+		        width: 40,
+		        target:medicalEquipment, 
+		        onCellSelected:function(evt,item,rowIndex,colIndex){
+		            var tt=evt.target;          // 事件源
+		            if(Elf.utils.hasClass(tt,"delete")){    //判断事件源是否是 删除 按钮
+		                console.info("删除行");
+		                data.medicalEquipment.splice( rowIndex , 1 );
+		                Elf.components.grid.methods.update( meGrid , data.medicalEquipment );
+		            }
+		            if(Elf.utils.hasClass(tt,"edit")){  //判断事件源是否是 编辑 按钮
+		                console.info("编辑行");
+		                
+		                dialogHtml = '<div class="h40 line-h40 mt50" ><div class="col-xs-6 textr" ><span class="name" >临床技能操作/手术种类：</span></div><div class="col-xs-6 " ><input type="text" class="text p5 line-h20 textc" value= "'+ item.sbyqName +'"  name="sbyqName" /></div></div><div class="h40 line-h40 mt20" ><div class="col-xs-6 textr" ><span class="num" >年完成例数：</span></div><div class="col-xs-6 " ><input type="text" class="text p5 line-h20 textc" value= "'+ item.sbyqNum +'"  name="sbyqNum" /></div></div><div class="h40 line-h40 mt20" ></div><div class="h40 line-h40 mt20 textc" ><input type="button" class="btn prl24 line-h30" value="确定" /></div>';
+		                
+		                dialog = Elf.components.dialog({
+					        title:'修改',   //弹框标题
+					        content:dialogHtml, //可以传一个dom元素进去，会append进 弹框内部
+					        dialogClass:'',  //整个弹框最外层父级添加class
+					        width:600,  //弹框可视区的高度和宽度定制
+					        height:360,
+					        modal:true,    //是否显示遮罩层
+				            target:_this.warp,    // 弹框父级元素，如果不写默认为body
+					        onCloseDestroy:true,   //关闭弹框时，是否删除弹框组件DOM元素   
+					        onClose:function(){//关闭弹框时触发的函数
+					            
+					            console.log("关闭弹框");
+					        }
+					    });
+						
+						dialog.addEventListener('click',function(ev){
 							
-				}				
-				
-			}
-			
-			skillTypeWarp.innerHTML = skillHtml;
-			
-			//设备仪器
-			if( !data.medicalEquipment.length ){
-				
-				for (var i = 0; i < 2; i++) {
-					
-					medicalHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="sbyqName" value=""  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="sbyqNum" value="" /></div></div>';
+							var has,
+								e,
+								tt,
+								infoObj,
+								radios,
+								isChecked,
+								allInput;
+								
+							has = Elf.utils.hasClass;		
+							e = Elf.getEvent(ev);
+							tt = Elf.getEventSource(ev);
+							allInput = this.querySelectorAll('input.text');
 							
-				}				
-				
-				
-			}else{
-				
-				for (var i = 0; i < data.medicalEquipment.length; i++) {
-					
-					medicalHtml +='<div class="items wfull clear-fix nobr borderbr" ><div class="col-xs-2 no-padding textc" ><span class="line-h40">'+ ( i+1 ) +'</span></div><div class="col-xs-7 no-padding" ><input type="text" class="text arrText w96" name="sbyqName" value="'+ data.medicalEquipment[i].sbyqName +'"  /></div><div class="col-xs-3 nobr no-padding" ><input type="text" class="text arrText w96" name="sbyqNum" value="'+ data.medicalEquipment[i].sbyqNum +'" /></div></div>';
+							if( has( tt , 'btn' ) ){
+								
+								for (var i = 0; i < allInput.length; i++) {
+									
+									if( Elf.utils.trim( allInput[i].value ) === '' ){
+										
+										allInput[i].focus();
+									    Elf.components.toast({
+									        holdtime:1000,
+									        text:'请填写完整信息！',
+									        opacity:0.8,
+									        target:document.body
+									    });										
+										return
+									}
+								}
+								for (var i = 0; i < allInput.length; i++) {
+								
+									item[allInput[i].name] = allInput[i].value;
+								}
+
+		               			Elf.components.grid.methods.update( meGrid , data.medicalEquipment);								
+		               			Elf.utils.remove(this);
+		               			
+							}
 							
-				}				
-				
-			}
-			
-			medicalEquipment.innerHTML = medicalHtml;			
-		
+						})
+		            			                
+		                
+		            }
+		        }
+		    });		
 		}
 		
 		//获取表单数据
@@ -365,9 +653,7 @@
 				for (var j = 0; j < arrInfos.length; j++) {
 					
 					obj[arrInfos[j].name] = arrInfos[j].value;
-				}
-				
-
+				}				
 			}
 			
 			//临床技能/手术种类
@@ -381,8 +667,6 @@
 					
 					obj[arrInfos[j].name] = arrInfos[j].value;
 				}
-				
-
 			}
 
 			//设备仪器名称
@@ -396,15 +680,89 @@
 					
 					obj[arrInfos[j].name] = arrInfos[j].value;
 				}
-				
-
 			}
 			
 			return infoObj;
 		
 		}
 		
-	
+		//添加数据
+		BasiSituation4.prototype.addInfo = function(data){
+			
+			var data = data,
+				_this = this;
+				
+			this.warp.addEventListener('click' , function(ev){
+				
+				var has,
+					e,
+					tt,
+					dialog,
+					dialogHtml,
+					spanName,
+					spanNum,
+					inputName,
+					inputNum;
+
+				has = Elf.utils.hasClass;		
+				e = Elf.getEvent(ev);
+				tt = Elf.getEventSource(ev);
+
+				
+				dialogHtml = '<div class="h40 line-h40 mt50" ><div class="col-xs-6 textr" ><span class="name" ></span></div><div class="col-xs-6 " ><input type="text" class="text name p5 line-h20 textc" /></div></div><div class="h40 line-h40 mt20" ><div class="col-xs-6 textr" ><span class="num" ></span></div><div class="col-xs-6 " ><input type="text" class="text num p5 line-h20 textc" /></div></div><div class="h40 line-h40 mt20" ></div><div class="h40 line-h40 mt20 textc" ><input type="button" class="btn prl24 line-h30" value="确定" /></div>';
+				
+				if( has( tt ,'addrow') ){
+					
+	                dialog = Elf.components.dialog({
+				        title:'添加信息',   //弹框标题
+				        content:dialogHtml, //可以传一个dom元素进去，会append进 弹框内部
+				        dialogClass:'',  //整个弹框最外层父级添加class
+				        width:600,  //弹框可视区的高度和宽度定制
+				        height:360,
+				        modal:true,    //是否显示遮罩层
+			            target:_this.warp,    // 弹框父级元素，如果不写默认为body
+				        onCloseDestroy:true,   //关闭弹框时，是否删除弹框组件DOM元素   
+				        onClose:function(){//关闭弹框时触发的函数
+				            
+				            console.log("关闭弹框");
+				        }
+				    });	
+					spanName = dialog.querySelector('span.name');
+					spanNum = dialog.querySelector('span.num');
+					inputName = dialog.querySelector('input.name');
+					inputNum = dialog.querySelector('input.num'); 
+					console.log(spanName , spanNum , inputName , inputNum);
+					
+					if( has( tt , 'disease-type' ) ){
+						console.log(1);
+						spanName.innerHTML = '疾病种类：';
+						spanNum.innerHTML = '年诊治例数：';
+						inputName.name = 'jbtype';
+						inputNum.name = 'nzzNum';
+						
+					}else if( has( tt , 'skill-type' ) ){
+						console.log(2);
+						spanName.innerHTML = '临床技能操作/手术种类：';
+						spanNum.innerHTML = '年完成例数：';	
+						inputName.name = 'lcjnName';
+						inputNum.name = 'lcjnNum';					
+						
+					}else if( has( tt , 'medical-equipment' ) ){
+						
+						console.log(3);
+						spanName.innerHTML = '设备仪器名称（正常使用）：';
+						spanNum.innerHTML = '数量（台）：';		
+						inputName.name = 'sbyqName';
+						inputNum.name = 'sbyqName';							
+					}
+
+					
+				}
+				
+			});
+			
+		}
+		
 	})();
 	
 //------***** 专业科室 > 专业科室基本情况表5 ******--------	
@@ -456,78 +814,15 @@
 		}
 		
 		//渲染数据
-		BasiSituation5.prototype.randerData = function( dataArr ){
+		BasiSituation5.prototype.randerData = function( data ){
 			var rows = this.warp.querySelectorAll('.row');
 			var gridBodyWarp = this.warp.querySelector('.grid-body');
-			
+			var dataArr = data.teachersInfo;
 			var rowHtml = "";
 			
 			for (var i = 0; i < dataArr.length; i++) {
 				
-				rowHtml += `
-				<div class="row wfull h40 clear-fix" >
-					
-					<div class="col-xs-4 hfull" >
-						
-						<div class="col-xs-3 ceils hfull" > 
-							<input class="text" type="text" name="name" value="${ dataArr[i].name }"  />
-						</div>
-						<div class="col-xs-2 ceils hfull" >
-							<input class="text" type="text" name="gender" value="${ dataArr[i].gender }"  />
-						</div>
-						<div class="col-xs-2 ceils hfull" >
-							<input class="text" type="text" name="age" value="${ dataArr[i].age }"  />									
-						</div>
-						<div class="col-xs-2 ceils hfull" >
-							<input class="text" type="text" name="degree" value="${ dataArr[i].degree }" />
-						</div>
-						<div class="col-xs-3 ceils hfull" >									
-							<input class="text" type="text" name="department" value="${ dataArr[i].department }" />
-						</div>														
-						
-					</div>
-					<div class="col-xs-3 hfull" >
-						
-						<div class="col-xs-5 ceils hfull ">										
-							<input class="text" type="text" name="zhiwu" value="${ dataArr[i].zhiwu }" />										
-						</div>
-						
-						<div class="col-xs-3 ceils hfull ">										
-							<input class="text" type="text" name="zhuwuYears" value="${ dataArr[i].zhuwuYears }" />										
-						</div>
-						
-						<div class="col-xs-4 ceils hfull ">										
-							<input class="text" type="text" name="workYears" value="${ dataArr[i].workYears }" />										
-						</div>
-						
-					</div>
-					<div class="col-xs-5 hfull last-ceils" >
-						
-						<div class="col-xs-2 ceils hfull">									
-							<input class="text" type="text" name="daiInternYears" value="${ dataArr[i].daiInternYears }" />											
-						</div>
-
-						<div class="col-xs-2 ceils hfull">
-							
-							<input class="text" type="text" name="internNumber" value="${ dataArr[i].internNumber }" />											
-						</div>
-						
-						<div class="col-xs-2 ceils hfull">									
-							<input class="text" type="text" name="daiResidentYears" value="${ dataArr[i].daiResidentYears }" />											
-						</div>
-						
-						<div class="col-xs-2 ceils hfull">									
-							<input class="text" type="text" name="residentNumber" value="${ dataArr[i].residentNumber }" />											
-						</div>
-						
-						<div class="col-xs-4 ceils hfull" >
-							
-							<input class="text" type="text" name="hasTraining" value="${ dataArr[i].hasTraining }" />	
-							
-						</div>
-					</div>
-
-				</div>`;
+				rowHtml += '<div class="row wfull h40 clear-fix" ><div class="col-xs-4 hfull" ><div class="col-xs-3 ceils hfull" ><input class="text" type="text" name="name" value="'+ dataArr[i].name +'"  /></div><div class="col-xs-2 ceils hfull" ><input class="text" type="text" name="gender" value="'+ dataArr[i].gender +'"  /></div><div class="col-xs-2 ceils hfull" ><input class="text" type="text" name="age" value="'+ dataArr[i].age +'"  /></div><div class="col-xs-2 ceils hfull" ><input class="text" type="text" name="degree" value="'+ dataArr[i].degree +'" /></div><div class="col-xs-3 ceils hfull" ><input class="text" type="text" name="department" value="'+ dataArr[i].department +'" /></div></div><div class="col-xs-3 hfull" ><div class="col-xs-5 ceils hfull "><input class="text" type="text" name="zhiwu" value="'+ dataArr[i].zhiwu  +'" /></div><div class="col-xs-3 ceils hfull "><input class="text" type="text" name="zhuwuYears" value="'+  dataArr[i].zhuwuYears  +'" /></div><div class="col-xs-4 ceils hfull "><input class="text" type="text" name="workYears" value="'+ dataArr[i].workYears +'" /></div></div><div class="col-xs-5 hfull last-ceils" ><div class="col-xs-2 ceils hfull"><input class="text" type="text" name="daiInternYears" value="'+ dataArr[i].daiInternYears +'" /></div><div class="col-xs-2 ceils hfull"><input class="text" type="text" name="internNumber" value="'+ dataArr[i].internNumber +'" /></div><div class="col-xs-2 ceils hfull"><input class="text" type="text" name="daiResidentYears" value="'+ dataArr[i].daiResidentYears +'" /></div><div class="col-xs-2 ceils hfull"><input class="text" type="text" name="residentNumber" value="'+ dataArr[i].residentNumber +'" /></div><div class="col-xs-4 ceils hfull" ><input class="text" type="text" name="hasTraining" value="'+ dataArr[i].hasTraining +'" /></div></div></div>';
 				
 			}
 			
@@ -795,6 +1090,8 @@
 					Elf.controls.appendTo( _this.form, _this.content);
 					_this.btnFn();
 					_this.textAreaLimit();
+					//需要请求数据
+					_this.randerData(zhuanyekeshiData.grid6Data);
 				},
 				error:function(xhr){
 					
@@ -806,19 +1103,19 @@
 		
 		//渲染数据
 		BasiSituation6.prototype.randerData = function( dataObj ){
-			
+			var data = dataObj.gridInfo;
 			var texts = this.warp.getElementsByClassName('text');
 			var radios = this.warp.getElementsByClassName('radio-dsqk');
 			
 			for (var i = 0; i < texts.length; i++) {
 				
-				texts[i].value = dataObj[texts[i].name];
+				texts[i].value = data[texts[i].name]?data[texts[i].name]:'';
 				
 			}
 			
 			for (var i = 0; i < radios.length; i++) {
 				
-				if( radios[i].value === dataObj[radios[0].name] ){
+				if( radios[i].value === data[radios[0].name] ){
 					
 					radios[i].checked = "checked"; 
 
@@ -830,7 +1127,7 @@
 
 		//按钮绑定事件
 		BasiSituation6.prototype.btnFn = function(){
-
+			var _this = this;
 			this.warp.addEventListener('click', function(ev){
 		
 				var has,
@@ -838,55 +1135,37 @@
 					tt,
 					dataObj,
 					isCheckAudio,
-					radioWarp;
+					radioWarp,
+					allTexts,
+					radios;
 				
 				dataObj = {};
 				isCheckAudio = false;
 				has = Elf.utils.hasClass;		
 				e = Elf.getEvent(ev);
 				tt = Elf.getEventSource(ev);
-				
-				radioWarp = this.getElementsByClassName('radio-warp')[0];
+					
+				allTexts = this.querySelectorAll('.text');
+				radios = this.querySelectorAll('.radio-dsqk');				
+				radioWarp = this.querySelector('.radio-warp');
 				Elf.utils.removeClass( radioWarp , 'focus' );
 				
 				if( has( tt , 'save-data' ) ){
 
 					console.log('保存数据');  
-					var texts = this.getElementsByClassName('text');
-					var radios = this.getElementsByClassName('radio-dsqk');
-					
-					for (var i = 0; i < texts.length; i++) {
-						
-						dataObj[texts[i].name] = texts[i].value;
-						
-					}
-					
-					for (var i = 0; i < radios.length; i++) {
-						
-						if( radios[i].checked ){
-						
-							dataObj[radios[i].name] = radios[i].value;							
-							
-						}
-
-					}
-					
-					console.log( dataObj );
+					dataObj = _this.getTableInfo();
+					console.log(dataObj);
 					
 					return
 				}
 				if( has( tt , 'submit-data' ) ){
 					
-					console.log('提交数据');
-					
-					var texts = this.getElementsByClassName('text');
-					var radios = this.getElementsByClassName('radio-dsqk');
-					
-					for (var i = 0; i < texts.length; i++) {
+					console.log('提交数据');					
+					for (var i = 0; i < allTexts.length; i++) {
 						
-						if( Elf.utils.trim( texts[i].value) === '' ){
+						if( Elf.utils.trim( allTexts[i].value) === '' ){
 							
-							texts[i].focus();
+							allTexts[i].focus();
 							
 						    Elf.components.toast({	
 						        holdtime:1000,
@@ -897,8 +1176,6 @@
 							return
 						}
 						
-						dataObj[texts[i].name] = texts[i].value;
-						
 					}
 					
 					for (var i = 0; i < radios.length; i++) {
@@ -906,8 +1183,7 @@
 						if( radios[i].checked ){
 							
 							isCheckAudio = true;
-							dataObj[radios[i].name] = radios[i].value;							
-							
+
 						}
 
 					}
@@ -915,7 +1191,6 @@
 					if( !isCheckAudio ){
 						
 						Elf.utils.addClass( radioWarp , 'focus' );
-						console.log( radioWarp );
 						radios[0].focus();
 						
 					    Elf.components.toast({	
@@ -928,6 +1203,7 @@
 						
 					}
 					
+					dataObj = _this.getTableInfo();
 					console.log( dataObj );					
 
 					return
@@ -982,7 +1258,31 @@
 		
 		}	
 		
-		
+		//获取表单数据
+		BasiSituation6.prototype.getTableInfo = function(){
+			var texts,
+				infoObj,
+				radios;
+			texts = this.warp.querySelectorAll('.text');
+			radios = this.warp.getElementsByClassName('radio-dsqk');
+			infoObj = {};
+			
+			for (var i = 0; i < texts.length; i++) {
+				
+				infoObj[texts[i].name] = texts[i].value;
+			}
+			
+			for (var i = 0; i < radios.length; i++) {
+				
+				if( radios[i].checked ){
+					
+					infoObj[radios[i].name] = radios[i].value;
+				}
+			}
+			
+			
+			return infoObj;
+		}
 	})();
 	
 })()

@@ -1,34 +1,46 @@
-var hospitalData = [
+//省级材料上报
+var provinceData = {};
+
+provinceData.jdMingCe ={
 	
-	{
-		hospitalName:'北京市中医管理局',	
-		type:'省级医院aa',
-		level:'一级',
-		djtype:'1类',
-		pxzl:'5次',
-	},
-	{
-		hospitalName:'保定市中医管理局',	
-		type:'省级医院ss',
-		level:'二级',
-		djtype:'3类',
-		pxzl:'7次',
-	},
-	{
-		hospitalName:'南京市中医管理局',	
-		type:'省级医院dd',
-		level:'一级',
-		djtype:'2类',
-		pxzl:'6次',
-	},	
+	"lxr":"王某某",
+	"mobileNum":"188 8888 8888",
+	"hospitalData" : [
+		
+		{
+			hospitalName:'北京市中医管理局',	
+			type:'省级医院aa',
+			level:'一级',
+			djtype:'1类',
+			pxzl:'5次',
+		},
+		{
+			hospitalName:'保定市中医管理局',	
+			type:'省级医院ss',
+			level:'二级',
+			djtype:'3类',
+			pxzl:'7次',
+		},
+		{
+			hospitalName:'南京市中医管理局',	
+			type:'省级医院dd',
+			level:'一级',
+			djtype:'2类',
+			pxzl:'6次',
+		},	
+		
+	]
 	
-];
+};
+
 
 //专业科室表格数据
-
 var zhuanyekeshiData = {
 	
-	"keshiname":"肺病科"
+	"keshiname":"肺病科",
+	"fDepartmentId":"193",
+	"userId":"366",
+	"userType":"base"	
 	
 };
 
@@ -104,6 +116,7 @@ zhuanyekeshiData.grid4Data = {
 		"diseaseType":[
 		
 			{"jbtype":"1类","nzzNum":"20"},
+			{"jbtype":"3类","nzzNum":"25"},
 			{"jbtype":"3类","nzzNum":"25"}
 		
 		],
@@ -128,62 +141,58 @@ zhuanyekeshiData.grid4Data = {
 };
 
 zhuanyekeshiData.grid5Data = {
-	
-	fTableNumber:"baseTable5",
-	fDepartmentId:"193",
-	userId:"366",
-	userType:"base",	
+		
 	TableTitle:'培训基地（科室）师资基本情况表',
 	
 	teachersInfo:[
 		
-//		{
-//			"name":"张三",
-//			"gender":"男",
-//			"age": 40,
-//			"degree":"本科",
-//			"department":"骨科",
-//			"zhiwu":"主任",
-//			"zhuwuYears":2,
-//			"workYears":6,
-//			"daiInternYears":3,
-//			"internNumber":50,
-//			"daiResidentYears":1,
-//			"residentNumber":6,
-//			"hasTraining":"有"
-//		},
-//		{
-//
-//			"name":"李四",
-//			"gender":"女",
-//			"age": 20,
-//			"degree":"本科",
-//			"department":"骨科",
-//			"zhiwu":"医师",
-//			"zhuwuYears":2,
-//			"workYears":6,
-//			"daiInternYears":3,
-//			"internNumber":10,
-//			"daiResidentYears":1,
-//			"residentNumber":0,
-//			"hasTraining":"有"
-//		},
-//		{
-//
-//			"name":"王二",
-//			"gender":"男",
-//			"age": 30,
-//			"degree":"本科",
-//			"department":"内科",
-//			"zhiwu":"副主任",
-//			"zhuwuYears":2,
-//			"workYears":6,
-//			"daiInternYears":3,
-//			"internNumber":20,
-//			"daiResidentYears":1,
-//			"residentNumber":6,
-//			"hasTraining":"无"
-//		},		
+		{
+			"name":"张三",
+			"gender":"男",
+			"age": 40,
+			"degree":"本科",
+			"department":"骨科",
+			"zhiwu":"主任",
+			"zhuwuYears":2,
+			"workYears":6,
+			"daiInternYears":3,
+			"internNumber":50,
+			"daiResidentYears":1,
+			"residentNumber":6,
+			"hasTraining":"有"
+		},
+		{
+
+			"name":"李四",
+			"gender":"女",
+			"age": 20,
+			"degree":"本科",
+			"department":"骨科",
+			"zhiwu":"医师",
+			"zhuwuYears":2,
+			"workYears":6,
+			"daiInternYears":3,
+			"internNumber":10,
+			"daiResidentYears":1,
+			"residentNumber":0,
+			"hasTraining":"有"
+		},
+		{
+
+			"name":"王二",
+			"gender":"男",
+			"age": 30,
+			"degree":"本科",
+			"department":"内科",
+			"zhiwu":"副主任",
+			"zhuwuYears":2,
+			"workYears":6,
+			"daiInternYears":3,
+			"internNumber":20,
+			"daiResidentYears":1,
+			"residentNumber":6,
+			"hasTraining":"无"
+		},		
 			
 	]
 	
@@ -191,7 +200,15 @@ zhuanyekeshiData.grid5Data = {
 };
 
 zhuanyekeshiData.grid6Data = {
-
 	
+	"TableTitle":'专业科室教学主任基本情况表（表6）',
+	"gridInfo":{
+		"name":"张某某",
+		"gender":"女",
+		"age":"20",
+		"education":"硕士",
+		"jxResume":"这是文本域",
+		"dsqk":"其他"
+	}
 }
 
