@@ -1,0 +1,48 @@
+body{
+	background: lightgoldenrodyellow;
+}
+.head{
+	
+	height: 100px;
+	line-break: 100px;
+	text-align: center;
+	font-size: 50px;
+	margin: 0 10px;
+}
+.warp{
+	
+	width: 400px;
+	height: 400px;
+	margin: 0 auto;
+	background: #faf8ef;
+	border: 5px solid #999999;
+}
+
+.warp div{
+	
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+.divs{
+	
+	width: 100px;
+	height: 100px;
+	/*opacity: .8;*/
+	border: 5px solid #999999;
+	float: left;
+	text-align: center;
+	font: bold 40px/90px "微软雅黑";	
+	background: rgba(238, 228, 218, 0.35);	
+}
+
+.has2{
+	
+	opacity: .6;
+}
+
+.has0{
+	
+	
+}
+

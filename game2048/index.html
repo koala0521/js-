@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>document</title>
+		<link rel="stylesheet" type="text/css" href="css/main.css"/>
+		
+		<script type="text/javascript" src="js/tools-main.js" > </script>
+		<script type="text/javascript" src="js/tools-creatE.js" > </script>
+		<script type="text/javascript" src="js/tools-dom-tools.js" > </script>
+		<script type="text/javascript" src="js/tools-extend.js" > </script>
+		<script type="text/javascript" src="js/tools-event.js" > </script>
+		<script type="text/javascript" src="js/tools-test.js" > </script>
+	</head>
+	<body>
+		<h3 class="head" >2048</h3>
+		<div class="warp">
+			
+		</div>
+		
+		
+		<script>
+			
+			(function(){
+				
+				var $ = $pf;
+				var arr = [0,2,4,8,16,32,64,128,256,512,1024,2048];
+				
+				var bgColor = [
+					'',
+					'#EEE8CD',
+					'#EED8AE',
+					'#EE9A49',
+					'#EE7600',
+					'#EE9572',
+					'#EE5C42',
+					'#EEE685',
+					'#EEEE00',
+					'#EEAD0E',
+					'#EEC900',
+					'#FFD700'
+				];
+				
+				var warp =  $.getEl('.warp')[0];
+				var divs;
+				
+				for ( let i = 0; i < 4; i++) {
+										
+					for (let j = 0; j < 4; j++) {
+
+						let ceil =  $.creat('div');					
+						$.addClass( ceil , 'divs column' + j + ' row' + i );
+						$.append( warp , ceil );	
+						$.attr( ceil , 'row' , i );
+						$.attr( ceil , 'column' , j );
+						$.attr( ceil , 'value' , 0 );						
+					}
+				}
+				
+				divs = $.getEl( '.warp div' );
+				var isCreat = false;
+				$.on( document , 'keyup',function(ev){
+										
+					switch( $.ev(ev).keyCode ){
+						
+						case 37:
+							console.log( '左' );
+							left();
+							break;	
+						case 38:
+							up();
+							break;	
+						case 39:
+							right();
+							break;	
+						case 40:
+							down();
+							console.log( '下' );
+							
+							break;								
+					}
+					if( isCreat ){
+						
+						isCreat = false;
+						creatNum();
+					}
+					
+					
+					setValue();
+				});
+				reset();
+				function reset(){
+					
+					var random = parseInt(Math.random()*(divs.length));
+					
+					for (var i = 0; i < divs.length; i++) {
+						
+						$.attr( divs[i], 'value' , 0 );
+					}
+					
+					if( random > 8 ){
+						
+						$.attr( divs[random], 'value' ,  Math.random() > 0.9 ? 2 : 1  );
+						$.attr( divs[random - 6], 'value' ,  Math.random() > 0.9 ? 2 : 1  );
+						
+					}else{
+						
+						$.attr( divs[random], 'value' ,  Math.random() > 0.9 ? 2 : 1  );
+						$.attr( divs[random + 6], 'value' , Math.random() > 0.9 ? 2 : 1 );
+					}
+					setValue();
+				}
+				
+				function left(){
+					
+					for ( let i = 0; i < divs.length; i++) {
+						
+						if( $.attr( divs[i] , 'column' ) != 0 ){
+							
+							toLeft( divs[i] );
+						}
+					}					
+					
+				};
+				
+				function right(){
+					
+					for ( let i = divs.length-1; i >= 0; i--) {
+						
+						if( $.attr( divs[i] , 'column' ) != 3 ){
+							
+							toRight( divs[i] );
+						}
+					}					
+					
+				};		
+				
+				function up(){
+					
+					for (var i = 0; i < divs.length; i++) {
+						
+						if( $.attr( divs[i] , 'row' ) != 0 ){
+							
+							toUp(divs[i]);
+						}
+						
+					}
+				}
+				
+				function down(){
+
+					for ( let i = divs.length-1; i >= 0; i--) {
+						
+						if( $.attr( divs[i] , 'row' ) != 3 ){
+							
+							toDown( divs[i] );
+						}
+					}
+					
+				}
+				
+				function toRight(el){
+					var pre,next;					
+					pre = el.previousElementSibling; 
+					next = el.nextElementSibling;
+
+					if( $.attr( el , 'value' ) != 0 && $.attr( el , 'column' ) != 3 ){
+	
+						if( next && $.attr( next , 'value' ) == 0 ){
+							
+							isCreat = true;
+							$.attr( next , 'value' , $.attr( el , 'value' ) );
+							$.attr( el , 'value'  , 0 );
+							toRight( next );
+							
+						}else if( next && $.attr( next , 'value' ) === $.attr( el , 'value' ) ){
+							
+							isCreat = true;
+							$.attr( next , 'value' , Number($.attr( next , 'value' )) + 1 );
+							$.attr( el , 'value'  , 0 );
+							
+						}else{
+							
+							if( $.attr( next , 'row' ) === $.attr( el , 'row' ) ){
+								
+								pre && toRight( pre );
+							}
+							
+						}
+							
+					}					
+					
+				}
+				
+				function toLeft( el ){
+					
+					var pre,next;					
+					pre = el.previousElementSibling; 
+					next = el.nextElementSibling;
+					
+					if( $.attr( el , 'value' ) != 0 && $.attr( el , 'column' ) != 0 ){
+							
+						if( pre && $.attr( pre , 'value' ) == 0 ){
+							
+							isCreat = true;
+							$.attr( pre , 'value' , $.attr( el , 'value' ) );
+							$.attr( el , 'value'  , 0 );
+							toLeft( pre );
+							
+						}else if( pre && $.attr( pre , 'value' ) === $.attr( el , 'value' ) ){
+							
+							isCreat = true;
+							$.attr( pre , 'value' , Number($.attr( pre , 'value' )) + 1 );
+							$.attr( el , 'value'  , 0 );
+							
+						}else{
+							
+							if( next && $.attr( next , 'row' ) === $.attr( el , 'row' ) ){
+								
+								toLeft( next );
+							}
+							
+						}
+							
+					}
+					
+				};
+				
+				function toUp( el ){
+					
+					var pre,next,row,column,preClass,nextClass;
+					
+					row = Number($.attr( el , 'row' ));
+					column = Number($.attr( el , 'column' ));
+					preClass = ".row" + (row-1) + ".column" + column;
+					nextClass = ".row" + (row+1) + ".column" + column;
+					pre = document.querySelector(preClass);
+					next = document.querySelector(preClass);
+					
+					if( $.attr( el , 'value' ) != 0 && $.attr( el , 'row' ) != 0 ){
+
+						if( pre && $.attr( pre , 'value' ) == 0 ){
+							
+							isCreat = true;
+							$.attr( pre , 'value' , $.attr( el , 'value' ) );
+							$.attr( el , 'value'  , 0 );
+							toUp( pre );
+							
+						}else if( pre && $.attr( pre , 'value' ) === $.attr( el , 'value' ) ){
+							
+							isCreat = true;
+							$.attr( pre , 'value' , Number($.attr( pre , 'value' )) + 1 );
+							$.attr( el , 'value'  , 0 );
+							
+						}else{
+							
+							if( next && $.attr( next , 'column' ) === $.attr( el , 'column' ) ){
+								
+								toUp( next );
+							}
+							
+						}						
+						
+					}
+					
+				}
+				
+				function toDown( el ){
+					
+					var pre,next,row,column;
+					
+					row = Number($.attr( el , 'row' ));
+					column = Number($.attr( el , 'column' ));
+					preClass = ".row" + (row-1) + ".column" + column;
+					nextClass = ".row" + (row+1) + ".column" + column;
+					pre = document.querySelector( preClass );
+					next = document.querySelector( nextClass );
+
+					if( $.attr( el , 'value' ) != 0 && $.attr( el , 'row' ) != 3 ){
+						
+						if( next && $.attr( next , 'value' ) == 0 ){
+
+							isCreat = true;
+							$.attr( next , 'value' , $.attr( el , 'value' ) );
+							$.attr( el , 'value'  , 0 );
+							next && toDown( next );
+							
+						}else if( next && $.attr( next , 'value' ) === $.attr( el , 'value' ) ){
+							
+							isCreat = true;
+							$.attr( next , 'value' , Number($.attr( el , 'value' )) + 1 );
+							$.attr( el , 'value'  , 0 );
+							
+						}else{
+							
+							if( next && $.attr( next , 'column' ) === $.attr( el , 'column' ) ){
+								
+								pre && toDown( pre );
+							}
+							
+						}						
+						
+					}
+					
+				}
+
+				function creatNum(){
+					
+					var noValueEl = [];
+					
+					for (var i = 0; i < divs.length; i++) {
+						
+						if( $.attr( divs[i] , 'value' ) == 0 ){
+							
+							noValueEl.push( divs[i] );
+						}
+					}
+					
+					var random = parseInt(Math.random()*( noValueEl.length ));	
+
+					$.attr( noValueEl[random], 'value' , Math.random() > 0.9 ? 2 : 1   );
+
+				};
+				
+				function setValue(){
+					
+					for (var i = 0; i < divs.length; i++) {
+						
+						if( $.attr( divs[i] , 'value' ) == 0 ){
+							
+							divs[i].innerHTML = '';
+							
+							
+						}else{
+							
+							divs[i].innerHTML = arr[ $.attr( divs[i], 'value' ) ];
+						}
+						
+						divs[i].style.backgroundColor = bgColor[$.attr( divs[i], 'value' )];
+						
+					}
+				};
+
+				
+			})();
+		</script>
+		
+	</body>
+</html>
