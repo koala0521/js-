@@ -1,6 +1,0 @@
-@charset "utf-8";
-.elf_toast{position: fixed;top: 48%;left: 0;width: 100%;text-align: center;z-index:10000;}
-.elf_toast_body{display: inline-block;position: relative;padding: 4px 6px;}
-.elf_toast_bg{position: absolute;top:0;left:0;bottom:0;right: 0;background-color: #000;opacity: .98;border-radius: 3px;box-shadow:0 0 2px 0 rgba(0,0,0,.5);}
-.elf_toast_bg ~ div{position: relative;z-index: 2;}
-.elf_toast_text{color:#fff;font-size: 1rem;}

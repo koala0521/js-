@@ -1,9 +1,0 @@
-@charset "utf-8";
-.elf_fiexd{position: absolute;left: 0;top: 0; right: 0; bottom: 0;min-width: 800px;}
-.elf_fiexd_item{position: absolute;top:0;left: 0;right: 0;bottom: 0;}
-.elf_fiexd_top,.elf_fiexd_left,.elf_fiexd_right,.elf_fiexd_bottom,.elf_fiexd_center{position: absolute;}
-.elf_fiexd_top{top:0;left: 0;right: 0;}
-.elf_fiexd_left{top:0;left: 0;bottom: 0;}
-.elf_fiexd_right{top:0;right: 0;bottom: 0;}
-.elf_fiexd_bottom{left: 0;right: 0;bottom: 0;}
-.elf_fiexd_center{top:0;left: 0;right: 0;bottom: 0;}
